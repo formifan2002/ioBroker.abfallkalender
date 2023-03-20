@@ -1,2 +1,3 @@
-build/
+admin/build/
+.prettierrc.js
 **/.eslintrc.js

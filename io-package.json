@@ -1,107 +1,209 @@
 {
-	"common": {
-		"name": "abfallkalender",
-		"version": "0.0.1",
-		"news": {
-			"0.0.1": {
-				"en": "initial release",
-				"de": "Erstveröffentlichung",
-				"ru": "Начальная версия",
-				"pt": "lançamento inicial",
-				"nl": "Eerste uitgave",
-				"fr": "Première version",
-				"it": "Versione iniziale",
-				"es": "Versión inicial",
-				"pl": "Pierwsze wydanie",
-				"zh-cn": "首次出版"
-			}
-		},
-		"title": "Abfallkalender",
-		"titleLang": {
-			"en": "Abfallkalender",
-			"de": "Abfallkalender",
-			"ru": "Abfallkalender",
-			"pt": "Abfallkalender",
-			"nl": "Abfallkalender",
-			"fr": "Abfallkalender",
-			"it": "Abfallkalender",
-			"es": "Abfallkalender",
-			"pl": "Abfallkalender",
-			"zh-cn": "Abfallkalender"
-		},
-		"desc": {
-			"en": "Receive data from the waste calendar from abfall.io and abfallplus.de",
-			"de": "Receive data from the waste calendar from abfall.io and abfallplus.de",
-			"ru": "Receive data from the waste calendar from abfall.io and abfallplus.de",
-			"pt": "Receive data from the waste calendar from abfall.io and abfallplus.de",
-			"nl": "Receive data from the waste calendar from abfall.io and abfallplus.de",
-			"fr": "Receive data from the waste calendar from abfall.io and abfallplus.de",
-			"it": "Receive data from the waste calendar from abfall.io and abfallplus.de",
-			"es": "Receive data from the waste calendar from abfall.io and abfallplus.de",
-			"pl": "Receive data from the waste calendar from abfall.io and abfallplus.de",
-			"zh-cn": "Receive data from the waste calendar from abfall.io and abfallplus.de"
-		},
-		"authors": [
-			"formifan2002 <d.behrendt@web.de>"
-		],
-		"keywords": [
-			"waste",
-			"calender",
-			"Abfall",
-			"Kalender"
-		],
-		"license": "MIT",
-		"platform": "Javascript/Node.js",
-		"main": "build/main.js",
-		"icon": "abfallkalender.png",
-		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/formifan2002/ioBroker.abfallkalender/main/admin/abfallkalender.png",
-		"readme": "https://github.com/formifan2002/ioBroker.abfallkalender/blob/main/README.md",
-		"loglevel": "info",
-		"mode": "daemon",
-		"type": "date-and-time",
-		"compact": true,
-		"connectionType": "cloud",
-		"dataSource": "poll",
-		"adminUI": {
-			"config": "json",
-			"tab": "materialize"
-		},
-		"adminTab": {
-			"singleton": true,
-			"name": {
-				"en": "Abfallkalender",
-				"de": "Abfallkalender",
-				"ru": "Abfallkalender",
-				"pt": "Abfallkalender",
-				"nl": "Abfallkalender",
-				"fr": "Abfallkalender",
-				"it": "Abfallkalender",
-				"es": "Abfallkalender",
-				"pl": "Abfallkalender",
-				"zh-cn": "Abfallkalender"
-			},
-			"link": "",
-			"fa-icon": "info"
-		},
-		"supportCustoms": true,
-		"dependencies": [
-			{
-				"js-controller": ">=3.3.22"
-			}
-		],
-		"globalDependencies": [
-			{
-				"admin": ">=5.1.13"
-			}
-		]
-	},
-	"native": {
-		"f_id_kommune": "",
-		"f_id_bezirk": "",
-		"f_id_strasse": "",
-		"WarnungUnterTagen": "3"
-	},
-	"objects": [],
-	"instanceObjects": []
+  "common": {
+    "name": "abfallkalender",
+    "version": "1.0.0-alpha.0",
+    "news": {
+      "1.0.0-alpha.0": {
+        "en": "initial release",
+        "de": "erstausstrahlung",
+        "ru": "начальный выпуск",
+        "pt": "lançamento inicial",
+        "nl": "niet",
+        "fr": "initial release",
+        "it": "rilascio iniziale",
+        "es": "liberación inicial",
+        "pl": "pierwsze wydanie",
+        "uk": "початковий реліз",
+        "zh-cn": "初步释放"
+      },
+      "0.0.1": {
+        "en": "initial release",
+        "de": "Erstveröffentlichung",
+        "ru": "Начальная версия",
+        "pt": "lançamento inicial",
+        "nl": "Eerste uitgave",
+        "fr": "Première version",
+        "it": "Versione iniziale",
+        "es": "Versión inicial",
+        "pl": "Pierwsze wydanie",
+        "zh-cn": "首次出版",
+        "uk": "початковий випуск"
+      }
+    },
+    "titleLang": {
+      "en": "Waste calendar",
+      "de": "Abfallkalender",
+      "ru": "Календарь отходовr",
+      "pt": "calendário de resíduos",
+      "nl": "Afval kalender",
+      "fr": "Calendrier des déchets",
+      "it": "Calendario dei rifiuti",
+      "es": "Calendario de residuos",
+      "pl": "Kalendarz odpadów",
+      "zh-cn": "废日历",
+      "uk": "Календар відходів"
+    },
+    "desc": {
+      "en": "Receive data from the waste calendar from abfall.io",
+      "de": "Daten aus dem Abfallkalender von abfall.io erhalten",
+      "ru": "Получить данные из календаря отходов от abfall.io",
+      "pt": "Receba dados do calendário de resíduos de abfall.io",
+      "nl": "Ontvang gegevens uit de afvalkalender van abfall.io",
+      "fr": "Recevez les données du calendrier des déchets d'abfall.io",
+      "it": "Ricevi i dati dal calendario dei rifiuti da abfall.io",
+      "es": "Recibir datos del calendario de residuos de abfall.io",
+      "pl": "Otrzymuj dane z kalendarza odpadów z abfall.io",
+      "zh-cn": "从 abfall.io 接收垃圾日历的数据",
+      "uk": "Отримайте дані з календаря відходів від abfall.io"
+    },
+    "authors": [
+      "formifan2002 <d.behrendt@web.de>"
+    ],
+    "keywords": [
+      "waste",
+      "calender",
+      "Abfall",
+      "Kalender"
+    ],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "icon": "abfallkalender.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/formifan2002/ioBroker.abfallkalender/main/admin/abfallkalender.png",
+    "readme": "https://github.com/formifan2002/ioBroker.abfallkalender/blob/main/README.md",
+    "loglevel": "info",
+    "messagebox": true,
+    "mode": "schedule",
+    "schedule": "*/6 * * * *",
+    "systemconfig": true,
+    "type": "misc-data",
+    "compact": true,
+    "connectionType": "cloud",
+    "dataSource": "poll",
+    "adminUI": {
+      "config": "materialize",
+      "tab": "materialize"
+    },
+    "adminTab": {
+      "singleton": true,
+      "name": {
+        "en": "Waste calendar",
+        "de": "Abfallkalender",
+        "ru": "Календарь отходовr",
+        "pt": "calendário de resíduos",
+        "nl": "Afval kalender",
+        "fr": "Calendrier des déchets",
+        "it": "Calendario dei rifiuti",
+        "es": "Calendario de residuos",
+        "pl": "Kalendarz odpadów",
+        "zh-cn": "废日历",
+        "uk": "Календар відходів"
+      },
+      "link": "",
+      "fa-icon": "info"
+    },
+    "eraseOnUpload": true,
+    "dependencies": [
+      {
+        "js-controller": ">=3.3.22"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=5.0.0"
+      }
+    ]
+  },
+  "native": {
+    "url": "",
+    "street": "",
+    "houseNumber": "",
+    "key": "",
+    "wasteTypes": [],
+    "whatsapp": {
+      "alive": false,
+      "used": false,
+      "instances": {}
+    },
+    "wasteCalendar": [],
+    "createDatapoints": false
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "CalendarSingleQuotes",
+      "type": "state",
+      "common": {
+        "name": {
+          "de": "Kalender einfache Anführungszeichen",
+          "en": "Calendar single quotes",
+          "es": "Comillas simples del calendario",
+          "fr": "Guillemets simples du calendrier",
+          "it": "Calendario virgolette singole",
+          "nl": "Kalender enkele aanhalingstekens",
+          "pl": "Pojedyncze cytaty z kalendarza",
+          "pt": "Aspas simples do calendário",
+          "ru": "Одинарные кавычки календаря",
+          "uk": "Календар одинарних лапок",
+          "zh-cn": "日历单引号"
+        },
+        "desc": {
+          "de": "Kalender im JSON-Format mit einfachen Anführungszeichen",
+          "en": "Calendar in JSON format with single quotes",
+          "es": "Calendario en formato JSON con comillas simples",
+          "fr": "Calendrier au format JSON avec guillemets simples",
+          "it": "Calendario in formato JSON con virgolette singole",
+          "nl": "Kalender in JSON-formaat met enkele aanhalingstekens",
+          "pl": "Kalendarz w formacie JSON z pojedynczymi cudzysłowami",
+          "pt": "Calendário em formato JSON com aspas simples",
+          "ru": "Календарь в формате JSON с одинарными кавычками",
+          "uk": "Календар у форматі JSON з одинарними лапками",
+          "zh-cn": "带单引号的 JSON 格式的日历"
+        },
+        "type": "array",
+        "role": "list",
+        "read": true,
+        "write": false
+      },
+      "native": {}
+    },
+    {
+      "_id": "CalendarDoubleQuotes",
+      "type": "state",
+      "common": {
+        "name": {
+          "de": "Kalender doppelte Anführungszeichen",
+          "en": "Calender double quotes",
+          "es": "Comillas dobles del calendario",
+          "fr": "Guillemets doubles du calendrier",
+          "it": "Doppie virgolette del calendario",
+          "nl": "Kalender dubbele aanhalingstekens",
+          "pl": "Podwójne cudzysłowy z kalendarza",
+          "pt": "Aspas duplas do calendário",
+          "ru": "Двойные кавычки календаря",
+          "uk": "Подвійні лапки календаря",
+          "zh-cn": "日历双引号"
+        },
+        "desc": {
+          "de": "Kalender im JSON-Format mit doppelten Anführungszeichen",
+          "en": "Calendar in JSON format with double quotes",
+          "es": "Calendario en formato JSON con comillas dobles",
+          "fr": "Calendrier au format JSON avec guillemets doubles",
+          "it": "Calendario in formato JSON con virgolette doppie",
+          "nl": "Kalender in JSON-formaat met dubbele aanhalingstekens",
+          "pl": "Kalendarz w formacie JSON z podwójnymi cudzysłowami",
+          "pt": "Calendário em formato JSON com aspas duplas",
+          "ru": "Календарь в формате JSON с двойными кавычками",
+          "uk": "Календар у форматі JSON з подвійними лапками",
+          "zh-cn": "带双引号的 JSON 格式的日历"
+        },
+        "type": "string",
+        "role": "text",
+        "read": true,
+        "write": false
+      },
+      "native": {}
+    }
+  ]
 }
