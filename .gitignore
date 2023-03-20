@@ -7,6 +7,11 @@
 node_modules
 nbproject
 
+yarn.lock
+.prettierr.js
+.prettierrignore
+toBeDeleted.create-adapter.json
+
 # npm package files
 iobroker.*.tgz
 
