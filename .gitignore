@@ -6,8 +6,12 @@
 *.code-workspace
 node_modules
 nbproject
+admin/build
+src-widgets/build
+src-widgets/node_modules
+widgets
 
-yarn.lock
+yarn*
 .prettierr.js
 .prettierrignore
 toBeDeleted.create-adapter.json

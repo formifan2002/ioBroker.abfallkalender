@@ -81,6 +81,19 @@
     "compact": true,
     "connectionType": "cloud",
     "dataSource": "poll",
+    "visWidgets": {
+      "i18n": "component",
+      "vis2AbfallkalenderWidget": {
+        "name": "vis2AbfallkalenderWidget",
+        "url": "abfallkalender/customWidgets.js",
+        "components": [
+          "AbfallkalenderWidget"
+        ]
+      }
+    },
+    "restartAdapters": [
+      "vis"
+    ],
     "adminUI": {
       "config": "materialize",
       "tab": "materialize"
