@@ -115,18 +115,6 @@ gulp.task('widget-1-npm', async () => npmInstall());
 
 gulp.task('widget-2-compile', async () => buildRules());
 
-gulp.task('widget-4-copy', () => Promise.all([
-    gulp.src([`${SRC}build/*.js`]).pipe(gulp.dest(`widgets/${adapterName}`)),
-    gulp.src([`${SRC}build/img/*`]).pipe(gulp.dest(`widgets/${adapterName}/img`)),
-    gulp.src([`${SRC}build/*.map`]).pipe(gulp.dest(`widgets/${adapterName}`)),
-    gulp.src([`${SRC}build/static/js/node_modules*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
-    gulp.src([`${SRC}build/static/js/vendors-node_modules*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
-    gulp.src([`${SRC}build/static/js/main*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
-    gulp.src([`${SRC}build/static/js/src_bootstrap*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
-    gulp.src([`${SRC}build/static/media/*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/media`)),
-    gulp.src([`${SRC}src/i18n/*.json`]).pipe(gulp.dest(`widgets/${adapterName}/i18n`))
-]));
-
 gulp.task('widget-3-createdirectories', () => Promise.all([
     new Promise(resolve =>
         setTimeout(() => {
@@ -138,7 +126,7 @@ gulp.task('widget-3-createdirectories', () => Promise.all([
             resolve();
         }, 500)
     ),
-    new Promise(resolve =>
+ /*   new Promise(resolve =>
         setTimeout(() => {
             if (fs.existsSync(`widgets/${adapterName}/static/media`) &&
                 !fs.readdirSync(`widgets/${adapterName}/static/media`).length
@@ -148,6 +136,20 @@ gulp.task('widget-3-createdirectories', () => Promise.all([
             resolve();
         }, 500)
     )
+ */
+]));
+
+gulp.task('widget-4-copy', () => Promise.all([
+    gulp.src([`${SRC}build/*.js`]).pipe(gulp.dest(`widgets/${adapterName}`)),
+    gulp.src([`${SRC}build/img/*`]).pipe(gulp.dest(`widgets/${adapterName}/img`)),
+    gulp.src([`${SRC}build/*.map`]).pipe(gulp.dest(`widgets/${adapterName}`)),
+    gulp.src([`${SRC}build/static/js/node_modules*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
+    gulp.src([`${SRC}build/static/js/vendors-node_modules*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
+    gulp.src([`${SRC}build/static/js/main*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
+    gulp.src([`${SRC}build/static/js/src_bootstrap*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
+    gulp.src([`${SRC}build/static/js/src_*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
+ //   gulp.src([`${SRC}build/static/media/*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/media`)),
+    gulp.src([`${SRC}src/i18n/*.json`]).pipe(gulp.dest(`widgets/${adapterName}/i18n`))
 ]));
 
 gulp.task('widget-build', gulp.series(['widget-0-clean', 'widget-1-npm', 'widget-2-compile', 'widget-3-createdirectories', 'widget-4-copy']));
