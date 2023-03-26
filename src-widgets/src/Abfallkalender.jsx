@@ -21,7 +21,7 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
     static getWidgetInfo() {
         return {
             id: 'tplAbfallkalender',
-            visSet: 'vis-2-widgets-abfallkalender',
+            visSet: 'abfallkalender',
             visSetLabel: 'vis_2_widgets_abfallkalender', // Widget set translated label (should be defined only in one widget of set)
             visSetColor: '#cf00ff',                // Color of widget set. it is enough to set color only in one widget of set
             visName: 'Abfallkalender',                 // Name of widget
@@ -91,7 +91,7 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                 },
                 // check here all possible types https://github.com/ioBroker/ioBroker.vis/blob/react/src/src/Attributes/Widget/SCHEMA.md
             ],
-            visPrev: 'widgets/vis-2-widgets-abfallkalender/img/abfallkalender.png',
+            visPrev: 'widgets/abfallkalender/img/abfallkalender.png',
         };
     }
 

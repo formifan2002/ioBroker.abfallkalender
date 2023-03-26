@@ -29,9 +29,7 @@
         "eslint-plugin-react-hooks": "^4.6.0",
         "sass": "^1.58.3"
     },
-    "devDependencies": {
-        "@iobroker/adapter-dev": "^1.2.0"
-    },
+    "devDependencies": {},
     "scripts": {
         "gulp": "gulp",
         "start": "set PORT=4173 && craco start",

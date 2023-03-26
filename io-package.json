@@ -85,7 +85,7 @@
             "i18n": "component",
             "vis2AbfallkalenderWidget": {
                 "name": "vis2AbfallkalenderWidgets",
-                "url": "vis-2-widgets-abfallkalender/customWidgets.js",
+                "url": "abfallkalender/customWidgets.js",
                 "components": [
                     "Abfallkalender"
                 ]

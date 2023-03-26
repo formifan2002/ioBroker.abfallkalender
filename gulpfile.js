@@ -108,7 +108,7 @@ function buildRules() {
 
 gulp.task('widget-0-clean', done => {
     deleteFoldersRecursive(`${src}build`);
-    deleteFoldersRecursive(`${src}widgets`);
+    deleteFoldersRecursive(`widgets`);
     done();
 });
 gulp.task('widget-1-npm', async () => npmInstall());
