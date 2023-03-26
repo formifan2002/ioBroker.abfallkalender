@@ -1,7 +1,10 @@
 {
-  "My Demo widget: ": "Widget Ma démo :",
-  "vis_2_widgets_template": "Modèle de widget",
-  "vis_2_widgets_template_oid": "ID d'objet",
-  "vis_2_widgets_template_private": "Privé",
-  "vis_2_widgets_template_type": "Taper"
+    "vis_2_widgets_abfallkalender": "Calendrier des déchets",
+    "vis_2_widgets_abfallkalender_oid": "ID d'objet",
+    "vis_2_widgets_abfallkalender_whatsapplogo": "Logo WhatsApp",
+    "vis_2_widgets_abfallkalender_blink": "Clignoter",
+    "vis_2_widgets_abfallkalender_common": "Commun",
+    "vis_2_widgets_abfallkalender_dateformat": "Format de date",
+    "vis_2_widgets_abfallkalender_dateformat_short": "court",
+    "vis_2_widgets_abfallkalender_dateformat_long": "long"
 }

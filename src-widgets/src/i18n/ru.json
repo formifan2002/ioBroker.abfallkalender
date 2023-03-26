@@ -1,7 +1,10 @@
 {
-  "My Demo widget: ": "Мой демонстрационный виджет:",
-  "vis_2_widgets_template": "Шаблон виджетов",
-  "vis_2_widgets_template_oid": "Идентификатор объекта",
-  "vis_2_widgets_template_private": "Частный",
-  "vis_2_widgets_template_type": "Тип"
+    "vis_2_widgets_abfallkalender": "Календарь отходов",
+    "vis_2_widgets_abfallkalender_oid": "Идентификатор объекта",
+    "vis_2_widgets_abfallkalender_whatsapplogo": "Логотип WhatsApp",
+    "vis_2_widgets_abfallkalender_blink": "мигать",
+    "vis_2_widgets_abfallkalender_common": "Общий",
+    "vis_2_widgets_abfallkalender_dateformat": "Формат даты",
+    "vis_2_widgets_abfallkalender_dateformat_short": "короткий",
+    "vis_2_widgets_abfallkalender_dateformat_long": "длинный"
 }

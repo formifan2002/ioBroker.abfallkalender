@@ -29,12 +29,15 @@
         "eslint-plugin-react-hooks": "^4.6.0",
         "sass": "^1.58.3"
     },
+    "devDependencies": {
+        "@iobroker/adapter-dev": "^1.2.0"
+    },
     "scripts": {
         "gulp": "gulp",
         "start": "set PORT=4173 && craco start",
         "lint": "eslint --fix --ext .js,.jsx src",
         "build": "craco build",
-        "i18n": "node node_modules/@iobroker/vis-2-widgets-react-dev/searchI18n vis-2-widgets-react-template"
+        "i18n": "node node_modules/@iobroker/vis-2-widgets-react-dev/searchI18n vis-2-widgets-abfallkalender"
     },
     "eslintConfig": {
         "extends": "react-app"

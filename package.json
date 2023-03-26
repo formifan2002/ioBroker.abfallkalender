@@ -84,6 +84,7 @@
     "dev-server watch ": "dev-server watch",
     "dev-server watch noInstall": "dev-server watch --noInstall",
     "translate": "translate-adapter",
+    "translateWidget": "yarn run translate -b src-widgets/src/i18n/en.json",
     "prebuild": "rimraf admin/build",
     "build": "build-adapter react",
     "watch": "build-adapter react --watch",

@@ -1,7 +1,10 @@
 {
-  "My Demo widget: ": "我的演示小部件：",
-  "vis_2_widgets_template": "小部件模板",
-  "vis_2_widgets_template_oid": "对象 ID",
-  "vis_2_widgets_template_private": "私人的",
-  "vis_2_widgets_template_type": "类型"
+    "vis_2_widgets_abfallkalender": "废日历",
+    "vis_2_widgets_abfallkalender_oid": "对象编号",
+    "vis_2_widgets_abfallkalender_whatsapplogo": "Whatsapp 徽标",
+    "vis_2_widgets_abfallkalender_blink": "眨",
+    "vis_2_widgets_abfallkalender_common": "常见的",
+    "vis_2_widgets_abfallkalender_dateformat": "日期格式",
+    "vis_2_widgets_abfallkalender_dateformat_short": "短的",
+    "vis_2_widgets_abfallkalender_dateformat_long": "长的"
 }
