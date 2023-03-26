@@ -83,8 +83,8 @@
         "dataSource": "poll",
         "visWidgets": {
             "i18n": "component",
-            "vis2AbfallkalenderWidget": {
-                "name": "vis2AbfallkalenderWidgets",
+            "vis2abfallkalenderWidgets": {
+                "name": "vis2abfallkalenderWidgets",
                 "url": "abfallkalender/customWidgets.js",
                 "components": [
                     "Abfallkalender"

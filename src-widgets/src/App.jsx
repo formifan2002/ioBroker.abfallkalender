@@ -27,23 +27,32 @@ class App extends WidgetDemoApp {
         this.socket.registerConnectionHandler(this.onConnectionChanged);
     }
 
+    onConnectionChanged = isConnected => {
+        if (isConnected) {
+            this.socket.getSystemConfig()
+                .then(systemConfig => this.setState({ systemConfig }));
+        }
+    };
+
     renderWidget() {
-        return <Abfallkalender
-            socket={this.socket}
-            themeType={this.state.themeType}
-            style={{
-                width: 600,
-                height: 650,
-            }}
-            systemConfig={this.state.systemConfig}
-            data={{
-                name: 'Color gauge',
-                oid: 'abfallkalender.0.CalendarDoubleQuotes',
-                blink: true,
-                whatsapplogo: true,
-                dateformat: 'short',
-            }}
-        />;
+        return <div className={this.props.classes.app}>
+            <Abfallkalender
+                socket={this.socket}
+                themeType={this.state.themeType}
+                style={{
+                    width: 600,
+                    height: 650,
+                }}
+                systemConfig={this.state.systemConfig}
+                data={{
+                    name: 'Abfallkalender',
+                    oid: 'abfallkalender.0.CalendarDoubleQuotes',
+                    blink: true,
+                    whatsapplogo: true,
+                    dateformat: 'short',
+                }}
+            />
+        </div>;
     }
 }
 
