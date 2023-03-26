@@ -3,7 +3,7 @@ import {
     Card, CardContent,
 } from '@mui/material';
 import { withStyles, withTheme } from '@mui/styles';
-import { I18n } from '@iobroker/adapter-react-v5';
+// import { I18n } from '@iobroker/adapter-react-v5';
 import { VisRxWidget } from '@iobroker/vis-2-widgets-react-dev';
 
 const styles = () => ({
@@ -62,7 +62,7 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                                 },
                                 {
                                     value: 'long',
-                                    label: 'vis_2_widgets_abfallkalender_dateformat_short',
+                                    label: 'vis_2_widgets_abfallkalender_dateformat_long',
                                 },
                             ],
                             default: 'short',
@@ -121,7 +121,7 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
 
     // This function is called every time when rxData is changed
     onRxDataChanged() {
-        console.log('onRxDataChanged');
+        console.log('onRxDataChanged() - no parameters for the function');
         this.propertiesUpdate();
     }
 
@@ -134,7 +134,7 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
     // This function is called every time when some Object State updated, but all changes lands into this.state.values too
     // eslint-disable-next-line class-methods-use-this, no-unused-vars
     onStateUpdated(id, state) {
-        console.log('onStateUpdated');
+        console.log(`onStateUpdated for id: ${id} with state: ${state}`);
     }
 
     renderWidgetBody(props) {
@@ -142,7 +142,7 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
 
         return <Card style={{ width: '100%', height: '100%' }}>
             <CardContent>
-                {I18n.t('vis_2_widgets_abfallkalender')}
+                {props.I18n.t('vis_2_widgets_abfallkalender')}
                 {this.state.values[`${this.state.rxData.oid}.val`]}
                 {this.state.values[`${this.state.rxData.dateformat}.val`]}
                 {this.state.values[`${this.state.rxData.whatsapplogo}.val`]}

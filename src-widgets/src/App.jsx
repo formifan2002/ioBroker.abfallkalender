@@ -39,6 +39,7 @@ class App extends WidgetDemoApp {
             <Abfallkalender
                 socket={this.socket}
                 themeType={this.state.themeType}
+                I18n={I18n}
                 style={{
                     width: 600,
                     height: 650,

@@ -82,7 +82,7 @@ function buildRules() {
     return new Promise((resolve, reject) => {
         const options = {
             stdio: 'pipe',
-            cwd: src,
+            cwd: src
         };
 
         console.log(options.cwd);
@@ -115,20 +115,29 @@ gulp.task('widget-1-npm', async () => npmInstall());
 
 gulp.task('widget-2-compile', async () => buildRules());
 
-gulp.task('widget-3-copy', () => Promise.all([
+gulp.task('widget-4-copy', () => Promise.all([
     gulp.src([`${SRC}build/*.js`]).pipe(gulp.dest(`widgets/${adapterName}`)),
     gulp.src([`${SRC}build/img/*`]).pipe(gulp.dest(`widgets/${adapterName}/img`)),
     gulp.src([`${SRC}build/*.map`]).pipe(gulp.dest(`widgets/${adapterName}`)),
-    gulp.src([
-        `${SRC}build/static/**/*`,
-        `!${SRC}build/static/js/node_modules*.*`,
-        `!${SRC}build/static/js/vendors-node_modules*.*`,
-        `!${SRC}build/static/js/main*.*`,
-        `!${SRC}build/static/js/src_bootstrap*.*`,
-        `${SRC}build/static/js/vendors-node_modules_babel_runtime_helpers_asyncToGenerator*.*`,
-        `${SRC}build/static/js/vendors-node_modules_iobroker_vis-2-widgets-react-dev_index_jsx*.*`,
-    ]).pipe(gulp.dest(`widgets/${adapterName}/static`)),
-    gulp.src([`${SRC}src/i18n/*.json`]).pipe(gulp.dest(`widgets/${adapterName}/i18n`)),
+    gulp.src([`${SRC}build/static/js/node_modules*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
+    gulp.src([`${SRC}build/static/js/vendors-node_modules*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
+    gulp.src([`${SRC}build/static/js/main*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
+    gulp.src([`${SRC}build/static/js/src_bootstrap*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
+    gulp.src([`${SRC}build/static/media/*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/media`)),
+    gulp.src([`${SRC}src/i18n/*.json`]).pipe(gulp.dest(`widgets/${adapterName}/i18n`))
+]));
+
+gulp.task('widget-3-createdirectories', () => Promise.all([
+    new Promise(resolve =>
+        setTimeout(() => {
+            if (fs.existsSync(`widgets/${adapterName}/static/js`) &&
+                !fs.readdirSync(`widgets/${adapterName}/static/js`).length
+            ) {
+                fs.rmdirSync(`widgets/${adapterName}/static/js`)
+            }
+            resolve();
+        }, 500)
+    ),
     new Promise(resolve =>
         setTimeout(() => {
             if (fs.existsSync(`widgets/${adapterName}/static/media`) &&
@@ -141,6 +150,6 @@ gulp.task('widget-3-copy', () => Promise.all([
     )
 ]));
 
-gulp.task('widget-build', gulp.series(['widget-0-clean', 'widget-1-npm', 'widget-2-compile', 'widget-3-copy']));
+gulp.task('widget-build', gulp.series(['widget-0-clean', 'widget-1-npm', 'widget-2-compile', 'widget-3-createdirectories', 'widget-4-copy']));
 
 gulp.task('default', gulp.series('widget-build'));
