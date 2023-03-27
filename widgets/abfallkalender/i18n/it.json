@@ -6,5 +6,7 @@
     "vis_2_widgets_abfallkalender_common": "Comune",
     "vis_2_widgets_abfallkalender_dateformat": "Formato data",
     "vis_2_widgets_abfallkalender_dateformat_short": "corto",
-    "vis_2_widgets_abfallkalender_dateformat_long": "lungo"
+    "vis_2_widgets_abfallkalender_dateformat_long": "lungo",
+    "vis_2_widgets_abfallkalender_trashcolor": "Colore pattumiera",
+    "vis_2_widgets_abfallkalender_trashcolor_factor": "Fattore colore interno"
 }

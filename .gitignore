@@ -4,6 +4,7 @@
 !.github/
 
 *.code-workspace
+*.bak
 node_modules
 nbproject
 admin/build

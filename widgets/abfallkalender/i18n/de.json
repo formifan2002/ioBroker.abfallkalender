@@ -1,10 +1,12 @@
 {
     "vis_2_widgets_abfallkalender": "Abfallkalender",
-    "vis_2_widgets_abfallkalender_oid": "Objekt ID",
+    "vis_2_widgets_abfallkalender_oid": "Objekt Identifikation",
     "vis_2_widgets_abfallkalender_whatsapplogo": "WhatsApp-Logo",
     "vis_2_widgets_abfallkalender_blink": "Blinken",
     "vis_2_widgets_abfallkalender_common": "Gemeinsam",
     "vis_2_widgets_abfallkalender_dateformat": "Datumsformat",
     "vis_2_widgets_abfallkalender_dateformat_short": "kurz",
-    "vis_2_widgets_abfallkalender_dateformat_long": "lang"
+    "vis_2_widgets_abfallkalender_dateformat_long": "lang",
+    "vis_2_widgets_abfallkalender_trashcolor": "Farbe des Abfalleimers",
+    "vis_2_widgets_abfallkalender_trashcolor_factor": "Faktor Innenfarbe"
 }

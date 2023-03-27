@@ -62,6 +62,40 @@ function npmInstall() {
     });
 }
 
+function startDevServerWatch() {
+    return new Promise((resolve, reject) => {
+        //const cmd = `npm install -f`;
+        const cwd='./'
+        try {
+            const isDir=fs.statSync('./.dev-server/').isDirectory();
+         } catch (e) {
+              reject('cannot start dev-server since it was not found');
+        }
+        const cmd = `dev-server watch`;
+        console.log(`"${cmd} in ${cwd}`);
+
+        // System call used for update of js-controller itself,
+        // because during installation npm packet will be deleted too, but some files must be loaded even during the install process.
+        const exec = cp.exec;
+
+        const child = exec(cmd, {cwd});
+
+        child.stderr.pipe(process.stderr);
+        child.stdout.pipe(process.stdout);
+
+        child.on('exit', (code /* , signal */) => {
+            // code 1 is strange error that cannot be explained. Everything is installed but error :(
+            if (code && code !== 1) {
+                reject(`Cannot start dev-server: ${code}`);
+            } else {
+                console.log(`"${cmd} in ${cwd} finished.`);
+                // command succeeded
+                resolve();
+            }
+        });
+    });
+}
+
 function buildRules() {
     const version = JSON.parse(fs.readFileSync(`${__dirname}/package.json`).toString('utf8')).version;
     const data    = JSON.parse(fs.readFileSync(`${src}package.json`).toString('utf8'));
@@ -126,7 +160,7 @@ gulp.task('widget-3-createdirectories', () => Promise.all([
             resolve();
         }, 500)
     ),
- /*   new Promise(resolve =>
+    new Promise(resolve =>
         setTimeout(() => {
             if (fs.existsSync(`widgets/${adapterName}/static/media`) &&
                 !fs.readdirSync(`widgets/${adapterName}/static/media`).length
@@ -136,7 +170,6 @@ gulp.task('widget-3-createdirectories', () => Promise.all([
             resolve();
         }, 500)
     )
- */
 ]));
 
 gulp.task('widget-4-copy', () => Promise.all([
@@ -148,10 +181,16 @@ gulp.task('widget-4-copy', () => Promise.all([
     gulp.src([`${SRC}build/static/js/main*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
     gulp.src([`${SRC}build/static/js/src_bootstrap*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
     gulp.src([`${SRC}build/static/js/src_*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
- //   gulp.src([`${SRC}build/static/media/*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/media`)),
+    gulp.src([`${SRC}build/static/media/AbfalltonneMitText*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/media`)),
     gulp.src([`${SRC}src/i18n/*.json`]).pipe(gulp.dest(`widgets/${adapterName}/i18n`))
 ]));
 
+gulp.task('widget-5-start-dev-server', async () => startDevServerWatch());
+
 gulp.task('widget-build', gulp.series(['widget-0-clean', 'widget-1-npm', 'widget-2-compile', 'widget-3-createdirectories', 'widget-4-copy']));
+//gulp.task('widget-build', gulp.series(['widget-3-createdirectories', 'widget-4-copy']));
 
 gulp.task('default', gulp.series('widget-build'));
+
+
+

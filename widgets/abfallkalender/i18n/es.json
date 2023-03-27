@@ -6,5 +6,7 @@
     "vis_2_widgets_abfallkalender_common": "Común",
     "vis_2_widgets_abfallkalender_dateformat": "Formato de fecha",
     "vis_2_widgets_abfallkalender_dateformat_short": "corto",
-    "vis_2_widgets_abfallkalender_dateformat_long": "largo"
+    "vis_2_widgets_abfallkalender_dateformat_long": "largo",
+    "vis_2_widgets_abfallkalender_trashcolor": "Color del cubo de basura",
+    "vis_2_widgets_abfallkalender_trashcolor_factor": "factor color interior"
 }

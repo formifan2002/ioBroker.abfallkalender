@@ -6,5 +6,7 @@
     "vis_2_widgets_abfallkalender_common": "常见的",
     "vis_2_widgets_abfallkalender_dateformat": "日期格式",
     "vis_2_widgets_abfallkalender_dateformat_short": "短的",
-    "vis_2_widgets_abfallkalender_dateformat_long": "长的"
+    "vis_2_widgets_abfallkalender_dateformat_long": "长的",
+    "vis_2_widgets_abfallkalender_trashcolor": "垃圾桶颜色",
+    "vis_2_widgets_abfallkalender_trashcolor_factor": "因素内饰颜色"
 }

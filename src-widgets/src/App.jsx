@@ -39,10 +39,9 @@ class App extends WidgetDemoApp {
             <Abfallkalender
                 socket={this.socket}
                 themeType={this.state.themeType}
-                I18n={I18n}
                 style={{
-                    width: 600,
-                    height: 650,
+                    width: 400,
+                    height: 587,
                 }}
                 systemConfig={this.state.systemConfig}
                 data={{
@@ -51,6 +50,8 @@ class App extends WidgetDemoApp {
                     blink: true,
                     whatsapplogo: true,
                     dateformat: 'short',
+                    trashcolor: '',
+                    trashcolorfactor: -0.3,
                 }}
             />
         </div>;

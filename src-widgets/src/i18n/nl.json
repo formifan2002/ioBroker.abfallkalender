@@ -6,5 +6,7 @@
     "vis_2_widgets_abfallkalender_common": "Gewoon",
     "vis_2_widgets_abfallkalender_dateformat": "Datumnotatie",
     "vis_2_widgets_abfallkalender_dateformat_short": "kort",
-    "vis_2_widgets_abfallkalender_dateformat_long": "lang"
+    "vis_2_widgets_abfallkalender_dateformat_long": "lang",
+    "vis_2_widgets_abfallkalender_trashcolor": "Kleur afvalbak",
+    "vis_2_widgets_abfallkalender_trashcolor_factor": "Factor interieurkleur"
 }
