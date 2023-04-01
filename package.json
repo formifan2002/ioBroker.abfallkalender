@@ -39,7 +39,7 @@
     "@mui/lab": "^5.0.0-alpha.122",
     "@mui/material": "^5.11.7",
     "@mui/styles": "^5.11.7",
-    "@mui/x-data-grid": "^6.0.0-beta.5",
+    "@mui/x-data-grid": "^6.0.4",
     "@types/chai": "^4.3.4",
     "@types/chai-as-promised": "^7.1.5",
     "@types/mocha": "^10.0.1",
