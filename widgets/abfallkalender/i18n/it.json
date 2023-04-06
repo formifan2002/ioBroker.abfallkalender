@@ -8,5 +8,10 @@
     "vis_2_widgets_abfallkalender_dateformat_short": "corto",
     "vis_2_widgets_abfallkalender_dateformat_long": "lungo",
     "vis_2_widgets_abfallkalender_trashcolor": "Colore pattumiera",
-    "vis_2_widgets_abfallkalender_trashcolor_factor": "Fattore colore interno"
+    "vis_2_widgets_abfallkalender_trashcolor_factor": "Fattore colore interno",
+    "vis_2_widgets_abfallkalender_instance": "Esempio",
+    "vis_2_widgets_abfallkalender_wastetype": "Tipo di rifiuto",
+    "vis_2_widgets_abfallkalender_blinkinterval": "Intervallo lampeggiante",
+    "vis_2_widgets_abfallkalender_fontfamily": "Tipo di carattere",
+    "vis_2_widgets_abfallkalender_fontsize": "Dimensione del font"
 }

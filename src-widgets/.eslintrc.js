@@ -1,8 +1,7 @@
 module.exports = {
     env: {
         browser: true,
-        es2021: true,
-        jquery: true,
+        es2021: true
     },
     extends: [
         'eslint:recommended',
@@ -25,6 +24,7 @@ module.exports = {
     ],
     rules: {
         'arrow-parens': [1, 'as-needed'],
+        'comma-spacing': ["error", { "before": false, "after": false }],
         'react/jsx-indent': 'off',
         'react/jsx-indent-props': 'off',
         'react/no-access-state-in-setstate': 'off',
@@ -70,6 +70,8 @@ module.exports = {
         'no-loop-func': 'off',
         'no-continue': 'off',
         'implicit-arrow-linebreak': 'off',
+        'object-curly-newline': ["error", { "multiline": true }],
+        'space-infix-ops': ["error", { "int32Hint": true }],
         radix: 'off',
         indent: ['error', 4, { SwitchCase: 1 }],
         'no-alert': 'off',

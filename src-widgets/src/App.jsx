@@ -46,12 +46,6 @@ class App extends WidgetDemoApp {
                 systemConfig={this.state.systemConfig}
                 data={{
                     name: 'Abfallkalender',
-                    oid: 'abfallkalender.0.CalendarDoubleQuotes',
-                    blink: true,
-                    whatsapplogo: true,
-                    dateformat: 'short',
-                    trashcolor: '',
-                    trashcolorfactor: -0.3,
                 }}
             />
         </div>;

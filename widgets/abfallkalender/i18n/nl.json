@@ -8,5 +8,10 @@
     "vis_2_widgets_abfallkalender_dateformat_short": "kort",
     "vis_2_widgets_abfallkalender_dateformat_long": "lang",
     "vis_2_widgets_abfallkalender_trashcolor": "Kleur afvalbak",
-    "vis_2_widgets_abfallkalender_trashcolor_factor": "Factor interieurkleur"
+    "vis_2_widgets_abfallkalender_trashcolor_factor": "Factor interieurkleur",
+    "vis_2_widgets_abfallkalender_instance": "Voorbeeld",
+    "vis_2_widgets_abfallkalender_wastetype": "Soort afval",
+    "vis_2_widgets_abfallkalender_blinkinterval": "Knipperend interval",
+    "vis_2_widgets_abfallkalender_fontfamily": "Lettertype",
+    "vis_2_widgets_abfallkalender_fontsize": "Lettertypegrootte"
 }

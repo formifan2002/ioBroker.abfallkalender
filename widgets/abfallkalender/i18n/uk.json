@@ -8,5 +8,10 @@
     "vis_2_widgets_abfallkalender_dateformat_short": "короткий",
     "vis_2_widgets_abfallkalender_dateformat_long": "довго",
     "vis_2_widgets_abfallkalender_trashcolor": "Колір смітника",
-    "vis_2_widgets_abfallkalender_trashcolor_factor": "Врахуйте колір інтер'єру"
+    "vis_2_widgets_abfallkalender_trashcolor_factor": "Врахуйте колір інтер'єру",
+    "vis_2_widgets_abfallkalender_instance": "Екземпляр",
+    "vis_2_widgets_abfallkalender_wastetype": "Тип відходів",
+    "vis_2_widgets_abfallkalender_blinkinterval": "Інтервал миготіння",
+    "vis_2_widgets_abfallkalender_fontfamily": "Тип шрифту",
+    "vis_2_widgets_abfallkalender_fontsize": "Розмір шрифту"
 }

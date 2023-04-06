@@ -8,5 +8,10 @@
     "vis_2_widgets_abfallkalender_dateformat_short": "corto",
     "vis_2_widgets_abfallkalender_dateformat_long": "largo",
     "vis_2_widgets_abfallkalender_trashcolor": "Color del cubo de basura",
-    "vis_2_widgets_abfallkalender_trashcolor_factor": "factor color interior"
+    "vis_2_widgets_abfallkalender_trashcolor_factor": "factor color interior",
+    "vis_2_widgets_abfallkalender_instance": "Instancia",
+    "vis_2_widgets_abfallkalender_wastetype": "Tipo de residuo",
+    "vis_2_widgets_abfallkalender_blinkinterval": "Intervalo de parpadeo",
+    "vis_2_widgets_abfallkalender_fontfamily": "Tipo de fuente",
+    "vis_2_widgets_abfallkalender_fontsize": "Tamaño de fuente"
 }

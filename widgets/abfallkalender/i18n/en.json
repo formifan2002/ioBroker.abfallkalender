@@ -8,5 +8,10 @@
   "vis_2_widgets_abfallkalender_dateformat_short": "short",
   "vis_2_widgets_abfallkalender_dateformat_long": "long",
   "vis_2_widgets_abfallkalender_trashcolor": "Waste bin color",
-  "vis_2_widgets_abfallkalender_trashcolor_factor": "Factor interior colour"
+  "vis_2_widgets_abfallkalender_trashcolor_factor": "Factor interior colour",
+  "vis_2_widgets_abfallkalender_instance": "Instance",
+  "vis_2_widgets_abfallkalender_wastetype": "Waste type",
+  "vis_2_widgets_abfallkalender_blinkinterval": "Flashing interval",
+  "vis_2_widgets_abfallkalender_fontfamily": "Font type",
+  "vis_2_widgets_abfallkalender_fontsize": "Font size"
 }

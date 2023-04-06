@@ -1,7 +1,12 @@
 import React from 'react';
 import CardContent from '@mui/material/CardContent';
+import Checkbox from '@mui/material/Checkbox';
 import Card from '@mui/material/Card';
-import { withStyles, withTheme } from '@mui/styles';
+import FormControl from '@mui/material/FormControl';
+import Input from '@mui/material/Input';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import { withStyles,withTheme } from '@mui/styles';
 import { I18n } from '@iobroker/adapter-react-v5';
 import { VisRxWidget } from '@iobroker/vis-2-widgets-react-dev';
 import { ReactComponent as TrashIcon } from './img/AbfalltonneMitText.svg';
@@ -21,9 +26,18 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
     constructor(props) {
         super(props);
         this.refTrashIcon = React.createRef();
+        this.initial = true;
+        this.instancenameLocal = '';
+        this.wastetypeLocal = '';
+        this.JsonObject = {};
+        this.oidChange = false;
     }
 
     static getWidgetInfo() {
+        // more details for custom filters in file:
+        // vis-2-beta/static/js/Attributes/Widget/WidgetField.jsx (line 424ff)
+        //
+        // new fields are not added to existing widgets !!!
         return {
             id: 'tplAbfallkalender',
             visSet: 'abfallkalender',
@@ -36,17 +50,63 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                     label: 'vis_2_widgets_abfallkalender_common', // translated group label
                     fields: [
                         {
-                            name: 'oid',     // name in data structure
-                            type: 'id',
-                            label: 'vis_2_widgets_abfallkalender_oid', // translated field label
+                            name: 'instancename',
+                            label: 'vis_2_widgets_abfallkalender_instance',
+                            type: 'custom',
+                            hidden: 'data.instancenamehidden === "true"',
+                            component: (
+                                field,
+                                data,
+                                onDataChange,
+                            ) => this.showInstances(field,data,onDataChange),
+                        },
+                        {
+                            name: 'instancenamehidden',  // hide instance selection if only one instance exists
+                            type: 'text',
+                            hidden: true,
+                            default: 'false',
+                        },
+                        {
+                            name: 'selectinstances',     // hidden value of the select entries for instances
+                            label: 'selectinstances',
+                            type: 'text',
+                            hidden: true,
+                            default: '',
+                        },
+
+                        {
+                            name: 'wastetype',
+                            label: 'vis_2_widgets_abfallkalender_wastetype',
+                            type: 'custom',
+                            disabled: 'data.wastetypedisabled === "true"',
+                            component: (
+                                field,
+                                data,
+                                onDataChange,
+                            ) => this.showWasteTypes(field,data,onDataChange),
+                        },
+                        {
+                            name: 'wastetypedisabled',     // hide waste type selection if only one waste type is activated
+                            type: 'text',
+                            hidden: true,
+                            default: 'false',
+                        },
+                        {
+                            name: 'selectwastetypes',     // hidden value of the select entries for waste types
+                            label: 'selectwastetypes',
+                            type: 'text',
+                            hidden: true,
+                            default: '',
                         },
                         {
                             name: 'trashcolor',
+                            default: 'rgba(40,30,88,1)',
                             label: 'vis_2_widgets_abfallkalender_trashcolor',
                             type: 'color',
                         },
                         {
                             name: 'trashcolorfactor',
+                            default: -0.3,
                             label: 'vis_2_widgets_abfallkalender_trashcolor_factor',
                             type: 'slider',
                             min: -1,
@@ -54,8 +114,55 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                             step: 0.1,
                         },
                         {
-                            name: 'dateformat',    // name in data structure
-                            label: 'vis_2_widgets_abfallkalender_dateformat', // translated field label
+                            name: 'whatsapplogo',
+                            default: true,
+                            label: 'vis_2_widgets_abfallkalender_whatsapplogo',
+                            type: 'custom',
+                            hidden: 'data.whatsapplogohidden === "true"',
+                            component: (
+                                field,
+                                data,
+                                onDataChange,
+                            ) => this.showWhatsapp(field,data,onDataChange),
+                        },
+                        {
+                            name: 'whatsapplogohidden',     // hide whatsapp selection if whatsapp is not activated for the selected waste
+                            type: 'text',
+                            hidden: true,
+                            default: 'false',
+                        },
+                        {
+                            name: 'blink',
+                            default: true,
+                            label: 'vis_2_widgets_abfallkalender_blink',
+                            type: 'custom',
+                            hidden: 'data.blinkhidden === "true"',
+                            component: (
+                                field,
+                                data,
+                                onDataChange,
+                            ) => this.showBlink(field,data,onDataChange),
+                        },
+                        {
+                            name: 'blinkhidden',     // hide blink checkbox if blink is not activated for the selected waste
+                            type: 'text',
+                            hidden: true,
+                            default: 'false',
+                        },
+                        {
+                            name: 'blinkinterval',
+                            default: 3,
+                            label: 'vis_2_widgets_abfallkalender_blinkinterval',
+                            type: 'slider',
+                            hidden: 'data.blink === false || data.blinkhidden === "true"',
+                            min: 1,
+                            max: 15,
+                            step: 1,
+                        },
+                        {
+                            name: 'dateformat',
+                            default: 'short',
+                            label: 'vis_2_widgets_abfallkalender_dateformat',
                             type: 'select',
                             options: [
                                 {
@@ -67,36 +174,52 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                                     label: 'vis_2_widgets_abfallkalender_dateformat_long',
                                 },
                             ],
-                            default: 'short',
                         },
                         {
-                            name: 'whatsapplogo',
-                            label: 'vis_2_widgets_abfallkalender_whatsapplogo',
-                            type: 'checkbox',
+                            name: 'fontfamily',
+                            label: 'vis_2_widgets_abfallkalender_fontfamily',
+                            default: 'Arial',
+                            type: 'custom',
+                            component: (
+                                field,
+                                data,
+                                onDataChange,
+                            ) => this.showFontfamily(field,data,onDataChange),
                         },
                         {
-                            name: 'blink',
-                            label: 'vis_2_widgets_abfallkalender_blink',
-                            type: 'checkbox',
+                            name: 'fontsize',
+                            default: 12,
+                            label: 'vis_2_widgets_abfallkalender_fontsize',
+                            type: 'slider',
+                            min: 6,
+                            max: 48,
+                            step: 1,
+                        },
+                        {
+                            name: 'oid',     // name in data structure
+                            label: 'vis_2_widgets_abfallkalender_oid',
+                            type: 'id',
+                            noInit: true,
+                            hidden: true,
                         },
                     ],
-                    onchange:  async (field, data, changeData, socket) => {
-                        const object = await socket.getObject(data.oid);
-                        console.log('onchange in oid field');
-                        if (object && object.common) {
-                            data.whatsapplogo = object.common.whatsapplogo !== undefined ? object.common.whatsapplogo : true;
-                            data.blink = object.common.blink !== undefined ? object.common.blink : true;
-                            data.dateformat = object.common.dateformat !== undefined ? object.common.dateformat : 'short';
-                            data.trashcolor = object.common.trashcolor !== undefined ? object.common.trashcolor : '';
-                            data.trashcolorfactor = object.common.trashcolorfactor !== undefined ? object.common.trashcolorfactor : -0.3;
-                            changeData(data);
-                        }
-                    },
                 },
                 // check here all possible types https://github.com/ioBroker/ioBroker.vis/blob/react/src/src/Attributes/Widget/SCHEMA.md
             ],
             visPrev: 'widgets/abfallkalender/img/abfallkalender.png',
         };
+    }
+
+    changeData(newData) {
+        const { view,views,selectedWidgets } = this.props;
+        selectedWidgets.forEach(widgetId => {
+            Object.keys(newData)
+                .forEach(attr => {
+                    views[view].widgets[widgetId].data[attr] = newData[attr];
+                    this.state.data[attr] = newData[attr];
+                    this.state.rxData[attr] = newData[attr];
+                });
+        });
     }
 
     // eslint-disable-next-line class-methods-use-this
@@ -108,21 +231,49 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
         //                        then this.state.rxData.type will have state value of `system.adapter.admin.0.alive`
         // 3. this.state.rxStyle - contains all widget styles with replaced bindings. E.g. if this.state.styles.width is `{javascript.0.width}px`,
         //                        then this.state.rxData.type will have state value of `javascript.0.width` + 'px
-        if (this.state.rxData.oid &&
-            this.state.rxData.oid !== 'nothing_selected' &&
-            (!this.state.object || this.state.rxData.oid !== this.state.object._id)
-        ) {
-            const object = await this.props.socket.getObject(this.state.rxData.oid);
-            this.setState({ object });
+        if (this.initial) {
+            return;
         }
-        this.renderTrash();
+        const { wastetype,instancename } = this.state.data;
+        let renderTrash = true;
+        if (typeof instancename !== 'undefined' && this.instancenameLocal !== instancename) {
+            this.instancenameLocal = instancename;
+            await this.getWasteTypes(instancename);
+            renderTrash = false;
+        }
+        if (this.oidChange === true || (
+            typeof wastetype !== 'undefined' && this.wastetypeLocal !== wastetype)) {
+            this.wastetypeLocal = wastetype;
+            await this.getJsonObject(wastetype,this.instancenameLocal);
+            await this.updateWhatsappAndBlink();
+            renderTrash = true;
+            if (this.oidChange === true) { this.oidChange = false; }
+        }
+        if (renderTrash === true) {
+            await this.renderTrash();
+        }
     }
 
     componentDidMount() {
         super.componentDidMount();
 
         // Update data
-        this.propertiesUpdate();
+        this.getInstances()
+            .then(instance => {
+                this.getWasteTypes(instance)
+                    .then(retwastetype => {
+                        this.getJsonObject(retwastetype,instance)
+                            .then(() => {
+                                this.updateWhatsappAndBlink()
+                                    .then(() => {
+                                        this.renderTrash()
+                                            .then(() => {
+                                                this.initial = false;
+                                            });
+                                    });
+                            });
+                    });
+            });
     }
 
     // Do not delete this method. It is used by vis to read the widget configuration.
@@ -139,58 +290,322 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
     // This function is called every time when rxStyle is changed
     // eslint-disable-next-line class-methods-use-this
     onRxStyleChanged() {
-
     }
 
     // This function is called every time when some Object State updated, but all changes lands into this.state.values too
     // eslint-disable-next-line class-methods-use-this, no-unused-vars
-    onStateUpdated(id, state) {
+    onStateUpdated(id,state) {
+        // state of the object 'CalenderDoubleQuotes' has changed
+        this.oidChange = true;
+        this.propertiesUpdate();
     }
 
-    renderTrash() {
-        const {
-            blink, whatsapplogo, dateformat, trashcolor, trashcolorfactor,
-        } = this.state.data;
+    async renderTrash() {
+        const { blink,blinkinterval,fontfamily,fontsize,whatsapplogo,dateformat,trashcolor,trashcolorfactor } = this.state.data;
+        let trashColorOuter = '';
         this.refTrashIcon.current.childNodes.forEach(element => {
             if (element.id === 'tonne') {
                 // color of the dustbin
                 if (trashcolor === '') {
                     this.state.data.trashcolor = element.attributes.fill.nodeValue;
+                    trashColorOuter = element.attributes.fill.nodeValue;
                 } else {
                     element.attributes.fill.nodeValue = this.state.data.trashcolor;
+                    trashColorOuter = this.state.data.trashcolor;
                 }
-                console.log(`Farbe der Tonne ist: ${element.attributes.fill.nodeValue}`);
             }
-            if (element.id === 'tonne-innen') {
+            if (element.id === 'tonne-innen' && typeof trashColorOuter !== 'undefined') {
                 // inner color of the dustbin
-                const colors = trashcolor.replace('rgba(', '').replace(')', '').split(',');
-                const color0 = parseInt(colors[0]);
-                const color1 = parseInt(colors[1]);
-                const color2 = parseInt(colors[2]);
+                const colors = trashColorOuter.replace('rgba(','').replace(')','').split(',');
                 const factor = 1 + trashcolorfactor;
-                const newColor = `rgba(${color0 * factor},${color1 * factor},${color2 * factor},1)`;
+                const color0 = Math.round(parseInt(colors[0]) * factor);
+                const color1 = Math.round(parseInt(colors[1]) * factor);
+                const color2 = Math.round(parseInt(colors[2]) * factor);
+                const newColor = `rgba(${color0},${color1},${color2},1)`;
                 element.attributes.fill.nodeValue = newColor;
-                console.log(`Farbe der Tonne innen ist: ${element.attributes.fill.nodeValue}`);
             }
             if (element.id === 'whatsapp') {
                 // show or hide the Whatsapp logo
                 element.attributes.style.value = `visibility: ${whatsapplogo === true ? 'visible' : 'hidden'};`;
             }
-            if (element.id.substr(0, 'Abfuhrdatum'.length - 1) === 'Abfuhrdatum') {
-                console.log(`Abfuhrdatum: ${element.innerHTML}`);
+            if (element.id.indexOf('Abfuhrdatum') !== -1) {
+                const options = { year: '2-digit',month: '2-digit',day: '2-digit' };
+                if (dateformat === 'long') {
+                    options.weekday = 'long';
+                }
+                element.innerHTML = new Date(this.JsonObject.AbfuhrtagJson).toLocaleDateString(this.props.lang,options);
+                element.style.fontSize = `${fontsize}px`;
+                element.style.fontFamily = fontfamily;
+                /* "Abfuhrdatum": "08.04.2023",
+                    "AbfuhrTagLang": "Samstag",
+                    "AbfuhrTagKurz": "Sa",
+                    "Abfuhrart": "Restmüll wöchentlich"
+                    "Resttage": 3
+                */
             }
-            if (element.id.substr(0, 'AnzahlTage'.length - 1) === 'AnzahlTage') {
-                console.log(`in Tagen: ${element.innerHTML}`);
+            if (element.id.indexOf('AnzahlTage') !== -1) {
+                element.innerHTML = this.JsonObject.Resttage.toString();
+                element.style.fontSize = fontsize;
+                element.style.fontFamily = fontfamily;
             }
         });
+        if (blink === true) {
+            const blinking = [
+                { opacity: 0 },
+                { opacity: 1 },
+            ];
+            const timing = {
+                duration: blinkinterval * 1000,
+                iterations: Infinity,
+            };
+            this.refTrashIcon.current.animate(
+                blinking,
+                timing,
+            );
+        } else {
+            this.refTrashIcon.current.getAnimations().map(animation => animation.cancel());
+        }
         return true;
+    }
+
+    async getJsonObject(selwastetype,instance) {
+        const id = `abfallkalender.${instance}.CalendarDoubleQuotes`;
+        if (selwastetype === '') { return; }
+        await this.props.socket.getForeignStates(id)
+            .then(status => {
+                if (!(id in status)) { return; }
+                const getJsonObject  = JSON.parse(status[id].val).filter(element => element.AbfuhrartNr === selwastetype);
+                this.JsonObject =  typeof getJsonObject[0] !== 'undefined' ? getJsonObject[0] : {};
+                // this.changeData({ oid: `"${id}"` });
+                this.changeData({ oid: id });
+            });
+    }
+
+    async updateWhatsappAndBlink() {
+        const wastetypes = (('selectwastetypes' in this.state.data) && this.state.data.selectwastetypes !== '') ? this.state.data.selectwastetypes.replaceAll('[','{').replaceAll(']','}').replaceAll('#','"').split('}')
+            .slice(0,-1) : [];
+        for (let i = 0; i < wastetypes.length; i++) {
+            wastetypes[i] += '}';
+            wastetypes[i] = JSON.parse(wastetypes[i].replaceAll(/'/g,'"'));
+        }
+        const filtered = wastetypes.filter(wastetype => wastetype.value === this.state.data.wastetype);
+        const whatsappUsed = parseInt(filtered.whatsapp) > -1;
+        if (this.state.editMode === true) {
+            this.changeData({ whatsapplogohidden: whatsappUsed === true ? 'false' : 'true' });
+        }
+        if (whatsappUsed === false) {
+            this.changeData({ whatsapplogo: false });
+        }
+        const blinkUsed = parseInt(filtered.blink) > -1;
+        if (this.state.editMode === true) {
+            this.changeData({ blinkhidden: blinkUsed === true ? 'false' : 'true' });
+        }
+        if (blinkUsed === false) {
+            this.changeData({ blink: false });
+        }
+    }
+
+    async getInstances() {
+        let ret = this.state.data.instancename;
+        const instances = await this.props.socket.getObjectViewSystem('instance','system.adapter.abfallkalender.','system.adapter.abfallkalender.\u9999')
+            .then(rows => {
+                const newinstances = [];
+                Object.keys(rows).forEach((key,i) => {
+                    newinstances.push({ value: i,title: rows[key]._id.replace('system.adapter.','') });
+                });
+                return newinstances;
+            })
+            .catch(error => {
+                console.log('ERROR !!!:');
+                console.log(error);
+                return [];
+            });
+        if (this.state.editMode === true) {
+            await this.arr2string(instances)
+                .then(strinstances => {
+                    this.changeData({ selectinstances: strinstances });
+                });
+            this.changeData({ instancenamehidden: instances.length < 2 ? 'true' : 'false' });
+        }
+        if (this.initial === true && (!('instancename' in this.state.data) || this.state.data.instancename === '')) {
+            ret = instances.length > 0  ? instances[0].value : '';
+            this.changeData({ instancename: ret });
+        }
+        this.instancenameLocal = ret;
+        return ret;
+    }
+
+    static showInstances(field,data,onDataChange) {
+        const menuitems = (('selectinstances' in data) && data.selectinstances !== '') ? data.selectinstances.replaceAll('[','{').replaceAll(']','}').replaceAll('#','"').split('}')
+            .slice(0,-1) : [];
+        for (let i = 0; i < menuitems.length; i++) {
+            menuitems[i] += '}';
+            menuitems[i] = JSON.parse(menuitems[i].replaceAll(/'/g,'"'));
+        }
+        return data.selectinstances === '' ? <div></div> : <FormControl>
+            <Select
+                value={data[field.name]}
+                onChange={event => {
+                    onDataChange({ [field.name]: event.target.value });
+                }}
+                input={<Input name="instances" />}
+                label={I18n.t('vis_2_widgets_abfallkalender_instance')}
+                style={{ fontSize: '12.8px' }}
+            >
+                {menuitems.map(item => (
+                    <MenuItem key={item.value} value={item.value} style={{ fontSize: '16px' }}>
+                        {item.title}
+                    </MenuItem>
+                ))}
+            </Select>
+        </FormControl>;
+    }
+
+    static showFontfamily(field,data,onDataChange) {
+        const fontCheck = new Set([
+            // Windows 10
+            'Arial','Arial Black','Bahnschrift','Calibri','Cambria','Cambria Math','Candara','Comic Sans MS','Consolas','Constantia','Corbel','Courier New','Ebrima','Franklin Gothic Medium','Gabriola','Gadugi','Georgia','HoloLens MDL2 Assets','Impact','Ink Free','Javanese Text','Leelawadee UI','Lucida Console','Lucida Sans Unicode','Malgun Gothic','Marlett','Microsoft Himalaya','Microsoft JhengHei','Microsoft New Tai Lue','Microsoft PhagsPa','Microsoft Sans Serif','Microsoft Tai Le','Microsoft YaHei','Microsoft Yi Baiti','MingLiU-ExtB','Mongolian Baiti','MS Gothic','MV Boli','Myanmar Text','Nirmala UI','Palatino Linotype','Segoe MDL2 Assets','Segoe Print','Segoe Script','Segoe UI','Segoe UI Historic','Segoe UI Emoji','Segoe UI Symbol','SimSun','Sitka','Sylfaen','Symbol','Tahoma','Times New Roman','Trebuchet MS','Verdana','Webdings','Wingdings','Yu Gothic',
+            // macOS
+            'American Typewriter','Andale Mono','Arial','Arial Black','Arial Narrow','Arial Rounded MT Bold','Arial Unicode MS','Avenir','Avenir Next','Avenir Next Condensed','Baskerville','Big Caslon','Bodoni 72','Bodoni 72 Oldstyle','Bodoni 72 Smallcaps','Bradley Hand','Brush Script MT','Chalkboard','Chalkboard SE','Chalkduster','Charter','Cochin','Comic Sans MS','Copperplate','Courier','Courier New','Didot','DIN Alternate','DIN Condensed','Futura','Geneva','Georgia','Gill Sans','Helvetica','Helvetica Neue','Herculanum','Hoefler Text','Impact','Lucida Grande','Luminari','Marker Felt','Menlo','Microsoft Sans Serif','Monaco','Noteworthy','Optima','Palatino','Papyrus','Phosphate','Rockwell','Savoye LET','SignPainter','Skia','Snell Roundhand','Tahoma','Times','Times New Roman','Trattatello','Trebuchet MS','Verdana','Zapfino',
+        ].sort());
+        document.fonts.ready;
+        const fontAvailable = new Set();
+        for (const font of fontCheck.values()) {
+            if (document.fonts.check(`${data.fontsize}px "${font}"`)) {
+                fontAvailable.add(font);
+            }
+        }
+        const menuitems = [];
+        for (const font of fontAvailable) {
+            menuitems.push({ title: font,value: font });
+        }
+        return <FormControl>
+            <Select
+                value={data[field.name]}
+                onChange={event => {
+                    onDataChange({ [field.name]: event.target.value });
+                }}
+                input={<Input name="fontfamily" />}
+                label={I18n.t('vis_2_widgets_abfallkalender_fontfamily')}
+                style={{ fontSize: '12.8px' }}
+            >
+                {menuitems.map(item => (
+                    <MenuItem key={item.value} value={item.value} style={{ fontSize: '16px' }}>
+                        {item.title}
+                    </MenuItem>
+                ))}
+            </Select>
+        </FormControl>;
+    }
+
+    static showWasteTypes(field,data,onDataChange) {
+        const menuitems = (('selectwastetypes' in data) && data.selectwastetypes !== '') ? data.selectwastetypes.replaceAll('[','{').replaceAll(']','}').replaceAll('#','"').split('}')
+            .slice(0,-1) : [];
+        for (let i = 0; i < menuitems.length; i++) {
+            menuitems[i] += '}';
+            menuitems[i] = JSON.parse(menuitems[i].replaceAll(/'/g,'"'));
+        }
+        return data.selectwastetypes === '' ? <div></div> : <FormControl>
+            <Select
+                value={data[field.name]}
+                onChange={event => {
+                    onDataChange({ [field.name]: event.target.value });
+                }}
+                input={<Input name="wastetypes" />}
+                label={I18n.t('vis_2_widgets_abfallkalender_wastetype')}
+                style={{ fontSize: '12.8px' }}
+            >
+                {menuitems.map(item => (
+                    <MenuItem key={item.value} value={item.value} style={{ fontSize: '16px' }}>
+                        {item.title}
+                    </MenuItem>
+                ))}
+            </Select>
+        </FormControl>;
+    }
+
+    static showWhatsapp(field,data,onDataChange) {
+        return <FormControl>
+            <Checkbox
+                checked={data[field.name]}
+                onChange={event => {
+                    onDataChange({ [field.name]: event.target.checked });
+                }}
+                color="primary"
+            />
+        </FormControl>;
+    }
+
+    static showBlink(field,data,onDataChange) {
+        return <FormControl>
+            <Checkbox
+                checked={data[field.name]}
+                onChange={event => {
+                    onDataChange({ [field.name]: event.target.checked });
+                }}
+                color="primary"
+            />
+        </FormControl>;
+    }
+
+    async getWasteTypes(instance) {
+        if (instance === '') { return ''; }
+        let ret = this.state.data.wastetype;
+        const wasteTypes = await this.props.socket.getObjectViewSystem('instance','system.adapter.abfallkalender.','system.adapter.abfallkalender.\u9999')
+            .then(rows => {
+                const allWasteTypes = [];
+                Object.keys(rows).forEach(key => {
+                    if (Object.keys(rows).length === 1 || rows[key]._id === `system.adapter.${instance}`) {
+                        for (let k = 0; k < rows[key].native.wasteTypes.length; k++) {
+                            if (rows[key].native.wasteTypes[k].used === true) {
+                                allWasteTypes.push({ value: rows[key].native.wasteTypes[k].value,title: rows[key].native.wasteTypes[k].title,whatsapp: rows[key].native.wasteTypes[k].whatsapp,blink: rows[key].native.wasteTypes[k].blink });
+                            }
+                        }
+                    }
+                });
+                return allWasteTypes;
+            })
+            .catch(error => {
+                console.log('ERROR !!!:');
+                console.log(error);
+                return [];
+            });
+        if (this.state.editMode) {
+            await this.arr2string(wasteTypes)
+                .then(strwastetypes => {
+                    this.changeData({ selectwastetypes: strwastetypes });
+                });
+            this.changeData({ wastetypedisabled: wasteTypes.length < 2 ? 'true' : 'false' });
+        }
+        if (this.initial === true && (!('wastetype' in this.state.data) || this.state.data.wastetype === '')) {
+            ret = wasteTypes.length > 0 ? wasteTypes[0].value : '';
+            this.changeData({ wastetype: ret });
+        }
+        this.wastetypeLocal = ret;
+        return ret;
+    }
+
+    // eslint-disable-next-line class-methods-use-this
+    async arr2string(arr) {
+        let str = '';
+        // eslint-disable-next-line array-callback-return
+        arr.map(arrelement => {
+            str += '[';
+            Object.keys(arrelement)
+                .forEach((attr,index) => {
+                    if (index > 0) str += ',';
+                    str += `#${attr}#: #${arrelement[attr].toString()}#`;
+                });
+            str += ']';
+        });
+        return str;
     }
 
     renderWidgetBody(props) {
         // eslint-disable-next-line prefer-template
         super.renderWidgetBody(props);
-        return <Card class={`"card-trash${props.id}"`} style={{ width: '100%', height: '100%'}}>
-            <CardContent style={{ width: '100%', height: '100%', display: 'flex', justifyContent:'center', alignItems: 'center'}}>
+        return <Card class={`"card-trash${props.id}"`} style={{ width: '100%',height: '100%' }}>
+            <CardContent style={{ width: '100%',height: '100%',display: 'flex',justifyContent:'center',alignItems: 'center' }}>
                 <TrashIcon class={`"trashicon${props.id}"`} ref={this.refTrashIcon} />
             </CardContent>
         </Card>;

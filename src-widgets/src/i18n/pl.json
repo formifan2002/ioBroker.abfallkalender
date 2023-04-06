@@ -8,5 +8,10 @@
     "vis_2_widgets_abfallkalender_dateformat_short": "krótki",
     "vis_2_widgets_abfallkalender_dateformat_long": "długi",
     "vis_2_widgets_abfallkalender_trashcolor": "Kolor kosza na śmieci",
-    "vis_2_widgets_abfallkalender_trashcolor_factor": "Czynnik kolor wnętrza"
+    "vis_2_widgets_abfallkalender_trashcolor_factor": "Czynnik kolor wnętrza",
+    "vis_2_widgets_abfallkalender_instance": "Instancja",
+    "vis_2_widgets_abfallkalender_wastetype": "Rodzaj odpadu",
+    "vis_2_widgets_abfallkalender_blinkinterval": "Interwał migania",
+    "vis_2_widgets_abfallkalender_fontfamily": "Typ czcionki",
+    "vis_2_widgets_abfallkalender_fontsize": "Rozmiar czcionki"
 }

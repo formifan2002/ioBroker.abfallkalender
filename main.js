@@ -487,21 +487,25 @@ class Abfallkalender extends utils.Adapter {
 									}
 									if (index == 0) {
 										//console.log('create datapoints for channel: ' + channelName);
+										let enhancedElement={...celement,...{'Blinken': celement.Resttage <= this.config.wasteTypes[i].blink}}
+										if (this.config.whatsapp.used == true) {
+											enhancedElement={...enhancedElement,...{'Whatsapp': celement.Resttage <= this.config.wasteTypes[i].whatsapp}}
+										}
 										await this.createDetailledDataPointsAsync(
 											channelName,
 											'',
-											celement,
-											differenceInDays,
+											enhancedElement,
 										);
 										// create datapoint Blinken with true/false
-										await this.createDataPointAsync(
+										/*await this.createDataPointAsync(
 											channelName,
 											'',
 											differenceInDays <= this.config.wasteTypes[i].whatsapp,
 											'',
 											'Blinken',
 										);
-										if (this.config.whatsapp.used == true) {
+										*/
+										/*if (this.config.whatsapp.used == true) {
 											await this.createDataPointAsync(
 												channelName,
 												'',
@@ -510,13 +514,14 @@ class Abfallkalender extends utils.Adapter {
 												'Whatsapp',
 											);
 										}
+										*/
 										//console.log(`whatsappCollectionDateSend: ${this.config.wasteTypes[i].whatsappCollectionDateSend} Abfuhrdatum: ${celement.Abfuhrdatum}`,);
 										if (
 											this.config.whatsapp.used == true &&
 											this.config.wasteTypes[i].whatsapp != -1 &&
 											this.config.wasteTypes[i].whatsappCollectionDateSend !=
 												celement.Abfuhrdatum &&
-											differenceInDays <= this.config.wasteTypes[i].whatsapp
+											celement.Resttage <= this.config.wasteTypes[i].whatsapp
 										) {
 											// prevent to send again a Whatsapp for this collection date
 											this.config.wasteTypes[i].whatsappCollectionDateSend = celement.Abfuhrdatum;
@@ -554,11 +559,11 @@ class Abfallkalender extends utils.Adapter {
 			native: {},
 			type: 'device',
 		}).then(async () => {
-			await this.createDetailledDataPointsAsync(channelName, deviceName, celement, differenceInDays);
+			await this.createDetailledDataPointsAsync(channelName, deviceName, celement);
 		});
 	}
 
-	async createDetailledDataPointsAsync(channelName, deviceName, celement, differenceInDays) {
+	async createDetailledDataPointsAsync(channelName, deviceName, celement) {
 		const path = deviceName == '' ? '' : celement.Datenpunkt;
 		const promise1 = await this.createDataPointAsync(channelName, deviceName, celement.Abfuhrdatum, path, 'Datum');
 		const promise2 = await this.createDataPointAsync(
@@ -585,9 +590,16 @@ class Abfallkalender extends utils.Adapter {
 		const promise5 = await this.createDataPointAsync(channelName, deviceName, celement.Monat, path, 'Monat');
 		const promise6 = await this.createDataPointAsync(channelName, deviceName, celement.Jahr, path, 'Jahr');
 		const promise7 = await this.createDataPointAsync(channelName, deviceName, celement.Tag, path, 'Tag');
-		const promise8 = await this.createDataPointAsync(channelName, deviceName, differenceInDays, path, 'Resttage');
-		return Promise.all([promise1, promise2, promise3, promise4, promise5, promise6, promise7, promise8]).then(
-			() => {
+		const promise8 = await this.createDataPointAsync(channelName, deviceName, celement.Resttage, path, 'Resttage');
+		const promise9 = await this.createDataPointAsync(channelName, deviceName, JSON.stringify(celement), path, 'JSON',true,false);
+		return Promise.all([promise1, promise2, promise3, promise4, promise5, promise6, promise7, promise8,promise9]).then(
+			async () => {
+				if (typeof celement.Blinken!='undefined'){
+					await this.createDataPointAsync(channelName, deviceName, celement.Blinken, path, 'Blinken');
+				}
+				if (typeof celement.Whatsapp!='undefined'){
+					await this.createDataPointAsync(channelName, deviceName, celement.Whatsapp, path, 'Whatsapp');
+				}
 				return true;
 			},
 		);
@@ -599,9 +611,9 @@ class Abfallkalender extends utils.Adapter {
 				(parentChannel == '' ? '' : parentChannel + '.') + (path == '' ? '' : path + '.') + dataPointName;
 			const ret = await this.setObjectAsync(dpName, {
 				common: {
-					name: this.getTranslation(dataPointName, true),
-					desc: this.getTranslation(dataPointName, false),
-					type: typeof val == 'string' ? 'string' : typeof val == 'boolean' ? 'boolean' : 'number',
+					name: dataPointName=='JSON'?'JSON':this.getTranslation(dataPointName, true),
+					desc: dataPointName=='JSON'?'JSON': this.getTranslation(dataPointName, false),
+					type: typeof val == 'string' || typeof val == 'object' ? 'string' : typeof val == 'boolean' ? 'boolean' : 'number',
 					role: 'state',
 					read: typeof read == 'undefined' ? true : read,
 					write: typeof write == 'undefined' ? true : write,
