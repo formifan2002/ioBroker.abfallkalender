@@ -1,4 +1,6 @@
 import React from 'react';
+import i18next from 'i18next';
+import { i18n as I18n } from '@iobroker/adapter-react-v5';
 import CardContent from '@mui/material/CardContent';
 import Checkbox from '@mui/material/Checkbox';
 import Card from '@mui/material/Card';
@@ -7,9 +9,9 @@ import Input from '@mui/material/Input';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { withStyles,withTheme } from '@mui/styles';
-import { I18n } from '@iobroker/adapter-react-v5';
 import { VisRxWidget } from '@iobroker/vis-2-widgets-react-dev';
-import { ReactComponent as TrashIcon } from './img/AbfalltonneMitText.svg';
+import { ReactComponent as TrashIcon } from './img/AbfallIconMitText.svg';
+import translations from './translations-i18next';
 
 const styles = () => ({
     root: {
@@ -43,7 +45,7 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
             visSet: 'abfallkalender',
             visSetLabel: 'vis_2_widgets_abfallkalender', // Widget set translated label (should be defined only in one widget of set)
             visSetColor: '#63C149',                // Color of widget set. it is enough to set color only in one widget of set
-            visName: I18n.t('vis_2_widgets_abfallkalender'), // Name of widget
+            visName: I18n.t('vis_2_widgets_abfallkalender_widgetname_icon'), // Name of widget
             visAttrs: [
                 {
                     name: 'common', // group name
@@ -73,7 +75,6 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                             hidden: true,
                             default: '',
                         },
-
                         {
                             name: 'wastetype',
                             label: 'vis_2_widgets_abfallkalender_wastetype',
@@ -99,13 +100,39 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                             default: '',
                         },
                         {
+                            name: 'icon',
+                            default: 'trash',
+                            label: 'vis_2_widgets_abfallkalender_icon',
+                            type: 'select',
+                            options: [
+                                {
+                                    value: 'trash',
+                                    label: 'vis_2_widgets_abfallkalender_icontrash',
+                                },
+                                {
+                                    value: 'yellowbag',
+                                    label: 'vis_2_widgets_abfallkalender_iconyellowbag',
+                                },
+                                {
+                                    value: 'christmastree',
+                                    label: 'vis_2_widgets_abfallkalender_iconchristmastree',
+                                },
+                                {
+                                    value: 'leaf',
+                                    label: 'vis_2_widgets_abfallkalender_iconleaf',
+                                },
+                            ],
+                        },
+                        {
                             name: 'trashcolor',
                             default: 'rgba(40,30,88,1)',
                             label: 'vis_2_widgets_abfallkalender_trashcolor',
                             type: 'color',
+                            hidden: 'data.icon !== "trash"',
                         },
                         {
                             name: 'trashcolorfactor',
+                            hidden: 'data.icon !== "trash"',
                             default: -0.3,
                             label: 'vis_2_widgets_abfallkalender_trashcolor_factor',
                             type: 'slider',
@@ -123,7 +150,7 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                                 field,
                                 data,
                                 onDataChange,
-                            ) => this.showWhatsapp(field,data,onDataChange),
+                            ) => this.showCheckbox(field,data,onDataChange),
                         },
                         {
                             name: 'whatsapplogohidden',     // hide whatsapp selection if whatsapp is not activated for the selected waste
@@ -141,7 +168,7 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                                 field,
                                 data,
                                 onDataChange,
-                            ) => this.showBlink(field,data,onDataChange),
+                            ) => this.showCheckbox(field,data,onDataChange),
                         },
                         {
                             name: 'blinkhidden',     // hide blink checkbox if blink is not activated for the selected waste
@@ -160,10 +187,22 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                             step: 1,
                         },
                         {
+                            name: 'showdate',
+                            default: true,
+                            label: 'vis_2_widgets_abfallkalender_showdate',
+                            type: 'custom',
+                            component: (
+                                field,
+                                data,
+                                onDataChange,
+                            ) => this.showCheckbox(field,data,onDataChange),
+                        },
+                        {
                             name: 'dateformat',
                             default: 'short',
                             label: 'vis_2_widgets_abfallkalender_dateformat',
                             type: 'select',
+                            hidden: 'data.showdate === false',
                             options: [
                                 {
                                     value: 'short',
@@ -176,10 +215,22 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                             ],
                         },
                         {
+                            name: 'showdays',
+                            default: true,
+                            label: 'vis_2_widgets_abfallkalender_showdays',
+                            type: 'custom',
+                            component: (
+                                field,
+                                data,
+                                onDataChange,
+                            ) => this.showCheckbox(field,data,onDataChange),
+                        },
+                        {
                             name: 'fontfamily',
                             label: 'vis_2_widgets_abfallkalender_fontfamily',
                             default: 'Arial',
                             type: 'custom',
+                            hidden: 'data.showdate === false && data.showdays === false',
                             component: (
                                 field,
                                 data,
@@ -188,11 +239,12 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                         },
                         {
                             name: 'fontsize',
-                            default: 12,
+                            default: 20,
                             label: 'vis_2_widgets_abfallkalender_fontsize',
                             type: 'slider',
+                            hidden: 'data.showdate === false && data.showdays === false',
                             min: 6,
-                            max: 48,
+                            max: 45,
                             step: 1,
                         },
                         {
@@ -211,8 +263,9 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
     }
 
     changeData(newData) {
-        const { view,views,selectedWidgets } = this.props;
-        selectedWidgets.forEach(widgetId => {
+        const { id,view,views,selectedWidgets } = this.props;
+        const changeWidgets = selectedWidgets !== null ? selectedWidgets : [id];
+        changeWidgets.forEach(widgetId => {
             Object.keys(newData)
                 .forEach(attr => {
                     views[view].widgets[widgetId].data[attr] = newData[attr];
@@ -231,33 +284,36 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
         //                        then this.state.rxData.type will have state value of `system.adapter.admin.0.alive`
         // 3. this.state.rxStyle - contains all widget styles with replaced bindings. E.g. if this.state.styles.width is `{javascript.0.width}px`,
         //                        then this.state.rxData.type will have state value of `javascript.0.width` + 'px
-        if (this.initial) {
+        if (this.initial === true && this.oidChange !== true) {
             return;
         }
         const { wastetype,instancename } = this.state.data;
-        let renderTrash = true;
+        let renderIcon = true;
         if (typeof instancename !== 'undefined' && this.instancenameLocal !== instancename) {
             this.instancenameLocal = instancename;
             await this.getWasteTypes(instancename);
-            renderTrash = false;
+            renderIcon = false;
         }
         if (this.oidChange === true || (
             typeof wastetype !== 'undefined' && this.wastetypeLocal !== wastetype)) {
             this.wastetypeLocal = wastetype;
             await this.getJsonObject(wastetype,this.instancenameLocal);
             await this.updateWhatsappAndBlink();
-            renderTrash = true;
+            renderIcon = true;
             if (this.oidChange === true) { this.oidChange = false; }
         }
-        if (renderTrash === true) {
-            await this.renderTrash();
+        if (renderIcon === true) {
+            await this.renderIcon();
         }
     }
 
     componentDidMount() {
         super.componentDidMount();
-
         // Update data
+        i18next.init(translations)
+            .then(() => {
+                i18next.changeLanguage(this.props.systemConfig.common.language);
+            });
         this.getInstances()
             .then(instance => {
                 this.getWasteTypes(instance)
@@ -266,7 +322,7 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                             .then(() => {
                                 this.updateWhatsappAndBlink()
                                     .then(() => {
-                                        this.renderTrash()
+                                        this.renderIcon()
                                             .then(() => {
                                                 this.initial = false;
                                             });
@@ -300,29 +356,47 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
         this.propertiesUpdate();
     }
 
-    async renderTrash() {
-        const { blink,blinkinterval,fontfamily,fontsize,whatsapplogo,dateformat,trashcolor,trashcolorfactor } = this.state.data;
-        let trashColorOuter = '';
+    async renderIcon() {
+        const { trashcolor,trashcolorfactor,fontfamily,fontsize,whatsapplogo,dateformat,blink,blinkinterval,showdate,showdays } = this.state.data;
         this.refTrashIcon.current.childNodes.forEach(element => {
-            if (element.id === 'tonne') {
-                // color of the dustbin
-                if (trashcolor === '') {
-                    this.state.data.trashcolor = element.attributes.fill.nodeValue;
-                    trashColorOuter = element.attributes.fill.nodeValue;
-                } else {
-                    element.attributes.fill.nodeValue = this.state.data.trashcolor;
-                    trashColorOuter = this.state.data.trashcolor;
-                }
+            if (element.id === 'Abfalltonne') {
+                // show or hide the dustbin
+                element.attributes.style.value = `visibility: ${this.state.data.icon === 'trash' ? 'visible' : 'hidden'};`;
+                let trashColorOuter = '';
+                element.childNodes.forEach(child => {
+                    if (child.id === 'tonne') {
+                        // color of the dustbin
+                        if (trashcolor === '') {
+                            this.state.data.trashcolor = child.attributes.fill.nodeValue;
+                            trashColorOuter = child.attributes.fill.nodeValue;
+                        } else {
+                            child.attributes.fill.nodeValue = this.state.data.trashcolor;
+                            trashColorOuter = this.state.data.trashcolor;
+                        }
+                    }
+                    if (child.id === 'tonne-innen' && typeof trashColorOuter !== 'undefined') {
+                        // inner color of the dustbin
+                        const colors = trashColorOuter.replace('rgba(','').replace(')','').split(',');
+                        const factor = 1 + trashcolorfactor;
+                        const color0 = Math.round(parseInt(colors[0]) * factor);
+                        const color1 = Math.round(parseInt(colors[1]) * factor);
+                        const color2 = Math.round(parseInt(colors[2]) * factor);
+                        const newColor = `rgba(${color0},${color1},${color2},1)`;
+                        child.attributes.fill.nodeValue = newColor;
+                    }
+                });
             }
-            if (element.id === 'tonne-innen' && typeof trashColorOuter !== 'undefined') {
-                // inner color of the dustbin
-                const colors = trashColorOuter.replace('rgba(','').replace(')','').split(',');
-                const factor = 1 + trashcolorfactor;
-                const color0 = Math.round(parseInt(colors[0]) * factor);
-                const color1 = Math.round(parseInt(colors[1]) * factor);
-                const color2 = Math.round(parseInt(colors[2]) * factor);
-                const newColor = `rgba(${color0},${color1},${color2},1)`;
-                element.attributes.fill.nodeValue = newColor;
+            if (element.id === 'GelberSack') {
+                // show or hide the yellow bag
+                element.attributes.style.value = `visibility: ${this.state.data.icon === 'yellowbag' ? 'visible' : 'hidden'};`;
+            }
+            if (element.id === 'Blatt') {
+                // show or hide the yellow bag
+                element.attributes.style.value = `visibility: ${this.state.data.icon === 'leaf' ? 'visible' : 'hidden'};`;
+            }
+            if (element.id === 'Weihnachtsbaum') {
+                // show or hide the yellow bag
+                element.attributes.style.value = `visibility: ${this.state.data.icon === 'christmastree' ? 'visible' : 'hidden'};`;
             }
             if (element.id === 'whatsapp') {
                 // show or hide the Whatsapp logo
@@ -336,6 +410,7 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                 element.innerHTML = new Date(this.JsonObject.AbfuhrtagJson).toLocaleDateString(this.props.lang,options);
                 element.style.fontSize = `${fontsize}px`;
                 element.style.fontFamily = fontfamily;
+                element.style.visibility = showdate === true ? 'visible' : 'hidden';
                 /* "Abfuhrdatum": "08.04.2023",
                     "AbfuhrTagLang": "Samstag",
                     "AbfuhrTagKurz": "Sa",
@@ -344,9 +419,10 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                 */
             }
             if (element.id.indexOf('AnzahlTage') !== -1) {
-                element.innerHTML = this.JsonObject.Resttage.toString();
+                element.innerHTML = i18next.t('vis_2_widgets_abfallkalender_dayCollection',{ count: this.JsonObject.Resttage });
                 element.style.fontSize = fontsize;
                 element.style.fontFamily = fontfamily;
+                element.style.visibility = showdays === true ? 'visible' : 'hidden';
             }
         });
         if (blink === true) {
@@ -365,7 +441,6 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
         } else {
             this.refTrashIcon.current.getAnimations().map(animation => animation.cancel());
         }
-        return true;
     }
 
     async getJsonObject(selwastetype,instance) {
@@ -389,14 +464,14 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
             wastetypes[i] = JSON.parse(wastetypes[i].replaceAll(/'/g,'"'));
         }
         const filtered = wastetypes.filter(wastetype => wastetype.value === this.state.data.wastetype);
-        const whatsappUsed = parseInt(filtered.whatsapp) > -1;
+        const whatsappUsed = filtered.length > 0 ? parseInt(filtered[0].whatsapp) > -1 : false;
         if (this.state.editMode === true) {
             this.changeData({ whatsapplogohidden: whatsappUsed === true ? 'false' : 'true' });
         }
         if (whatsappUsed === false) {
             this.changeData({ whatsapplogo: false });
         }
-        const blinkUsed = parseInt(filtered.blink) > -1;
+        const blinkUsed = filtered.length > 0 ? parseInt(filtered[0].blink) > -1 : false;
         if (this.state.editMode === true) {
             this.changeData({ blinkhidden: blinkUsed === true ? 'false' : 'true' });
         }
@@ -449,7 +524,7 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                     onDataChange({ [field.name]: event.target.value });
                 }}
                 input={<Input name="instances" />}
-                label={I18n.t('vis_2_widgets_abfallkalender_instance')}
+                label={i18next.t('vis_2_widgets_abfallkalender_instance')}
                 style={{ fontSize: '12.8px' }}
             >
                 {menuitems.map(item => (
@@ -486,7 +561,7 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                     onDataChange({ [field.name]: event.target.value });
                 }}
                 input={<Input name="fontfamily" />}
-                label={I18n.t('vis_2_widgets_abfallkalender_fontfamily')}
+                label={i18next.t('vis_2_widgets_abfallkalender_fontfamily')}
                 style={{ fontSize: '12.8px' }}
             >
                 {menuitems.map(item => (
@@ -512,7 +587,7 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                     onDataChange({ [field.name]: event.target.value });
                 }}
                 input={<Input name="wastetypes" />}
-                label={I18n.t('vis_2_widgets_abfallkalender_wastetype')}
+                label={i18next.t('vis_2_widgets_abfallkalender_wastetype')}
                 style={{ fontSize: '12.8px' }}
             >
                 {menuitems.map(item => (
@@ -524,19 +599,7 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
         </FormControl>;
     }
 
-    static showWhatsapp(field,data,onDataChange) {
-        return <FormControl>
-            <Checkbox
-                checked={data[field.name]}
-                onChange={event => {
-                    onDataChange({ [field.name]: event.target.checked });
-                }}
-                color="primary"
-            />
-        </FormControl>;
-    }
-
-    static showBlink(field,data,onDataChange) {
+    static showCheckbox(field,data,onDataChange) {
         return <FormControl>
             <Checkbox
                 checked={data[field.name]}
@@ -611,5 +674,4 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
         </Card>;
     }
 }
-
 export default withStyles(styles)(withTheme(Abfallkalender));

@@ -1,5 +1,5 @@
 {
-    "vis_2_widgets_abfallkalender": "Календарь отходов",
+    "vis_2_widgets_abfallkalender": "Мусорный календарь",
     "vis_2_widgets_abfallkalender_oid": "Идентификатор объекта",
     "vis_2_widgets_abfallkalender_whatsapplogo": "Логотип WhatsApp",
     "vis_2_widgets_abfallkalender_blink": "мигать",
@@ -7,11 +7,22 @@
     "vis_2_widgets_abfallkalender_dateformat": "Формат даты",
     "vis_2_widgets_abfallkalender_dateformat_short": "короткий",
     "vis_2_widgets_abfallkalender_dateformat_long": "длинный",
-    "vis_2_widgets_abfallkalender_trashcolor": "Цвет мусорного ведра",
+    "vis_2_widgets_abfallkalender_trashcolor": "Мусорный бак цвет",
     "vis_2_widgets_abfallkalender_trashcolor_factor": "Фактор цвета салона",
     "vis_2_widgets_abfallkalender_instance": "Пример",
-    "vis_2_widgets_abfallkalender_wastetype": "Тип отходов",
+    "vis_2_widgets_abfallkalender_wastetype": "Тип мусора",
     "vis_2_widgets_abfallkalender_blinkinterval": "Интервал мигания",
     "vis_2_widgets_abfallkalender_fontfamily": "Тип шрифта",
-    "vis_2_widgets_abfallkalender_fontsize": "Размер шрифта"
+    "vis_2_widgets_abfallkalender_fontsize": "Размер шрифта",
+    "vis_2_widgets_abfallkalender_icon": "Икона",
+    "vis_2_widgets_abfallkalender_icontrash": "Мусорное ведро",
+    "vis_2_widgets_abfallkalender_iconyellowbag": "Желтая сумка",
+    "vis_2_widgets_abfallkalender_widgetname_icon": "Значок мусора",
+    "vis_2_widgets_abfallkalender_iconchristmastree": "Рождественская елка",
+    "vis_2_widgets_abfallkalender_iconleaf": "Лист",
+    "vis_2_widgets_abfallkalender_showdate": "Показать дату сбора",
+    "vis_2_widgets_abfallkalender_showdays": "Показать оставшиеся дни",
+    "vis_2_widgets_abfallkalender_dayCollection_zero": "сегодня",
+    "vis_2_widgets_abfallkalender_dayCollection_one": "завтра",
+    "vis_2_widgets_abfallkalender_dayCollection_other": "через {{count}} дней"
 }

@@ -1,5 +1,5 @@
 {
-    "vis_2_widgets_abfallkalender": "Календар відходів",
+    "vis_2_widgets_abfallkalender": "Сміттєвий календар",
     "vis_2_widgets_abfallkalender_oid": "ID об'єкта",
     "vis_2_widgets_abfallkalender_whatsapplogo": "Логотип Whatsapp",
     "vis_2_widgets_abfallkalender_blink": "Поморгайте",
@@ -10,8 +10,19 @@
     "vis_2_widgets_abfallkalender_trashcolor": "Колір смітника",
     "vis_2_widgets_abfallkalender_trashcolor_factor": "Врахуйте колір інтер'єру",
     "vis_2_widgets_abfallkalender_instance": "Екземпляр",
-    "vis_2_widgets_abfallkalender_wastetype": "Тип відходів",
+    "vis_2_widgets_abfallkalender_wastetype": "Тип сміття",
     "vis_2_widgets_abfallkalender_blinkinterval": "Інтервал миготіння",
     "vis_2_widgets_abfallkalender_fontfamily": "Тип шрифту",
-    "vis_2_widgets_abfallkalender_fontsize": "Розмір шрифту"
+    "vis_2_widgets_abfallkalender_fontsize": "Розмір шрифту",
+    "vis_2_widgets_abfallkalender_icon": "значок",
+    "vis_2_widgets_abfallkalender_icontrash": "Смітник",
+    "vis_2_widgets_abfallkalender_iconyellowbag": "Жовта сумка",
+    "vis_2_widgets_abfallkalender_widgetname_icon": "Значок сміття",
+    "vis_2_widgets_abfallkalender_iconchristmastree": "Різдвяна ялинка",
+    "vis_2_widgets_abfallkalender_iconleaf": "листок",
+    "vis_2_widgets_abfallkalender_showdate": "Показати дату збору",
+    "vis_2_widgets_abfallkalender_showdays": "Показати дні, що залишилися",
+    "vis_2_widgets_abfallkalender_dayCollection_zero": "сьогодні",
+    "vis_2_widgets_abfallkalender_dayCollection_one": "завтра",
+    "vis_2_widgets_abfallkalender_dayCollection_other": "через {{count}} днів"
 }

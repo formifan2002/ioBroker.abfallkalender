@@ -1,5 +1,5 @@
 {
-    "vis_2_widgets_abfallkalender": "calendário de resíduos",
+    "vis_2_widgets_abfallkalender": "calendário de lixo",
     "vis_2_widgets_abfallkalender_oid": "ID do objeto",
     "vis_2_widgets_abfallkalender_whatsapplogo": "logotipo do whatsapp",
     "vis_2_widgets_abfallkalender_blink": "Piscar",
@@ -7,11 +7,22 @@
     "vis_2_widgets_abfallkalender_dateformat": "Formato de data",
     "vis_2_widgets_abfallkalender_dateformat_short": "curto",
     "vis_2_widgets_abfallkalender_dateformat_long": "longo",
-    "vis_2_widgets_abfallkalender_trashcolor": "Cor da lixeira",
+    "vis_2_widgets_abfallkalender_trashcolor": "lata de lixo colorida",
     "vis_2_widgets_abfallkalender_trashcolor_factor": "fator de cor interior",
     "vis_2_widgets_abfallkalender_instance": "Instância",
-    "vis_2_widgets_abfallkalender_wastetype": "tipo de lixo",
+    "vis_2_widgets_abfallkalender_wastetype": "Tipo de lixo",
     "vis_2_widgets_abfallkalender_blinkinterval": "Intervalo intermitente",
     "vis_2_widgets_abfallkalender_fontfamily": "Tipo de fonte",
-    "vis_2_widgets_abfallkalender_fontsize": "Tamanho da fonte"
+    "vis_2_widgets_abfallkalender_fontsize": "Tamanho da fonte",
+    "vis_2_widgets_abfallkalender_icon": "Ícone",
+    "vis_2_widgets_abfallkalender_icontrash": "Lata de lixo",
+    "vis_2_widgets_abfallkalender_iconyellowbag": "bolsa amarela",
+    "vis_2_widgets_abfallkalender_widgetname_icon": "ícone de lixo",
+    "vis_2_widgets_abfallkalender_iconchristmastree": "árvore de Natal",
+    "vis_2_widgets_abfallkalender_iconleaf": "Folha",
+    "vis_2_widgets_abfallkalender_showdate": "Mostrar data de coleta",
+    "vis_2_widgets_abfallkalender_showdays": "Mostrar dias restantes",
+    "vis_2_widgets_abfallkalender_dayCollection_zero": "hoje",
+    "vis_2_widgets_abfallkalender_dayCollection_one": "amanhã",
+    "vis_2_widgets_abfallkalender_dayCollection_other": "em {{count}} dias"
 }

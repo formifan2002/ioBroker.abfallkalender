@@ -1,5 +1,5 @@
 {
-    "vis_2_widgets_abfallkalender": "废日历",
+    "vis_2_widgets_abfallkalender": "垃圾挂历",
     "vis_2_widgets_abfallkalender_oid": "对象编号",
     "vis_2_widgets_abfallkalender_whatsapplogo": "Whatsapp 徽标",
     "vis_2_widgets_abfallkalender_blink": "眨",
@@ -10,8 +10,19 @@
     "vis_2_widgets_abfallkalender_trashcolor": "垃圾桶颜色",
     "vis_2_widgets_abfallkalender_trashcolor_factor": "因素内饰颜色",
     "vis_2_widgets_abfallkalender_instance": "实例",
-    "vis_2_widgets_abfallkalender_wastetype": "废物类型",
+    "vis_2_widgets_abfallkalender_wastetype": "垃圾类型",
     "vis_2_widgets_abfallkalender_blinkinterval": "闪烁间隔",
     "vis_2_widgets_abfallkalender_fontfamily": "字体类型",
-    "vis_2_widgets_abfallkalender_fontsize": "字体大小"
+    "vis_2_widgets_abfallkalender_fontsize": "字体大小",
+    "vis_2_widgets_abfallkalender_icon": "图标",
+    "vis_2_widgets_abfallkalender_icontrash": "垃圾桶",
+    "vis_2_widgets_abfallkalender_iconyellowbag": "黄色包",
+    "vis_2_widgets_abfallkalender_widgetname_icon": "垃圾图标",
+    "vis_2_widgets_abfallkalender_iconchristmastree": "圣诞树",
+    "vis_2_widgets_abfallkalender_iconleaf": "叶子",
+    "vis_2_widgets_abfallkalender_showdate": "显示收集日期",
+    "vis_2_widgets_abfallkalender_showdays": "显示剩余天数",
+    "vis_2_widgets_abfallkalender_dayCollection_zero": "今天",
+    "vis_2_widgets_abfallkalender_dayCollection_one": "明天",
+    "vis_2_widgets_abfallkalender_dayCollection_other": "{{count}} 天后"
 }

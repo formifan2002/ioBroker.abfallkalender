@@ -1,5 +1,5 @@
 {
-  "vis_2_widgets_abfallkalender": "Waste calendar",
+  "vis_2_widgets_abfallkalender": "Garbage calendar",
   "vis_2_widgets_abfallkalender_oid": "Object ID",
   "vis_2_widgets_abfallkalender_whatsapplogo": "Whatsapp logo",
   "vis_2_widgets_abfallkalender_blink": "Blink",
@@ -7,11 +7,22 @@
   "vis_2_widgets_abfallkalender_dateformat": "Date format",
   "vis_2_widgets_abfallkalender_dateformat_short": "short",
   "vis_2_widgets_abfallkalender_dateformat_long": "long",
-  "vis_2_widgets_abfallkalender_trashcolor": "Waste bin color",
+  "vis_2_widgets_abfallkalender_trashcolor": "Garbage can color",
   "vis_2_widgets_abfallkalender_trashcolor_factor": "Factor interior colour",
   "vis_2_widgets_abfallkalender_instance": "Instance",
-  "vis_2_widgets_abfallkalender_wastetype": "Waste type",
+  "vis_2_widgets_abfallkalender_wastetype": "Garbage type",
   "vis_2_widgets_abfallkalender_blinkinterval": "Flashing interval",
   "vis_2_widgets_abfallkalender_fontfamily": "Font type",
-  "vis_2_widgets_abfallkalender_fontsize": "Font size"
+  "vis_2_widgets_abfallkalender_fontsize": "Font size",
+  "vis_2_widgets_abfallkalender_icon": "Icon",
+  "vis_2_widgets_abfallkalender_icontrash": "Garbage can",
+  "vis_2_widgets_abfallkalender_iconyellowbag": "Yellow bag",
+  "vis_2_widgets_abfallkalender_widgetname_icon": "Garbage icon",
+  "vis_2_widgets_abfallkalender_iconchristmastree": "Christmas tree",
+  "vis_2_widgets_abfallkalender_iconleaf": "Leaf",
+  "vis_2_widgets_abfallkalender_showdate": "Show collection date",
+  "vis_2_widgets_abfallkalender_showdays": "Show days left",
+  "vis_2_widgets_abfallkalender_dayCollection_zero": "today",
+  "vis_2_widgets_abfallkalender_dayCollection_one": "tomorrow",
+  "vis_2_widgets_abfallkalender_dayCollection_other": "in {{count}} days"
 }

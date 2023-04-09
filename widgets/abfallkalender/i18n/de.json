@@ -13,5 +13,16 @@
     "vis_2_widgets_abfallkalender_wastetype": "Abfallart",
     "vis_2_widgets_abfallkalender_blinkinterval": "Blinkintervall",
     "vis_2_widgets_abfallkalender_fontfamily": "Schriftart",
-    "vis_2_widgets_abfallkalender_fontsize": "Schriftgröße"
+    "vis_2_widgets_abfallkalender_fontsize": "Schriftgröße",
+    "vis_2_widgets_abfallkalender_icon": "Symbol",
+    "vis_2_widgets_abfallkalender_icontrash": "Mülltonne",
+    "vis_2_widgets_abfallkalender_iconyellowbag": "Gelber Sack",
+    "vis_2_widgets_abfallkalender_widgetname_icon": "Müll-Symbol",
+    "vis_2_widgets_abfallkalender_iconchristmastree": "Weihnachtsbaum",
+    "vis_2_widgets_abfallkalender_iconleaf": "Blatt",
+    "vis_2_widgets_abfallkalender_showdate": "Abholdatum anzeigen",
+    "vis_2_widgets_abfallkalender_showdays": "Verbleibende Tage anzeigen",
+    "vis_2_widgets_abfallkalender_dayCollection_zero": "heute",
+    "vis_2_widgets_abfallkalender_dayCollection_one": "morgen",
+    "vis_2_widgets_abfallkalender_dayCollection_other": "in {{count}} Tagen"
 }

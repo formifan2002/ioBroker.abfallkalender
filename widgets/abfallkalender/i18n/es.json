@@ -1,5 +1,5 @@
 {
-    "vis_2_widgets_abfallkalender": "Calendario de residuos",
+    "vis_2_widgets_abfallkalender": "calendario de basura",
     "vis_2_widgets_abfallkalender_oid": "ID de objeto",
     "vis_2_widgets_abfallkalender_whatsapplogo": "logotipo de Whatsapp",
     "vis_2_widgets_abfallkalender_blink": "Parpadear",
@@ -7,11 +7,22 @@
     "vis_2_widgets_abfallkalender_dateformat": "Formato de fecha",
     "vis_2_widgets_abfallkalender_dateformat_short": "corto",
     "vis_2_widgets_abfallkalender_dateformat_long": "largo",
-    "vis_2_widgets_abfallkalender_trashcolor": "Color del cubo de basura",
+    "vis_2_widgets_abfallkalender_trashcolor": "Bote de basura de color",
     "vis_2_widgets_abfallkalender_trashcolor_factor": "factor color interior",
     "vis_2_widgets_abfallkalender_instance": "Instancia",
-    "vis_2_widgets_abfallkalender_wastetype": "Tipo de residuo",
+    "vis_2_widgets_abfallkalender_wastetype": "tipo de basura",
     "vis_2_widgets_abfallkalender_blinkinterval": "Intervalo de parpadeo",
     "vis_2_widgets_abfallkalender_fontfamily": "Tipo de fuente",
-    "vis_2_widgets_abfallkalender_fontsize": "Tamaño de fuente"
+    "vis_2_widgets_abfallkalender_fontsize": "Tamaño de fuente",
+    "vis_2_widgets_abfallkalender_icon": "Icono",
+    "vis_2_widgets_abfallkalender_icontrash": "Basura",
+    "vis_2_widgets_abfallkalender_iconyellowbag": "Bolsa amarilla",
+    "vis_2_widgets_abfallkalender_widgetname_icon": "icono de basura",
+    "vis_2_widgets_abfallkalender_iconchristmastree": "árbol de Navidad",
+    "vis_2_widgets_abfallkalender_iconleaf": "Hoja",
+    "vis_2_widgets_abfallkalender_showdate": "Mostrar fecha de recogida",
+    "vis_2_widgets_abfallkalender_showdays": "Mostrar días restantes",
+    "vis_2_widgets_abfallkalender_dayCollection_zero": "hoy",
+    "vis_2_widgets_abfallkalender_dayCollection_one": "mañana",
+    "vis_2_widgets_abfallkalender_dayCollection_other": "en {{count}} días"
 }

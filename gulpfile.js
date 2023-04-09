@@ -181,7 +181,7 @@ gulp.task('widget-4-copy', () => Promise.all([
     gulp.src([`${SRC}build/static/js/main*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
     gulp.src([`${SRC}build/static/js/src_bootstrap*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
     gulp.src([`${SRC}build/static/js/src_*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/js`)),
-    gulp.src([`${SRC}build/static/media/AbfalltonneMitText*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/media`)),
+    gulp.src([`${SRC}build/static/media/AbfallIconMitText*.*`]).pipe(gulp.dest(`widgets/${adapterName}/static/media`)),
     gulp.src([`${SRC}src/i18n/*.json`]).pipe(gulp.dest(`widgets/${adapterName}/i18n`))
 ]));
 
