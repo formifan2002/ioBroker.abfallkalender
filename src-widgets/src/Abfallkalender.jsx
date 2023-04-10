@@ -425,7 +425,7 @@ class Abfallkalender extends (window.visRxWidget || VisRxWidget) {
                 element.style.visibility = showdays === true ? 'visible' : 'hidden';
             }
         });
-        if (blink === true) {
+        if (blink === true && this.JsonObject.Blinken === true) {
             const blinking = [
                 { opacity: 0 },
                 { opacity: 1 },

@@ -216,6 +216,9 @@ class Abfallkalender extends utils.Adapter {
 				typeof street == 'undefined' ? this.config.street : street,
 				typeof houseNumber == 'undefined' ? this.config.houseNumber : houseNumber,
 				typeof wasteTypes == 'undefined' ? this.config.wasteTypes : wasteTypes,
+				this.getTranslatedWeekdays(),
+				this.getTranslatedMonths(),
+				systemLanguage,
 			)
 			.then((response) => {
 				if (response.error == '') {
@@ -669,6 +672,41 @@ class Abfallkalender extends utils.Adapter {
 					: i18n[languages[i]][dpSearch] + (typeof additionalText == 'undefined' ? '' : additionalText);
 		}
 		return obj;
+	}
+
+	getTranslatedWeekdays() {
+		/* tranforms all language entries for this datapoint name into one object
+			translation file "i18n.json" is saved in directory \lib
+		*/
+		return [
+			i18n[systemLanguage]["Sunday"],
+			i18n[systemLanguage]["Monday"],
+			i18n[systemLanguage]["Tuesday"],
+			i18n[systemLanguage]["Wednesday"],
+			i18n[systemLanguage]["Thursday"],
+			i18n[systemLanguage]["Friday"],
+			i18n[systemLanguage]["Saturday"]
+		]
+	}
+
+	getTranslatedMonths() {
+		/* tranforms all language entries for this datapoint name into one object
+			translation file "i18n.json" is saved in directory \lib
+		*/
+		return [
+			i18n[systemLanguage]["January"],
+			i18n[systemLanguage]["February"],
+			i18n[systemLanguage]["March"],
+			i18n[systemLanguage]["April"],
+			i18n[systemLanguage]["May"],
+			i18n[systemLanguage]["June"],
+			i18n[systemLanguage]["July"],
+			i18n[systemLanguage]["August"],
+			i18n[systemLanguage]["September"],
+			i18n[systemLanguage]["October"],
+			i18n[systemLanguage]["November"],
+			i18n[systemLanguage]["December"]
+		]
 	}
 }
 
