@@ -1,5 +1,5 @@
 {
-    "vis_2_widgets_abfallkalender": "Abfallkalender",
+    "vis_2_widgets_abfallkalender": "Müllkalender",
     "vis_2_widgets_abfallkalender_oid": "Objekt ID",
     "vis_2_widgets_abfallkalender_whatsapplogo": "WhatsApp-Logo",
     "vis_2_widgets_abfallkalender_blink": "Blinken",
@@ -7,10 +7,10 @@
     "vis_2_widgets_abfallkalender_dateformat": "Datumsformat",
     "vis_2_widgets_abfallkalender_dateformat_short": "kurz",
     "vis_2_widgets_abfallkalender_dateformat_long": "lang",
-    "vis_2_widgets_abfallkalender_trashcolor": "Farbe der Mülltonne",
+    "vis_2_widgets_abfallkalender_trashcolor": "Farbe Mülltonne",
     "vis_2_widgets_abfallkalender_trashcolor_factor": "Faktor Innenfarbe",
     "vis_2_widgets_abfallkalender_instance": "Instanz",
-    "vis_2_widgets_abfallkalender_wastetype": "Abfallart",
+    "vis_2_widgets_abfallkalender_wastetype": "Müllart",
     "vis_2_widgets_abfallkalender_blinkinterval": "Blinkintervall",
     "vis_2_widgets_abfallkalender_fontfamily": "Schriftart",
     "vis_2_widgets_abfallkalender_fontsize": "Schriftgröße",
@@ -24,5 +24,12 @@
     "vis_2_widgets_abfallkalender_showdays": "Verbleibende Tage anzeigen",
     "vis_2_widgets_abfallkalender_dayCollection_zero": "heute",
     "vis_2_widgets_abfallkalender_dayCollection_one": "morgen",
-    "vis_2_widgets_abfallkalender_dayCollection_other": "in {{count}} Tagen"
+    "vis_2_widgets_abfallkalender_dayCollection_other": "in {{count}} Tagen",
+    "vis_2_widgets_abfallkalender_widgetname_table": "Müllkalender",
+    "vis_2_widgets_abfallkalender_showheader": "Kopfzeile anzeigen",
+    "vis_2_widgets_abfallkalender_dayformat": "Tagesformat",
+    "vis_2_widgets_abfallkalender_fontsize_header": "Überschrift Schriftgröße",
+    "vis_2_widgets_abfallkalender_fontsize_body": "Zeilen Schriftgröße",
+    "vis_2_widgets_abfallkalender_table_size": "Inhaltsgröße",
+    "vis_2_widgets_abfallkalender_fontsize_month": "Schriftgröße Monate"
 }

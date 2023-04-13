@@ -4,7 +4,8 @@ import WidgetDemoApp from '@iobroker/vis-2-widgets-react-dev/widgetDemoApp';
 import { i18n as I18n } from '@iobroker/adapter-react-v5';
 import { withStyles } from '@mui/styles';
 import translations from './translations';
-import Abfallkalender from './Abfallkalender';
+import AbfallIcon from './AbfallIcon';
+import AbfallTable from './AbfallTable';
 
 const styles = theme => ({
     app: {
@@ -35,12 +36,13 @@ class App extends WidgetDemoApp {
 
     renderWidget() {
         return <div className={this.props.classes.app}>
-            <Abfallkalender
+            <AbfallIcon
                 style={{
                     width: 560,
                     height: 530,
                 }}
             />
+            <AbfallTable />
         </div>;
     }
 }

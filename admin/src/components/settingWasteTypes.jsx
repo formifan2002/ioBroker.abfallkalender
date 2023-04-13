@@ -47,6 +47,15 @@ function SettingsWasteTypes(props) {
 	const [fieldname, setFieldName] = useState();
 	const [fieldtext, setFieldText] = useState();
 
+
+	useEffect(() => {
+		if (native.wasteCalendar.length > 0) {
+			handleChangeWasteCalendar();
+		}else{
+			handleChangeWasteTypes(false);
+		}
+	}, []);
+
 	useEffect(() => {
 		//		if (tabChange == false && initializing == false && typeof native.wasteTypes != 'undefined') {
 		if (typeof native.wasteTypes != 'undefined') {
@@ -80,8 +89,8 @@ function SettingsWasteTypes(props) {
 				street: native.street,
 				houseNumber: native.houseNumber,
 				wasteTypes: native.wasteTypes,
-			}).then((wasteCalendar) => {
-				updateNativeValue('wasteCalendar', wasteCalendar);
+			}).then((newWasteCalendar) => {
+				updateNativeValue('wasteCalendar', newWasteCalendar);
 			});
 		} else {
 			if (update == false && native.wasteCalendar.length > 0) {
@@ -95,8 +104,12 @@ function SettingsWasteTypes(props) {
 
 	useEffect(() => {
 		//		if (state.changed && initializing == false && typeof native.wasteCalendar != 'undefined') {
-		if (state.changed && typeof native.wasteCalendar != 'undefined') {
-			handleChangeWasteCalendar();
+		if (typeof native.wasteCalendar != 'undefined') {
+			if (native.wasteTypes.filter((element) => element.used == true).length > 0 && native.wasteCalendar.length == 0){
+				handleChangeWasteTypes(false);
+			}else{
+				handleChangeWasteCalendar();
+			}	
 		}
 	}, [native.wasteCalendar]);
 

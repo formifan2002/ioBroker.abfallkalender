@@ -24,5 +24,12 @@
     "vis_2_widgets_abfallkalender_showdays": "Показать оставшиеся дни",
     "vis_2_widgets_abfallkalender_dayCollection_zero": "сегодня",
     "vis_2_widgets_abfallkalender_dayCollection_one": "завтра",
-    "vis_2_widgets_abfallkalender_dayCollection_other": "через {{count}} дней"
+    "vis_2_widgets_abfallkalender_dayCollection_other": "через {{count}} дней",
+    "vis_2_widgets_abfallkalender_widgetname_table": "Мусорный календарь",
+    "vis_2_widgets_abfallkalender_showheader": "Показать заголовок",
+    "vis_2_widgets_abfallkalender_dayformat": "Формат дня",
+    "vis_2_widgets_abfallkalender_fontsize_header": "Заголовок размера шрифта",
+    "vis_2_widgets_abfallkalender_fontsize_body": "Размер шрифта строк",
+    "vis_2_widgets_abfallkalender_table_size": "Размер содержимого",
+    "vis_2_widgets_abfallkalender_fontsize_month": "Размер шрифта месяца"
 }

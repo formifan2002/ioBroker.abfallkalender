@@ -49,9 +49,7 @@ export default function SettingsDetails(props) {
 
 	async function init(props) {
 		await i18n.changeLanguage(props.this._systemConfig.language);
-		if (props.native.whatsapp.used) {
-			await initWhatsapp(props);
-		}
+		await initWhatsapp(props);
 		initWhatsappPhoneNumbers();
 	}
 	async function initWhatsappPhoneNumbers() {
@@ -160,6 +158,7 @@ export default function SettingsDetails(props) {
 					input={<OutlinedInput label={i18n.t('Use phone number')} />}
 					renderValue={(selected) => selectedToString(selected)}
 					MenuProps={MenuProps}
+					style={{ width: '100%'}}
 				>
 					{props.native.whatsapp.instances.map((item, index) => (
 						<MenuItem

@@ -40,7 +40,7 @@ function Settings(props) {
 		await i18n.changeLanguage(thisis._systemConfig.language);
 		if (tabChange) {
 			setTabChange(false);
-			updateNativeValue('wasteCalendar', []);
+			// updateNativeValue('wasteCalendar', []);
 			setInitializing(false);
 		} else {
 			startSettings();
@@ -52,22 +52,21 @@ function Settings(props) {
 			if (allStreets.length == 0) {
 				setShowLoader(true);
 				await initStreets(native.key, false);
-				updateNativeValue('wasteCalendar', []);
-				//handleChangeWasteCalendar();
+				updateNativeValue('wasteCalendar', []); // will ensure, that the latest waste calendar is loaded
 				setShowLoader(false);
 			} else {
 				setShowStreets(true);
 				setShowHouseNumber(native.houseNumber != '');
-				setShowWasteCalendar(native.wasteCalendar.length > 0);
+				setShowWasteCalendar(native.wasteTypes.filter((element) => element.used == true).length > 0 && native.wasteCalendar.length > 0);
 			}
-			setShowWasteTypes(native.wasteTypes != []);
+			setShowWasteTypes(native.wasteTypes.length > 0);
 		}
 		setInitializing(false);
 	};
 
 	async function initWasteTypes() {
 		if (typeof native.street == 'undefined' || native.street == '') {
-			if (native.wasteTypes != []) {
+			if (native.wasteTypes.length > 0) {
 				updateNativeValue('wasteTypes', []);
 			}
 		} else {
@@ -91,15 +90,20 @@ function Settings(props) {
 
 	const handleChangeUrl = async () => {
 		console.log('handleChangeUrl started');
-		let newKey = '';
-		const validUrl = await isValidHttpUrl(native.url);
-		if (validUrl) {
-			newKey = await sendMessage('getKey', { url: native.url });
-		}
-		console.log(`handleChangeUrl - newKey: ${newKey} native.key: ${native.key}`);
-		if (newKey != native.key) {
-			updateNativeValue('key', newKey);
-		}
+		const newKey=await isValidHttpUrl(native.url)
+		.then(async validUrl => {
+			if (validUrl === false) return '';
+			const key = await sendMessage('getKey', { url: native.url });
+			return key;
+		})
+		.then(key => {
+			console.log(`handleChangeUrl - newKey: ${key} native.key: ${native.key}`);
+			if (key != native.key) {
+				updateNativeValue('key', key);
+			}
+			return key;
+		});
+		return newKey;
 	};
 
 	useEffect(() => {
@@ -161,13 +165,6 @@ function Settings(props) {
 		}
 	};
 
-	useEffect(() => {
-		if (tabChange == false && initializing == false && typeof native.houseNumber != 'undefined') {
-			console.log('will call handleChangeHouseNumber (from useEffect houseNumber)');
-			handleChangeHouseNumber();
-		}
-	}, [native.houseNumber]);
-
 	function changeField(attr, newValue) {
 		updateNativeValue(attr, newValue);
 	}
@@ -178,6 +175,13 @@ function Settings(props) {
 			street: native.street,
 		});
 	}
+
+	useEffect(() => {
+		if (tabChange == false && initializing == false && typeof native.houseNumber != 'undefined') {
+			console.log('will call handleChangeHouseNumber (from useEffect houseNumber)');
+			handleChangeHouseNumber();
+		}
+	}, [native.houseNumber]);
 
 	const handleChangeHouseNumber = async () => {
 		if (tabChange == false) {
@@ -292,14 +296,12 @@ function Settings(props) {
 	}
 
 	async function isValidHttpUrl(url) {
-		let temp = '';
 		try {
-			temp = new URL(url);
-		} catch (_) {
+			const validUrl = new URL(url);
+			return validUrl.protocol === 'http:' || validUrl.protocol === 'https:';
+		} catch (err) {
 			return false;
 		}
-		const validUrl = temp.protocol === 'http:' || temp.protocol === 'https:';
-		return validUrl;
 	}
 
 	return (

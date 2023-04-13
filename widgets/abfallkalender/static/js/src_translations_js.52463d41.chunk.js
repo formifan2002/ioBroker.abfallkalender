@@ -1,0 +1,3 @@
+"use strict";(self.webpackChunkiobroker_vis_widgets_abfallkalender=self.webpackChunkiobroker_vis_widgets_abfallkalender||[]).push([["src_translations_js"],{54467:function(t,n,s){s.r(n);const l={en:s(86443),de:s(19837),ru:s(50482),pt:s(65909),nl:s(43573),fr:s(86115),it:s(79399),es:s(55117),pl:s(28130),uk:s(17138),"zh-cn":s(58246)};n.default=l}}]);
+
+//# sourceMappingURL=src_translations_js.52463d41.chunk.js.map

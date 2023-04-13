@@ -16,17 +16,5 @@
                 "${workspaceFolder}/**/*.js"
             ]
         },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch Widget",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${workspaceFolder}\\src-widgets\build\\customWidgets.js",
-            "outFiles": [
-                "${workspaceFolder}/src-widgets/**/*.js"
-            ]
-        }
     ]
 }

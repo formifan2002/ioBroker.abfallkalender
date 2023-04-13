@@ -87,7 +87,8 @@
                 "name": "vis2abfallkalenderWidgets",
                 "url": "abfallkalender/customWidgets.js",
                 "components": [
-                    "Abfallkalender"
+                    "AbfallIcon",
+                    "AbfallTable"
                 ]
             }
         },
