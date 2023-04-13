@@ -144,15 +144,6 @@ class AbfallTable extends (window.visRxWidget || VisRxWidget) {
                             step: 1,
                         },
                         {
-                            name: 'tablesize',
-                            default: 250,
-                            label: 'vis_2_widgets_abfallkalender_table_size',
-                            type: 'slider',
-                            min: 80,
-                            max: 800,
-                            step: 10,
-                        },
-                        {
                             name: 'oid',     // name in data structure
                             label: 'vis_2_widgets_abfallkalender_oid',
                             type: 'id',

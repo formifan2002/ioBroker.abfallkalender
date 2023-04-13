@@ -1,5 +1,5 @@
 {
-    "vis_2_widgets_abfallkalender": "Müllkalender",
+    "vis_2_widgets_abfallkalender": "Müll-Kalender",
     "vis_2_widgets_abfallkalender_oid": "Objekt ID",
     "vis_2_widgets_abfallkalender_whatsapplogo": "WhatsApp-Logo",
     "vis_2_widgets_abfallkalender_blink": "Blinken",
@@ -30,6 +30,5 @@
     "vis_2_widgets_abfallkalender_dayformat": "Tagesformat",
     "vis_2_widgets_abfallkalender_fontsize_header": "Überschrift Schriftgröße",
     "vis_2_widgets_abfallkalender_fontsize_body": "Zeilen Schriftgröße",
-    "vis_2_widgets_abfallkalender_table_size": "Inhaltsgröße",
     "vis_2_widgets_abfallkalender_fontsize_month": "Schriftgröße Monate"
 }

@@ -16,7 +16,7 @@
     "vis_2_widgets_abfallkalender_fontsize": "Lettertypegrootte",
     "vis_2_widgets_abfallkalender_icon": "Icoon",
     "vis_2_widgets_abfallkalender_icontrash": "Vuilnisbak",
-    "vis_2_widgets_abfallkalender_iconyellowbag": "Gele tas",
+    "vis_2_widgets_abfallkalender_iconyellowbag": "Gele zak",
     "vis_2_widgets_abfallkalender_widgetname_icon": "Vuilnis icoon",
     "vis_2_widgets_abfallkalender_iconchristmastree": "kerstboom",
     "vis_2_widgets_abfallkalender_iconleaf": "Blad",
@@ -30,6 +30,5 @@
     "vis_2_widgets_abfallkalender_dayformat": "Dag formaat",
     "vis_2_widgets_abfallkalender_fontsize_header": "Lettergrootte koptekst",
     "vis_2_widgets_abfallkalender_fontsize_body": "Rijen lettergrootte",
-    "vis_2_widgets_abfallkalender_table_size": "Inhoud grootte",
     "vis_2_widgets_abfallkalender_fontsize_month": "Maanden lettergrootte"
 }
