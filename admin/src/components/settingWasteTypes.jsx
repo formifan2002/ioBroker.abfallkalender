@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import withStyles from '@mui/styles/withStyles';
 import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
@@ -37,53 +38,70 @@ function SettingsWasteTypes(props) {
 		updateNativeValue,
 		showWasteCalendar,
 		setShowWasteCalendar,
+		showCalendarLoader,
+		setShowCalendarLoader,
+		showWasteTypesLoader,
+		setShowWasteTypesLoader,
 		state,
 		sendMessage,
 	} = props;
-	const [wasteCalendar, setWasteCalendar] = useState([]);
+	const [localWasteCalendar, setLocalWasteCalendar] = useState([]);
 	const apiRef = useGridApiRef();
 	const [openColumnDialog, setOpenColumnDialog] = useState(false);
 	const [rowid, setRowId] = useState();
 	const [fieldname, setFieldName] = useState();
 	const [fieldtext, setFieldText] = useState();
-
+	const [initializing, setInitializing] = useState(true);
 
 	useEffect(() => {
-		if (native.wasteCalendar.length > 0) {
-			handleChangeWasteCalendar();
-		}else{
-			handleChangeWasteTypes(false);
-		}
+ 		init();
 	}, []);
 
+	const init = async () => {
+		if (native.wasteCalendar.length > 0) {
+			await createWasteCalendar();
+		}else{
+			setShowWasteCalendar(false);
+			setShowCalendarLoader(true);
+			await getWasteCalendarFromApi();
+		}
+		setInitializing(false);
+	}
+
 	useEffect(() => {
-		//		if (tabChange == false && initializing == false && typeof native.wasteTypes != 'undefined') {
-		if (typeof native.wasteTypes != 'undefined') {
+		// might be, that React strict mode is on - 
+		// then rendering is done twice in DEV (not in production)
+		if (state.changed === true && initializing === false) {
+			changeNativeWasteCalendar();
+		}
+	}, [native.wasteTypes]);
+
+	const changeNativeWasteCalendar = async (update) => {
+		setShowWasteTypesLoader(false);
+		setShowCalendarLoader(true);
+		setShowWasteCalendar(false);
+		if (typeof native.wasteTypes !== 'undefined') {
 			if (native.wasteTypes.length > 0) {
-				console.log(
-					'handleChangeWasteTypes (update of wasteCalendars) will be called from useEffect wasteTypes',
-				);
-				handleChangeWasteTypes(false);
+				getWasteCalendarFromApi();
 			} else {
 				if (native.wasteCalendar.length > 0) {
-					console.log('setting wasteCalendar to [] (from useEffect - wasteTypes)');
-					setShowWasteTypes(false);
 					updateNativeValue('wasteCalendar:', []);
 				}
 			}
 		}
-	}, [native.wasteTypes]);
+	};
 
 	useEffect(() => {
-		//		if (tabChange == false && initializing == false) {
-		setShowWasteCalendar(showWasteTypes && wasteCalendar.length > 0);
-		//		}
-	}, [wasteCalendar]);
+		setShowCalendarLoader(false);
+		setShowWasteCalendar(localWasteCalendar.length > 0);
+	}, [localWasteCalendar]);
 
-	const handleChangeWasteTypes = async (update) => {
-		//console.log('handleChangeWasteTypes');
-		// update waste calendar objects in the database
-		if (update == false && native.wasteTypes.filter((element) => element.used == true).length > 0) {
+	const getWasteCalendarFromApi = async () => {
+		if (native.street === '') { 
+			setShowWasteCalendar(false);
+		    return; 
+		}
+		if (native.wasteTypes.filter((element) => element.used == true).length > 0) {
 			await sendMessage('getWasteCalendar', {
 				key: native.key,
 				street: native.street,
@@ -93,32 +111,29 @@ function SettingsWasteTypes(props) {
 				updateNativeValue('wasteCalendar', newWasteCalendar);
 			});
 		} else {
-			if (update == false && native.wasteCalendar.length > 0) {
+			if (native.wasteCalendar.length > 0) {
 				updateNativeValue('wasteCalendar', []);
 			} else {
-				handleChangeWasteCalendar();
+				createWasteCalendar();
 			}
 		}
 		setShowWasteTypes(native.wasteTypes.length > 0);
 	};
 
 	useEffect(() => {
-		//		if (state.changed && initializing == false && typeof native.wasteCalendar != 'undefined') {
-		if (typeof native.wasteCalendar != 'undefined') {
-			if (native.wasteTypes.filter((element) => element.used == true).length > 0 && native.wasteCalendar.length == 0){
-				handleChangeWasteTypes(false);
-			}else{
-				handleChangeWasteCalendar();
-			}	
+		if (typeof native.wasteCalendar !== 'undefined') {
+			createWasteCalendar();
 		}
 	}, [native.wasteCalendar]);
 
-	const handleChangeWasteCalendar = async () => {
+	const createWasteCalendar = async () => {
+		setShowWasteCalendar(false);
+		setShowCalendarLoader(true);
 		let monatsName = '';
 		let tag = '';
 		const calendar = [];
 		for (let i = 0; i < native.wasteCalendar.length; i++) {
-			if (monatsName != native.wasteCalendar[i].Monatsname) {
+			if (monatsName !== native.wasteCalendar[i].Monatsname) {
 				calendar.push({
 					col1span: 3,
 					col2span: 0,
@@ -129,7 +144,7 @@ function SettingsWasteTypes(props) {
 				});
 				monatsName = native.wasteCalendar[i].Monatsname;
 			}
-			if (tag != native.wasteCalendar[i].Abfuhrdatum) {
+			if (tag !== native.wasteCalendar[i].Abfuhrdatum) {
 				calendar.push({
 					col1span: 1,
 					col2span: 1,
@@ -150,8 +165,7 @@ function SettingsWasteTypes(props) {
 				});
 			}
 		}
-		setWasteCalendar([...calendar]);
-		setShowWasteCalendar(calendar.length > 0);
+		setLocalWasteCalendar([...calendar]);
 	};
 
 	const renderTooltipWhatsapp = (params) => (
@@ -199,9 +213,9 @@ function SettingsWasteTypes(props) {
 	);
 
 	const renderTooltipUse = (params) => (
-		<Tooltip title={params.value == true ? i18n.t('yes') : i18n.t('no')}>
+		<Tooltip title={params.value === true ? i18n.t('yes') : i18n.t('no')}>
 			<span className="table-cell-trucate">
-				{params.value == true ? <CheckIcon /> : <DeleteForeverTwoToneIcon />}
+				{params.value === true ? <CheckIcon /> : <DeleteForeverTwoToneIcon />}
 			</span>
 		</Tooltip>
 	);
@@ -265,6 +279,7 @@ function SettingsWasteTypes(props) {
 	}));
 
 	const RenderWasteCalendar = () => (
+		<Box sx={{ border: 1, borderColor: 'lightgrey', borderRadius: '5px'}}>
 		<TableContainer sx={{ maxHeight: 350 }}>
 			<Table stickyHeader size="small" sx={{ height: 'max-content' }}>
 				<TableHead>
@@ -275,7 +290,7 @@ function SettingsWasteTypes(props) {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{wasteCalendar.map((item, index) => (
+					{localWasteCalendar.map((item, index) => (
 						<TableRow key={index}>
 							{item.col1span > 0 && (
 								<StyledTableCell colSpan={item.col1span} align="left">
@@ -297,6 +312,7 @@ function SettingsWasteTypes(props) {
 				</TableBody>
 			</Table>
 		</TableContainer>
+		</Box>
 	);
 
 	const handleSelectDeselectColumn = (field, select) => {
@@ -304,32 +320,31 @@ function SettingsWasteTypes(props) {
 		for (let i = 0; i < native.wasteTypes.length; i++) {
 			switch (field) {
 				case 'whatsapp': {
-					if (native.wasteTypes[i].whatsapp != (select == true ? 1 : -1)) {
-						copyWasteTypes[i].whatsapp = select == true ? 1 : -1;
+					if (native.wasteTypes[i].whatsapp !== (select === true ? 1 : -1)) {
+						copyWasteTypes[i].whatsapp = select === true ? 1 : -1;
 						copyWasteTypes[i].whatsappCollectionDateSend = '';
-						updateNativeValue(`wasteTypes.${i}.whatsapp`, select == true ? 1 : -1);
+						updateNativeValue(`wasteTypes.${i}.whatsapp`, select === true ? 1 : -1);
 						updateNativeValue(`wasteTypes.${i}.whatsappCollectionDateSend`, '');
 					}
 					break;
 				}
 				case 'blink': {
-					if (native.wasteTypes[i].blink != (select == true ? 1 : -1)) {
-						copyWasteTypes[i].blink = select == true ? 1 : -1;
-						updateNativeValue(`wasteTypes.${i}.blink`, select == true ? 1 : -1);
+					if (native.wasteTypes[i].blink !== (select === true ? 1 : -1)) {
+						copyWasteTypes[i].blink = select === true ? 1 : -1;
+						updateNativeValue(`wasteTypes.${i}.blink`, select === true ? 1 : -1);
 					}
 					break;
 				}
 				case 'used': {
-					if (native.wasteTypes[i].used != select) {
+					if (native.wasteTypes[i].used !== select) {
 						copyWasteTypes[i].used = select;
-						console.log(`update used ${i}`);
 						updateNativeValue(`wasteTypes.${i}.used`, select);
 					}
 					break;
 				}
 			}
 		}
-		handleChangeWasteTypes(false);
+		getWasteCalendarFromApi();
 		new Promise((resolve) => setTimeout(resolve, 100));
 	};
 
@@ -386,16 +401,16 @@ function SettingsWasteTypes(props) {
 		if (params.field === 'whatsapp' || params.field === 'blink') {
 			setRowId(params.row.id - 1);
 			setFieldName(params.field);
-			setFieldText(i18n.t(params.field == 'whatsapp' ? 'Whatsapp' : 'Blink'));
+			setFieldText(i18n.t(params.field === 'whatsapp' ? 'Whatsapp' : 'Blink'));
 			setOpenColumnDialog(true);
 		}
-		if (params.field == 'used') {
+		if (params.field === 'used') {
 			updateNativeValue(`wasteTypes.${params.row.id - 1}.used`, !params.row.used);
 		}
 	};
 
 	const handleClose = (newValue) => {
-		if (typeof newValue != 'undefined') {
+		if (typeof newValue !== 'undefined') {
 			updateNativeValue(`wasteTypes.${rowid}.${fieldname}`, newValue);
 		}
 		setOpenColumnDialog(false);
@@ -458,10 +473,12 @@ function SettingsWasteTypes(props) {
 	return (
 		<>
 			<Grid item xs={12} md={5}>
-				{showWasteTypes && native.wasteTypes.length > 0 && <RenderTableWasteTypes />}
+				{showWasteTypesLoader === true && <CircularProgress color="success" style={{ display: 'block', margin: 'auto' }} />}
+				{showWasteTypesLoader === false && showWasteTypes === true && native.wasteTypes.length > 0 && <RenderTableWasteTypes />}
 			</Grid>
 			<Grid item xs={12} md={6}>
-				{showWasteCalendar && native.wasteCalendar != [] && <RenderWasteCalendar />}
+				{showCalendarLoader === true && <CircularProgress color="success" style={{ display: 'block', margin: 'auto' }} />}
+				{showWasteTypes === true && showCalendarLoader === false && showWasteCalendar === true && native.wasteCalendar.length>0 && <RenderWasteCalendar />}
 			</Grid>
 			<Grid item xs={12} md={1}>
 				{openColumnDialog && (

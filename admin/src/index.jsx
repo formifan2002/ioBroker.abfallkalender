@@ -9,7 +9,7 @@ import App from './app';
 import './i18n/i18n';
 
 window.adapterName = 'abfallkalender';
-//window.sentryDSN = 'https://09f8c0939fd04546aa835b96b5ad426a@sentry.iobroker.net/121';
+window.sentryDSN = 'https://09f8c0939fd04546aa835b96b5ad426a@sentry.iobroker.net/121';
 
 let themeName = Utils.getThemeName();
 

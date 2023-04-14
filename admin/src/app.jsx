@@ -11,9 +11,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Settings from './components/settings';
 import SettingsDetails from './components/settingsDetails';
-/**
- * @type {(_theme: Theme) => import("@material-ui/styles").StyleRules}
- */
+
 const styles = (_theme) => ({
 	root: {},
 });
@@ -22,7 +20,6 @@ class App extends GenericApp {
 	constructor(props) {
 		const extendedProps = {
 			...props,
-			//bottomButtons: true,
 			encryptedFields: [],
 			translations: {
 				en: require('./i18n/en.json'),
@@ -36,9 +33,8 @@ class App extends GenericApp {
 				pl: require('./i18n/pl.json'),
 				'zh-cn': require('./i18n/zh-cn.json'),
 			},
-			//sentryDSN: window.sentryDSN,
+			sentryDSN: window.sentryDSN,
 		};
-		//super(props, { Connection: AdminConnection });
 		super(props, extendedProps);
 	}
 
@@ -82,7 +78,7 @@ function AppContainer(props) {
 		}
 	}
 
-	function save(isClose) {
+	async function save(isClose) {
 		if (props.this.state.native.whatsapp.used) {
 			let lError = true;
 			for (let i = 0; i < props.this.state.native.whatsapp.instances.length && lError; i++) {

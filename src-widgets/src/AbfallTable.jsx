@@ -236,13 +236,13 @@ class AbfallTable extends (window.visRxWidget || VisRxWidget) {
     // This function is called every time when some Object State updated, but all changes lands into this.state.values too
     // eslint-disable-next-line class-methods-use-this, no-unused-vars
     onStateUpdated(id,state) {
-        // state of the object 'CalenderDoubleQuotes' has changed
+        // state of the object 'WasteCalendar' has changed
         this.oidChange = true;
         this.propertiesUpdate();
     }
 
     async getCalendarObject(instance) {
-        const id = `abfallkalender.${instance}.CalendarDoubleQuotes`;
+        const id = `abfallkalender.${instance}.WasteCalendar`;
         const calendar = await this.props.socket.getForeignStates(id)
             .then(status => {
                 if (!(id in status) || typeof status[id].val === 'undefined') { return {}; }

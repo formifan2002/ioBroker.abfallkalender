@@ -4,7 +4,7 @@ const utils = require('@iobroker/adapter-core');
 const getApiData = require('iobroker.abfallkalender/lib/getApiData');
 const i18n = require('iobroker.abfallkalender/lib/i18n');
 const languages = ['en', 'de', 'ru', 'pt', 'nl', 'fr', 'it', 'es', 'pl', 'uk', 'zh-cn'];
-let systemLanguage;
+let systemLanguage='';
 
 class Abfallkalender extends utils.Adapter {
 	/**
@@ -22,115 +22,27 @@ class Abfallkalender extends utils.Adapter {
 		this.on('unload', this.onUnload.bind(this));
 	}
 
-	/**
-	 * Is called when databases are connected and adapter received configuration.
-	 */
 	async onReady() {
-		// Initialize your adapter here
-		// The adapters config (in the instance object everything under the attribute "native") is accessible via
-		// this.config:
-		//this.log.info('config option1: ' + this.config.option1);
-		/*
-		For every state in the system there has to be also an object of type state
-		Here a simple template for a boolean variable named "testVariable"
-		Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
-		*/
-		/*await this.setObjectNotExistsAsync('testVariable', {
-			type: 'state',
-			common: {
-				name: 'testVariable',
-				type: 'boolean',
-				role: 'indicator',
-				read: true,
-				write: true,
-			},
-			native: {},
-		});
-		*/
-		// In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
-		// this.subscribeStates('testVariable');
-		// You can also add a subscription for multiple states. The following line watches all states starting with "lights."
-		// this.subscribeStates('lights.*');
-		// Or, if you really must, you can also watch all states. Don't do this if you don't need to. Otherwise this will cause a lot of unnecessary load on the system:
-		// this.subscribeStates('*');
-		/*
-			setState examples
-			you will notice that each setState will cause the stateChange event to fire (because of above subscribeStates cmd)
-		*/
-		// the variable testVariable is set to true as command (ack=false)
-		//await this.setStateAsync('testVariable', true);
-		//let result = await this.checkPasswordAsync('admin', 'iobroker');
-		//this.log.info('check user admin pw iobroker: ' + result);
-		//result = await this.checkGroupAsync('admin', 'admin');
-		//this.log.info('check group user admin group admin: ' + result);
-		//
-		//console.log(this.common);
-		//const myInstanceName = this.common.name + '.' + this.instance;
-		//const myInstanceName = 'abfallkalender.0';
-		//const objPath = 'system.adapter.' + myInstanceName;
-		if (this.config.key == '' || this.config.wasteTypes.filter((element) => element.used).length == 0) {
-			this.log.error('Configuration of adapter not complete. Please check instance configuration.');
+		systemLanguage = await this.getSystemLanguage();
+		await this.initWhatsapp();
+		if (this.config.key === '' || this.config.wasteTypes.filter((element) => element.used).length == 0) {
+			this.log.error('Configuration of adapter not complete'+(this.config.key === '' ? '(no valid URL maintained)': '(no waste types activated)')+'. Please check und update instance configuration.');
 			return;
 		}
-		try {
-			await this.getForeignObjectAsync('system.config').then((result) => {
-				systemLanguage = result.common.language;
-				if (languages.findIndex((element) => element == systemLanguage) == -1) {
-					systemLanguage = 'de';
-				}
-			});
-		} catch {
-			systemLanguage = 'de';
-		}
 		await this.initWasteTypes();
-		await this.initWhatsapp();
 		return;
 	}
 
-	/**
-	 * Is called when adapter shuts down - callback has to be called under any circumstances!
-	 * @param {() => void} callback
-	 */
 	onUnload(callback) {
 		try {
-			// Here you must clear all timeouts or intervals that may still be active
-			// clearTimeout(timeout1);
-			// clearTimeout(timeout2);
-			// ...
-			// clearInterval(interval1);
-
 			callback();
 		} catch (e) {
 			callback();
 		}
 	}
 
-	// If you need to react to object changes, uncomment the following block and the corresponding line in the constructor.
-	// You also need to subscribe to the objects with `this.subscribeObjects`, similar to `this.subscribeStates`.
-	// /**
-	//  * Is called if a subscribed object changes
-	//  * @param {string} id
-	//  * @param {ioBroker.Object | null | undefined} obj
-	//  */
-	// onObjectChange(id, obj) {
-	// 	if (obj) {
-	// 		// The object was changed
-	// 		this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
-	// 	} else {
-	// 		// The object was deleted
-	// 		this.log.info(`object ${id} deleted`);
-	// 	}
-	// }
-
-	/**
-	 * Is called if a subscribed state changes
-	 * @param {string} id
-	 * @param {ioBroker.State | null | undefined} state
-	 */
 	onStateChange(id, state) {
 		if (state) {
-			// The state was changed
-			//this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack}) (whatsapp.alive=${this.config.whatsapp.alive})`);
 			// the alive status is changed every 2-3 seconds. So only in case the overall
 			// status of the config.alive is different to the current status of the
 			// whatsapp instance an update of the config is done.
@@ -139,7 +51,6 @@ class Abfallkalender extends utils.Adapter {
 			}
 		} else {
 			// The state was deleted
-			// this.log.info(`state ${id} deleted`);
 			// unsubsribe from this (whatsapp alive) status
 			this.unsubscribeForeignStatesAsync(id);
 			// update the status for the whatsapp instances used in my adapter instance
@@ -205,10 +116,34 @@ class Abfallkalender extends utils.Adapter {
 					if (obj.callback) this.sendTo(obj.from, obj.command, dbValue.val, obj.callback);
 					break;
 				}
+				case 'getForeignStateAsync': {
+					const dbValue = await this.getForeignStateAsync(obj.message.datapoint);
+					if (obj.callback) this.sendTo(obj.from, obj.command, dbValue.val, obj.callback);
+					break;
+				}
+				case 'setForeignStateAsync': {
+					const dbValue = await this.setForeignStateAsync(obj.message.datapoint,obj.message.value,false);
+					if (obj.callback) this.sendTo(obj.from, obj.command, dbValue.val, obj.callback);
+					break;
+				}
 			}
 		}
 	}
 
+	async getSystemLanguage(){
+		try {
+			return await this.getForeignObjectAsync('system.config').then((result) => {
+				let language = result.common.language;
+				if (languages.findIndex((element) => element == systemLanguage) == -1) {
+					language = 'de';
+				}
+				return language;
+			});
+		} catch {
+			return 'de';
+		}
+
+	}
 	async initWasteTypes(key, street, houseNumber, wasteTypes) {
 		return await getApiData
 			.getWasteCalendar(
@@ -216,8 +151,8 @@ class Abfallkalender extends utils.Adapter {
 				typeof street == 'undefined' ? this.config.street : street,
 				typeof houseNumber == 'undefined' ? this.config.houseNumber : houseNumber,
 				typeof wasteTypes == 'undefined' ? this.config.wasteTypes : wasteTypes,
-				this.getTranslatedWeekdays(),
-				this.getTranslatedMonths(),
+				await this.getTranslatedWeekdays(),
+				await this.getTranslatedMonths(),
 				systemLanguage,
 			)
 			.then((response) => {
@@ -230,22 +165,14 @@ class Abfallkalender extends utils.Adapter {
 
 	async initWhatsapp(from, command, callback) {
 		return await this.getWhatsappInstances().then(async (result) => {
-			if (result.length == 0) {
+			if (result.length === 0) {
 				if (typeof from != 'undefined') {
 					this.sendTo(from, command, 'NOINSTANCES', callback);
 				}
 				return this.config.whatsapp; // no adapter installations of whatsapp-cmb found
 			}
 			await this.updateWhatsappStatus(result).then((result) => {
-				/*console.log(`At least one instance is alive: ${result1.alive}`);
-				console.log(`Functionality is used by this instance: ${result1.used}`);
-				console.log(`Phone number to use for this instance: ${result1.phoneNumber}`);
-				console.log('All instances found:');
-				result1.instances.map(async (instance) => {
-					console.log(instance);
-				});
-				//*/
-				if (typeof from != 'undefined') {
+				if (typeof from !== 'undefined') {
 					this.sendTo(from, command, 'OK', callback);
 				}
 				return result;
@@ -254,33 +181,24 @@ class Abfallkalender extends utils.Adapter {
 	}
 
 	async updateWhatsappStatus(result) {
-		//console.log(`alive of whatsapp config is ${this.config.whatsapp.alive}`);
-		/* // Output of the current whatsapp config for this instance
-		const myInstanceName = this.common.name + '.' + this.instance;
-		const objPath = 'system.adapter.' + myInstanceName;
-		this.getForeignObjectAsync(objPath).then((result) => {
-			// get the current whatsapp config for this instance...
-			console.log('Current whatsapp config for this instance...');
-			console.log(result.native['whatsapp']);
-		});
-		*/
 		const config = this.config;
 		const myThis = this;
 
-		return new Promise(function (resolve) {
+		return new Promise(async function (resolve) {
 			const used = config.whatsapp.used; // get value, if the whatsapp function is used in the current instance
 			const whatsapp = { alive: false, used: used, instances: result };
 			for (let i = 0; i < whatsapp.instances.length; i++) {
 				const aliveObj = whatsapp.instances[i].id + '.alive';
-				myThis.subscribeForeignStatesAsync(aliveObj); // subsribe to state change of this instance in order to be informed, when a the instance is deleted or the live status changed
-				myThis.getForeignStateAsync(aliveObj).then((alive) => {
+				await myThis.subscribeForeignStatesAsync(aliveObj); // subsribe to state change of this instance in order to be informed, when a the instance is deleted or the live status changed
+				await myThis.getForeignStateAsync(aliveObj).then((alive) => {
 					whatsapp.instances[i].alive = alive.val;
 					if (alive.val) {
 						whatsapp.alive = true;
 					}
 				});
 			}
-			setTimeout(() => resolve(whatsapp), 1000);
+			// setTimeout(() => resolve(whatsapp), 1000);
+			resolve(whatsapp);
 		}).then(function (whatsapp) {
 			// Update the status of whatsapp for this instance
 			myThis.updateConfig({ whatsapp: whatsapp });
@@ -304,7 +222,7 @@ class Abfallkalender extends utils.Adapter {
 	}
 
 	async createVisInventwoDatapoint() {
-		const datapoint = this.common.name + '.' + this.instance + '.CalendarDoubleQuotes';
+		const datapoint = this.common.name + '.' + this.instance + '.WasteCalendar';
 		let widgetCode =
 			'[{"tpl":"i-vis-jsontable","data":{"g_fixed":false,"g_visibility":false,"g_css_font_text":false,"g_css_background":false,"g_css_shadow_padding":false,"g_css_border":false,"g_gestures":false,"g_signals":false,"g_last_change":false,"visibility-cond":"==","visibility-val":1,"visibility-groups-action":"hide","iTblRowLimit":"5","iTableRefreshRate":"0","iTblSortOrder":"asc","iColCount":"3","iColShow1":"true","iTblHeadTextAlign1":"left","iTblTextAlign1":"left","iTblCellFormat1":"normal","iTblCellImageSize1":"200","iTblCellBooleanCheckbox1":"false","iTblCellBooleanColorFalse1":"#ff0000","iTblCellBooleanColorTrue1":"#00ff00","iTblCellNumberDecimals1":"2","iTblCellNumberDecimalSeperator1":".","iTblCellNumberThousandSeperator1":",","iTblCellThresholdsDp1":"","iTblCellThresholdsText1":"","iOpacityAll":"1","iTblRowEvenColor":"#333333","iTblRowUnevenColor":"#455618","iTblHeaderColor":"#333333","iRowSpacing":"10","iTblRowEvenTextColor":"#ffffff","iTblRowUnevenTextColor":"#ffffff","iTblHeaderTextColor":"#ffffff","iBorderSize":"0","iBorderStyleLeft":"none","iBorderStyleRight":"none","iBorderStyleUp":"none","iBorderStyleDown":"none","iBorderColor":"#ffffff","signals-cond-0":"==","signals-val-0":true,"signals-icon-0":"/vis/signals/lowbattery.png","signals-icon-size-0":0,"signals-blink-0":false,"signals-horz-0":0,"signals-vert-0":0,"signals-hide-edit-0":false,"signals-cond-1":"==","signals-val-1":true,"signals-icon-1":"/vis/signals/lowbattery.png","signals-icon-size-1":0,"signals-blink-1":false,"signals-horz-1":0,"signals-vert-1":0,"signals-hide-edit-1":false,"signals-cond-2":"==","signals-val-2":true,"signals-icon-2":"/vis/signals/lowbattery.png","signals-icon-size-2":0,"signals-blink-2":false,"signals-horz-2":0,"signals-vert-2":0,"signals-hide-edit-2":false,"lc-type":"last-change","lc-is-interval":true,"lc-is-moment":false,"lc-format":"","lc-position-vert":"top","lc-position-horz":"right","lc-offset-vert":0,"lc-offset-horz":0,"lc-font-size":"12px","lc-font-family":"","lc-font-style":"","lc-bkg-color":"","lc-color":"","lc-border-width":"0","lc-border-style":"","lc-border-color":"","lc-border-radius":10,"lc-zindex":0,"oid":"##datapoint##","iTblShowHead":true,"iColShow2":"true","iTblHeadTextAlign2":"left","iTblTextAlign2":"left","iTblCellFormat2":"datetime","iTblCellImageSize2":"200","iTblCellBooleanCheckbox2":"false","iTblCellBooleanColorFalse2":"#ff0000","iTblCellBooleanColorTrue2":"#00ff00","iTblCellNumberDecimals2":"2","iTblCellNumberDecimalSeperator2":".","iTblCellNumberThousandSeperator2":",","iTblCellThresholdsDp2":"","iTblCellThresholdsText2":"","iColShow3":"true","iTblHeadTextAlign3":"left","iTblTextAlign3":"left","iTblCellFormat3":"normal","iTblCellImageSize3":"200","iTblCellBooleanCheckbox3":"false","iTblCellBooleanColorFalse3":"#ff0000","iTblCellBooleanColorTrue3":"#00ff00","iTblCellNumberDecimals3":"2","iTblCellNumberDecimalSeperator3":".","iTblCellNumberThousandSeperator3":",","iTblCellThresholdsDp3":"","iTblCellThresholdsText3":"","iColName1":"##iColName1##","iColAttr1":"AbfuhrTagLang","iColName2":"##iColName2##","iColAttr2":"AbfuhrtagJson","iTblCellDatetimeFormat2":"d.m.y","iColName3":"##iColName3##","iColAttr3":"Abfuhrart","iVertScroll":true,"iTblSortAttr":"AbfuhrtagJson"},"style":{"left":"34px","top":"77px","width":"547px","height":"224px"},"widgetSet":"vis-inventwo"}]';
 		widgetCode = widgetCode.replace('##datapoint##', datapoint);
@@ -372,9 +290,6 @@ class Abfallkalender extends utils.Adapter {
 	}
 
 	sendWhatsapp(celement, cAbfallArt, differenceInDays, whatsappAlarmTage, whatsAppInstance, phoneNumber) {
-		//console.log('TAGE!!!');
-		//console.log(differenceInDays);
-		//console.log(whatsappAlarmTage);
 		const cMessage =
 			(differenceInDays == 1 ? 'Morgen ' : differenceInDays == 2 ? 'Übermorgen ' : '') +
 			'Abholung << ' +
@@ -386,28 +301,23 @@ class Abfallkalender extends utils.Adapter {
 			', ' +
 			celement.Abfuhrdatum +
 			').';
-		console.log(`will send message to ${phoneNumber} with instance ${whatsAppInstance}`);
-		console.log(cMessage);
-		//sendTo(whatsAppInstance, 'send', {
-		//		text: cMessage,
-		//		phone: phoneNumber // optional, if empty the message will be sent to the default configured number
-		//	});
+		// console.log(`will send message to ${phoneNumber} with instance ${whatsAppInstance}`);
+		// console.log(cMessage);
+		sendTo(whatsAppInstance, 'send', {
+				text: cMessage,
+				phone: phoneNumber // optional, if empty the message will be sent to the default configured number
+			});
 	}
 
 	async createWasteTypesDataPoints(wasteCalendar) {
 		const datapoint = 'Abfuhrdaten';
-		await this.setStateAsync('CalendarDoubleQuotes', {
+		await this.setStateAsync('WasteCalendar', {
 			val: wasteCalendar.json,
 			ack: true,
 		});
-		await this.setState('CalendarSingleQuotes', { val: wasteCalendar.string, ack: true });
 		if (await this.isVisInventwoInstalled()) {
 			// VIS widget inventwo is installed - create datapoint for JSON table
 			this.log.info('VIS inventwo widget found. Will create according datapoint "VisWidgetCode".');
-			/*console.log(
-				new Date().toLocaleString() +
-					': VIS inventwo widget found. Will create according datapoint "VisWidgetCode".',
-			);*/
 			await this.createVisInventwoDatapoint();
 		} else {
 			//console.log('No installation of VIS inventwo widget found.');
@@ -418,7 +328,6 @@ class Abfallkalender extends utils.Adapter {
 			for (let i = 0; i < channels.length; i++) {
 				try {
 					if (typeof channels[i].common.name != 'object') {
-						// console.error('Will delete channel ' + channels[i].common.name.en);
 						await this.deleteChannelAsync(datapoint, channels[i].common.name);
 					}
 				} catch (err) {
@@ -489,7 +398,6 @@ class Abfallkalender extends utils.Adapter {
 										);
 									}
 									if (index == 0) {
-										//console.log('create datapoints for channel: ' + channelName);
 										let enhancedElement={...celement,...{'Blinken': celement.Resttage <= this.config.wasteTypes[i].blink}}
 										if (this.config.whatsapp.used == true) {
 											enhancedElement={...enhancedElement,...{'Whatsapp': celement.Resttage <= this.config.wasteTypes[i].whatsapp}}
@@ -499,26 +407,6 @@ class Abfallkalender extends utils.Adapter {
 											'',
 											enhancedElement,
 										);
-										// create datapoint Blinken with true/false
-										/*await this.createDataPointAsync(
-											channelName,
-											'',
-											differenceInDays <= this.config.wasteTypes[i].whatsapp,
-											'',
-											'Blinken',
-										);
-										*/
-										/*if (this.config.whatsapp.used == true) {
-											await this.createDataPointAsync(
-												channelName,
-												'',
-												differenceInDays <= this.config.wasteTypes[i].whatsapp,
-												'',
-												'Whatsapp',
-											);
-										}
-										*/
-										//console.log(`whatsappCollectionDateSend: ${this.config.wasteTypes[i].whatsappCollectionDateSend} Abfuhrdatum: ${celement.Abfuhrdatum}`,);
 										if (
 											this.config.whatsapp.used == true &&
 											this.config.wasteTypes[i].whatsapp != -1 &&
@@ -528,8 +416,6 @@ class Abfallkalender extends utils.Adapter {
 										) {
 											// prevent to send again a Whatsapp for this collection date
 											this.config.wasteTypes[i].whatsappCollectionDateSend = celement.Abfuhrdatum;
-											//console.log(`whatsappCollectionDateSend nach Update: ${this.config.wasteTypes[i].whatsappCollectionDateSend}`,);
-											//console.log('SENDE WHATSAPP MESSAGES');
 											this.config.whatsapp.instances.map((element) => {
 												this.sendWhatsapp(
 													celement,
@@ -674,10 +560,13 @@ class Abfallkalender extends utils.Adapter {
 		return obj;
 	}
 
-	getTranslatedWeekdays() {
+	async getTranslatedWeekdays() {
 		/* tranforms all language entries for this datapoint name into one object
 			translation file "i18n.json" is saved in directory \lib
 		*/
+		if (typeof systemLanguage === 'undefined' || systemLanguage === ''){
+			systemLanguage = await this.getSystemLanguage();
+		}
 		return [
 			i18n[systemLanguage]["Sunday"],
 			i18n[systemLanguage]["Monday"],
@@ -689,10 +578,13 @@ class Abfallkalender extends utils.Adapter {
 		]
 	}
 
-	getTranslatedMonths() {
+	async getTranslatedMonths() {
 		/* tranforms all language entries for this datapoint name into one object
 			translation file "i18n.json" is saved in directory \lib
 		*/
+		if (typeof systemLanguage === 'undefined' || systemLanguage === ''){
+			systemLanguage = await this.getSystemLanguage();
+		}
 		return [
 			i18n[systemLanguage]["January"],
 			i18n[systemLanguage]["February"],
