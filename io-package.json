@@ -92,6 +92,9 @@
                 ]
             }
         },
+        "adminUI":{
+            "config": "materialize"
+        },
         "restartAdapters": [
             "vis",
             "vis-2-beta"
