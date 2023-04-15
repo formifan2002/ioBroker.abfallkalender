@@ -21,21 +21,26 @@ Der Adapter beinhaltet zwei Widgets für die [VIS 2 (!)](https://www.npmjs.com/p
 
  Sind [VIS](https://github.com/ioBroker/ioBroker.vis) oder [VIS 2 (!)](https://www.npmjs.com/package/iobroker.vis-2-beta?activeTab=readme) UND das Widget-Set [inventwo](https://github.com/inventwo/ioBroker.vis-inventwo) installiert, wird ein Datenpunkt erzeugt, der den Widget-Code für eine JSON-Tabelle beinhaltet.
 
-*Allgemeine Adaptereinstellungen:* 
+**_Allgemeine Adaptereinstellungen:_**
 
 ![Allgemeine_Einstellungen](./docs/AbfallKalenderConfig1.jpg)
 
-*Detaileinstellungen:* 
+**_Detaileinstellungen:_**
 
 ![Detail_Einstellungen](./docs/AbfallKalenderConfig2.jpg)
 
-*Beispiele Widgets:* 
+**_Beispiele Widgets:_** 
 
+*Kalender*
+![Beispiel_Widget_Kalender](./docs/AbfallKalenderWidgetCalendar1.jpg)
+
+*Icon (Mülltonne)*
 ![Beispiel_Widget_Muelleimer](./docs/AbfallKalenderWidgetTrash1.jpg)
 
+*Icon (Gelber Sack)*
 ![Beispiel_Widget_Gelber_Sack](./docs/AbfallKalenderWidgetTrash2.jpg)
 
-
+*Icon (Blatt)*
 ![Beispiel_Widget_Blatt](./docs/AbfallKalenderWidgetTrash3.jpg)
 
 ## Changelog
