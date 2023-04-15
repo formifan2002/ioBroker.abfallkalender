@@ -13,28 +13,30 @@
 
 ## Abfallkalender für den ioBroker
 
-Der Adapter liest die Müllabfuhrtermine des Anbieters abfall.io aus, den verschiedene Städte nutzen. Die verschiedenen Müllarten können ausgewählt und z.B. in einem Kalender dargestellt werden. 
+Der Adapter liest die Müllabfuhrtermine des Anbieters abfall.io aus, den verschiedene Städte nutzen. Die einzelnen Müllarten der Stadt können ausgewählt und z.B. in einem Kalender dargestellt werden. 
 
 Wenn der [Whatsapp Adapter]( https://github.com/ioBroker/ioBroker.whatsapp-cmb) im ioBroker installiert ist, wird das automatische Versenden von Nachrichten vor der Abholung pro Abfallart unterstützt. Die Anzahl der Tage zum Versand der Nachricht vor der Abholung, kann  individuell für jede Abfallart eingestellt werden.
 
-Der Adapter beinhaltet zwei Widgets für die [VIS 2 (!)](https://www.npmjs.com/package/iobroker.vis-2-beta?activeTab=readme). Es kann ein Kalender mit den konfigurierten Müllarten oder ein Icon mit verschiedenen Konfigurationsmöglichkeiten dargestellt werden. Das Icon kann n Tage vor der Abholung anfangen zu blinken, wenn dieses in den Adaptereinstellungen zu der Abfallart konfiguriert ist 
+Der Adapter beinhaltet zwei Widgets für die [VIS 2 (!)](https://www.npmjs.com/package/iobroker.vis-2-beta?activeTab=readme). Es kann ein Kalender mit den konfigurierten Müllarten oder ein Icon mit verschiedenen Konfigurationsmöglichkeiten dargestellt werden. Das Icon kann x Tage vor der Abholung anfangen zu blinken, wenn das in den Adaptereinstellungen zur Abfallart konfiguriert ist 
 
- Ist [VIS](https://github.com/ioBroker/ioBroker.vis) oder [VIS 2 (!)](https://www.npmjs.com/package/iobroker.vis-2-beta?activeTab=readme) UND das Widgetset [inventwo](https://github.com/inventwo/ioBroker.vis-inventwo) installiert, wird eine Datenpunkt erzeugt, der den Widget-Code für eine JSON Tabelle beinhaltet.
+ Sind [VIS](https://github.com/ioBroker/ioBroker.vis) oder [VIS 2 (!)](https://www.npmjs.com/package/iobroker.vis-2-beta?activeTab=readme) UND das Widget-Set [inventwo](https://github.com/inventwo/ioBroker.vis-inventwo) installiert, wird ein Datenpunkt erzeugt, der den Widget-Code für eine JSON-Tabelle beinhaltet.
 
 *Allgemeine Adaptereinstellungen:* 
 
-<img src="docs/AbfallKalenderConfig1.PNG" alt="Allgemeine Einstellungen des Adapters" width="1245" height="478" />
+![Allgemeine_Einstellungen](./docs/AbfallKalenderConfig1.jpg)
 
-*Detailleinstellungen:* 
+*Detaileinstellungen:* 
 
-<img src="docs/AbfallKalenderConfig2.PNG" alt="Detaillierte Einstellungen des Adapters" width="221" height="96" />
+![Detail_Einstellungen](./docs/AbfallKalenderConfig2.jpg)
 
 *Beispiele Widgets:* 
-<img src="docs/AbfallKalenderWidgetTrash1.png" alt="Detaillierte Einstellungen des Adapters" width="992" height="565" />
 
-<img src="docs/AbfallKalenderWidgetTrash2.png" alt="Detaillierte Einstellungen des Adapters" width="936" height="418" />
+![Beispiel_Widget_Muelleimer](./docs/AbfallKalenderWidgetTrash1.jpg)
 
-<img src="docs/AbfallKalenderWidgetTrash3.png" alt="Detaillierte Einstellungen des Adapters" width="812" height="358" />
+![Beispiel_Widget_Gelber_Sack](./docs/AbfallKalenderWidgetTrash2.jpg)
+
+
+![Beispiel_Widget_Blatt](./docs/AbfallKalenderWidgetTrash3.jpg)
 
 ## Changelog
 
