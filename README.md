@@ -4,12 +4,9 @@
 
 [![NPM version](https://img.shields.io/npm/v/iobroker.abfallkalender.svg)](https://www.npmjs.com/package/iobroker.abfallkalender)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.abfallkalender.svg)](https://www.npmjs.com/package/iobroker.abfallkalender)
-![Number of Installations](https://iobroker.live/badges/abfallkalender-installed.svg)
-![Current version in stable repository](https://iobroker.live/badges/abfallkalender-stable.svg)
+
 
 [![NPM](https://nodei.co/npm/iobroker.abfallkalender.png?downloads=true)](https://nodei.co/npm/iobroker.abfallkalender/)
-
-**Tests:** ![Test and Release](https://github.com/Formifan2002/ioBroker.abfallkalender/workflows/Test%20and%20Release/badge.svg)
 
 ## Abfallkalender für den ioBroker
 
