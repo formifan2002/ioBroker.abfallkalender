@@ -31,16 +31,16 @@ Der Adapter beinhaltet zwei Widgets für die [VIS 2 (!)](https://www.npmjs.com/p
 
 **_Beispiele Widgets:_** 
 
-*Kalender*
+- *Kalender*
 ![Beispiel_Widget_Kalender](./docs/AbfallKalenderWidgetCalendar.jpg)
 
-*Icon (Mülltonne)*
+- *Icon (Mülltonne)*
 ![Beispiel_Widget_Muelleimer](./docs/AbfallKalenderWidgetTrash1.jpg)
 
-*Icon (Gelber Sack)*
+- *Icon (Gelber Sack)*
 ![Beispiel_Widget_Gelber_Sack](./docs/AbfallKalenderWidgetTrash2.jpg)
 
-*Icon (Blatt)*
+- *Icon (Blatt)*
 ![Beispiel_Widget_Blatt](./docs/AbfallKalenderWidgetTrash3.jpg)
 
 ## Changelog
