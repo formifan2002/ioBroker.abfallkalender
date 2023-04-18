@@ -30,16 +30,16 @@ Der Adapter beinhaltet zwei Widgets für die [VIS 2 (!)](https://www.npmjs.com/p
 
 - *Kalender*
 ![Beispiel_Widget_Kalender](./docs/AbfallKalenderWidgetCalendar.jpg)
-
+<br>
 - *Icon (Mülltonne)*
 ![Beispiel_Widget_Muelleimer](./docs/AbfallKalenderWidgetTrash1.jpg)
-
+<br>
 - *Icon (Gelber Sack)*
 ![Beispiel_Widget_Gelber_Sack](./docs/AbfallKalenderWidgetTrash2.jpg)
-
+<br>
 - *Icon (Blatt)*
 ![Beispiel_Widget_Blatt](./docs/AbfallKalenderWidgetTrash3.jpg)
-
+<br>
 + *VIS inventwo Widget (JSON Tabelle)*
 >- *Datenpunkt mit Code für VIS inventwo Widget (JSON Tabelle)*
 ![Datenpunkt_Vis_Widget_Code](./docs/DatenpunktVisWidgetCode.jpg)
@@ -48,13 +48,15 @@ Der Adapter beinhaltet zwei Widgets für die [VIS 2 (!)](https://www.npmjs.com/p
 
 **_Ist meine Stadt/mein Landkreis für den Adapter geeignet?:_**
 
-Städte/Landkreise, die mit ioabfall.de zusammenarbeiten, bieten auf ihren Internetseiten ähnliche Kalender an, wie du sie z.B. auf der Seite der [HEB Hagen](https://www.heb-hagen.de/rund-um-den-muell/) sehen kannst. Wenn die URL von deinem Entsorgungsunternehmen nicht vom Adapter akzeptiert wird, kannst du ggf. auf der Entsorgerseite mit dem Developertool deines Browsers prüfen, ob beim Auswählen der Stadt, Straße eine URL von abfall.io aufgerufen wird. Hier ein Beispiel aus dem Chrome-Developertool (aufrufbar über die Funktionstaste F12 - dort dann Netzwerk auswählen und die Seite neu laden).
+Städte/Landkreise, die mit abfall.io. zusammenarbeiten, bieten auf ihren Internetseiten ähnliche Kalender an, wie du sie z.B. auf der Seite der [HEB Hagen](https://www.heb-hagen.de/rund-um-den-muell/) sehen kannst. Wenn die URL von deinem Entsorgungsunternehmen nicht vom Adapter akzeptiert wird, kannst du ggf. auf der Entsorgerseite mit dem Developertool deines Browsers prüfen, ob beim Auswählen der Stadt, Straße eine URL von abfall.io aufgerufen wird. Hier ein Beispiel aus dem Chrome-Developertool (aufrufbar über die Funktionstaste F12 - dort dann Netzwerk auswählen und die Seite neu laden).
 
 ![AbfallKalender_Widget_Json_Table.jpg](./docs/ChromeDeveloperTool.jpg)
 
 **_Sonstiges:_**
 
-Der Adapter wird jede Nacht um 0:05 Uhr neu gestartet, liest die Daten aus der API von abfall.io und aktualisiert die entsprechenden Datenpunkte im Objektverzeichnis der Adapterinstanz. Das sich ein Abfuhrkalendar in der Regel nicht häufig ändert, sollte dieses Intervall vollkommen ausreichen. Du kannst die Einstellung aber auch jederzeit in der Instanzeinstellung vom Abfallkalender in ioBroker ändern.
++  Der Adapter wird jede Nacht um 0:05 Uhr neu gestartet, liest die Daten aus der API von abfall.io und aktualisiert die entsprechenden Datenpunkte im Objektverzeichnis der Adapterinstanz. Da sich ein Abfuhrkalendar in der Regel nicht häufig ändert, sollte dieses Intervall vollkommen ausreichen. Du kannst die Einstellung aber auch jederzeit in der Instanzeinstellung vom Abfallkalender in ioBroker ändern.
+<br>
++ Bei Bedarf können mehrere Instanzen (für verschiedene Städte) installiert werden.
 
 ## Changelog
 
