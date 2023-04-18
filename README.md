@@ -81,7 +81,8 @@ Städte/Landkreise, die mit abfall.io. zusammenarbeiten, bieten auf ihren Intern
 -->
 ### 1.0.0-alpha.1 (2023-04-18)
 
--   Added possibility to use sites with selection of city and district - bug fixes
++  Added possibility to use sites with selection of city and district
++ bug fixes
 
 ### 1.0.0-alpha.0 (2023-03-20)
 

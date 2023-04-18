@@ -11,7 +11,7 @@ admin/build
 src-widgets/build
 src-widgets/node_modules
 
-yarn*
+yarn.error
 .prettierr.js
 .prettierrignore
 toBeDeleted.create-adapter.json
