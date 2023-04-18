@@ -3,18 +3,18 @@
         "name": "abfallkalender",
         "version": "1.0.0-alpha.0",
         "news": {
-            "1.0.0-alpha.0": {
-                "en": "initial release",
-                "de": "erstausstrahlung",
-                "ru": "начальный выпуск",
-                "pt": "lançamento inicial",
-                "nl": "niet",
-                "fr": "initial release",
-                "it": "rilascio iniziale",
-                "es": "liberación inicial",
-                "pl": "pierwsze wydanie",
-                "uk": "початковий реліз",
-                "zh-cn": "初步释放"
+            "1.0.0-alpha.1": {
+                "en": "Support for waste companies/counties having city or discrict selection",
+                "de": "Unterstützung für Abfallunternehmen/Landkreise mit Stadt- oder Bezirksauswahl",
+                "ru": "Поддержка мусорных компаний / округов, имеющих выбор города или района",
+                "pt": "Apoio a empresas/condados de resíduos com seleção de cidade ou distrito",
+                "nl": "Ondersteuning voor afvalbedrijven/provincies met stads- of wijkselectie",
+                "fr": "Soutien aux entreprises/comtés de gestion des déchets ayant une sélection de ville ou de district",
+                "it": "Supporto per aziende/contee di rifiuti con selezione di città o distretti",
+                "es": "Soporte para empresas de residuos/condados que tienen selección de ciudad o distrito",
+                "pl": "Wsparcie dla firm/powiatów zajmujących się odpadami przy wyborze miasta lub dzielnicy",
+                "uk": "Підтримка компаній/округів з утилізації відходів, які мають вибір міста чи району",
+                "zh-cn": "支持城市或地区选择的垃圾公司/县"
             },
             "0.0.1": {
                 "en": "initial release",
