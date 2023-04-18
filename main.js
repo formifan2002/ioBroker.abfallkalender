@@ -190,7 +190,6 @@ class Abfallkalender extends utils.Adapter {
 					}
 				});
 			}
-			// setTimeout(() => resolve(whatsapp), 1000);
 			resolve(whatsapp);
 		}).then(function (whatsapp) {
 			// Update the status of whatsapp for this instance
@@ -295,7 +294,7 @@ class Abfallkalender extends utils.Adapter {
 			').';
 		// console.log(`will send message to ${phoneNumber} with instance ${whatsAppInstance}`);
 		// console.log(cMessage);
-		sendTo(whatsAppInstance, 'send', {
+		this.sendTo(whatsAppInstance, 'send', {
 				text: cMessage,
 				phone: phoneNumber // optional, if empty the message will be sent to the default configured number
 			});
