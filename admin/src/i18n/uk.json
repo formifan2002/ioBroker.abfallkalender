@@ -40,5 +40,14 @@
     "Change": "Зміна",
     "deactivated": "деактивовано",
     "pressButtons_zero": "Натисніть кнопки збільшення/зменшення або +/-",
-    "pressButtons_one": "Натисніть кнопку збільшення або +"
+    "pressButtons_one": "Натисніть кнопку збільшення або +",
+    "selectPhoneNumber_zero": "Виберіть номер телефону",
+    "selectPhoneNumber_one": "Виберіть номер телефону",
+    "selectPhoneNumber_other": "Виберіть номери телефонів ({{count}} екземплярів)",
+    "City": "Місто",
+    "Select city": "Виберіть місто",
+    "District": "Район",
+    "Select district": "Виберіть район",
+    "ErrorLoadWasteCalendar_Title": "Помилка завантаження календаря відходів",
+    "ErrorLoadWasteCalendar_Description": "Під час завантаження календаря відходів сталася помилка. Деякі компанії з утилізації відходів, на жаль, не запровадили повну функціональність."
 }

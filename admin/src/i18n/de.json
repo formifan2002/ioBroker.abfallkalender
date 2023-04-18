@@ -13,7 +13,7 @@
     "Warning x days before pickup via WhatsApp": "Warnung x Tage vor Abholung per WhatsApp",
     "Blinking x days before pickup": "Blinkt x Tage vor der Abholung",
     "Whatsapp Notification": "WhatsApp-Benachrichtigung",
-    "Use phone number": "Telefonnummer verwenden",
+    "Use phone number": "Verwendete Telefonnummer",
     "Instance": "Instanz",
     "Default phone number": "Standardtelefonnummer",
     "Error while saving": "Fehler beim Speichern",
@@ -40,5 +40,14 @@
     "Change": "Ändern",
     "deactivated": "deaktiviert",
     "pressButtons_zero": "Drücke die Hoch-/Runter-Taste oder +/-",
-    "pressButtons_one": "Drücke die Hoch-Taste oder +"
+    "pressButtons_one": "Drücke die Hoch-Taste oder +",
+    "selectPhoneNumber_zero": "Telefonnummer auswählen",
+    "selectPhoneNumber_one": "Telefonnummer auswählen",
+    "selectPhoneNumber_other": "Telefonnummern auswählen ({{count}} Instanzen)",
+    "City": "Stadt",
+    "Select city": "Stadt auswählen",
+    "District": "Bezirk",
+    "Select district": "Bezirk auswählen",
+    "ErrorLoadWasteCalendar_Title": "Fehler beim Laden des Abfallkalenders",
+    "ErrorLoadWasteCalendar_Description": "Beim Laden des Abfallkalenders ist ein Fehler aufgetreten. Einige Entsorgungsunternehmen haben leider nicht die komplette Funktionalität implementiert."
 }

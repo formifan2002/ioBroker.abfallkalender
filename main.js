@@ -66,19 +66,14 @@ class Abfallkalender extends utils.Adapter {
 					if (obj.callback) this.sendTo(obj.from, obj.command, apiDataKey, obj.callback);
 					break;
 				}
-				case 'getStreets': {
-					const apiDataStreets = await getApiData.getStreets(obj.message.key);
-					if (obj.callback) this.sendTo(obj.from, obj.command, apiDataStreets, obj.callback);
-					break;
-				}
-				case 'getHouseNumbers': {
-					const apiDataHouseNumbers = await getApiData.getHouseNumbers(obj.message.key, obj.message.street);
-					if (obj.callback) this.sendTo(obj.from, obj.command, apiDataHouseNumbers, obj.callback);
+				case 'getSelects': {
+					const apiDataSelects = await getApiData.getSelects(obj.message);
+					if (obj.callback) this.sendTo(obj.from, obj.command, apiDataSelects, obj.callback);
 					break;
 				}
 				case 'getWasteTypes': {
 					await getApiData
-						.getWasteTypes(obj.message.key, obj.message.street, obj.message.houseNumber)
+						.getWasteTypes(obj.message)
 						.then((apiDataWasteTypes) => {
 							if (obj.callback) this.sendTo(obj.from, obj.command, apiDataWasteTypes, obj.callback);
 						})
@@ -101,10 +96,7 @@ class Abfallkalender extends utils.Adapter {
 					// in the settings dialog
 					if (obj.callback) {
 						await this.initWasteTypes(
-							obj.message.key,
-							obj.message.street,
-							obj.message.houseNumber,
-							obj.message.wasteTypes,
+							obj.message,
 						).then((apiDataWasteCalendar) => {
 							if (obj.callback) this.sendTo(obj.from, obj.command, apiDataWasteCalendar, obj.callback);
 						});
@@ -144,22 +136,23 @@ class Abfallkalender extends utils.Adapter {
 		}
 
 	}
-	async initWasteTypes(key, street, houseNumber, wasteTypes) {
+	async initWasteTypes(message) {
 		return await getApiData
 			.getWasteCalendar(
-				typeof key == 'undefined' ? this.config.key : key,
-				typeof street == 'undefined' ? this.config.street : street,
-				typeof houseNumber == 'undefined' ? this.config.houseNumber : houseNumber,
-				typeof wasteTypes == 'undefined' ? this.config.wasteTypes : wasteTypes,
+				{key: typeof message === 'undefined' ? this.config.key : message.key,
+				city: typeof message === 'undefined' ? this.config.city : message.city,
+				district: typeof message === 'undefined' ? this.config.district : message.district,
+				street: typeof message === 'undefined' ? this.config.street : message.street,
+				houseNumber: typeof message === 'undefined' ? this.config.houseNumber : message.houseNumber,
+				wasteTypes: typeof message === 'undefined' ? this.config.wasteTypes : message.wasteTypes
+				},
 				await this.getTranslatedWeekdays(),
 				await this.getTranslatedMonths(),
 				systemLanguage,
 			)
-			.then((response) => {
-				if (response.error == '') {
-					this.createWasteTypesDataPoints(response);
-					return response.wasteCalendar;
-				}
+			.then(async (response) => {
+				await this.createWasteTypesDataPoints(response);
+				return response;
 			});
 	}
 
@@ -292,9 +285,8 @@ class Abfallkalender extends utils.Adapter {
 	sendWhatsapp(celement, cAbfallArt, differenceInDays, whatsappAlarmTage, whatsAppInstance, phoneNumber) {
 		const cMessage =
 			(differenceInDays == 1 ? 'Morgen ' : differenceInDays == 2 ? 'Übermorgen ' : '') +
-			'Abholung << ' +
+			'Abholung ' +
 			cAbfallArt +
-			' >>' +
 			(differenceInDays > 2 ? ' in ' + differenceInDays + ' Tagen' : '') +
 			' (' +
 			celement.AbfuhrTagLang +
@@ -315,6 +307,9 @@ class Abfallkalender extends utils.Adapter {
 			val: wasteCalendar.json,
 			ack: true,
 		});
+		if (wasteCalendar.error != ''){
+			return false;
+		}
 		if (await this.isVisInventwoInstalled()) {
 			// VIS widget inventwo is installed - create datapoint for JSON table
 			this.log.info('VIS inventwo widget found. Will create according datapoint "VisWidgetCode".');
@@ -576,6 +571,11 @@ class Abfallkalender extends utils.Adapter {
 			i18n[systemLanguage]["Friday"],
 			i18n[systemLanguage]["Saturday"]
 		]
+	}
+
+	async systemLanguage(){
+		const language = await this.getSystemLanguage();
+		return language;
 	}
 
 	async getTranslatedMonths() {

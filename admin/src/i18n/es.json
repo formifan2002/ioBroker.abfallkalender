@@ -40,5 +40,14 @@
     "Change": "Cambiar",
     "deactivated": "desactivado",
     "pressButtons_zero": "Pulse los botones de aumento/disminución o +/-",
-    "pressButtons_one": "Pulse el botón de aumento o +"
+    "pressButtons_one": "Pulse el botón de aumento o +",
+    "selectPhoneNumber_zero": "Seleccionar número de teléfono",
+    "selectPhoneNumber_one": "Seleccionar número de teléfono",
+    "selectPhoneNumber_other": "Seleccionar números de teléfono ({{count}} instancias)",
+    "City": "Ciudad",
+    "Select city": "Ciudad selecta",
+    "District": "Distrito",
+    "Select district": "Seleccionar distrito",
+    "ErrorLoadWasteCalendar_Title": "Error al cargar el calendario de residuos",
+    "ErrorLoadWasteCalendar_Description": "Ocurrió un error al cargar el calendario de residuos. Lamentablemente, algunas empresas de gestión de residuos no han implementado la funcionalidad completa."
 }

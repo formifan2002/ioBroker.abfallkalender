@@ -75,7 +75,7 @@
         "loglevel": "info",
         "messagebox": true,
         "mode": "schedule",
-        "schedule": "*/6 * * * *",
+        "schedule": "5 0 * * *",
         "systemconfig": true,
         "type": "misc-data",
         "compact": true,
@@ -92,7 +92,7 @@
                 ]
             }
         },
-        "adminUI":{
+        "adminUI": {
             "config": "materialize"
         },
         "restartAdapters": [
@@ -113,6 +113,8 @@
     },
     "native": {
         "url": "",
+        "city": "",
+        "district": "",
         "street": "",
         "houseNumber": "",
         "key": "",

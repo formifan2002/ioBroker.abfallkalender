@@ -13,7 +13,7 @@
 	"Warning x days before pickup via WhatsApp": "Warning x days before pickup via WhatsApp",
 	"Blinking x days before pickup": "Blinking x days before pickup",
 	"Whatsapp Notification": "Whatsapp Notification",
-	"Use phone number": "Use phone number",
+	"Use phone number": "Used phone numbers",
 	"Instance": "Instance",
 	"Default phone number": "Default phone number",
 	"Error while saving": "Error while saving",
@@ -40,5 +40,14 @@
 	"Change": "Change",
 	"deactivated": "deactivated",
 	"pressButtons_zero": "Press increase/decrease buttons or +/-",
-	"pressButtons_one": "Press increase button or +"
+	"pressButtons_one": "Press increase button or +",
+	"selectPhoneNumber_zero": "Select phone number",
+	"selectPhoneNumber_one": "Select phone number",
+	"selectPhoneNumber_other": "Select phone numbers ({{count}} instances)",
+	"City": "City",
+	"Select city": "Select city",
+	"District": "District",
+	"Select district": "Select district",
+	"ErrorLoadWasteCalendar_Title": "Error loading waste calendar",
+	"ErrorLoadWasteCalendar_Description": "An error occurred while loading the waste calendar. Some waste management companies have unfortunately not implemented the complete functionality."
 }

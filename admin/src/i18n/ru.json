@@ -40,5 +40,14 @@
     "Change": "Изменять",
     "deactivated": "деактивирован",
     "pressButtons_zero": "Нажимайте кнопки увеличения/уменьшения или +/-",
-    "pressButtons_one": "Нажмите кнопку увеличения или +"
+    "pressButtons_one": "Нажмите кнопку увеличения или +",
+    "selectPhoneNumber_zero": "Выберите номер телефона",
+    "selectPhoneNumber_one": "Выберите номер телефона",
+    "selectPhoneNumber_other": "Выберите номера телефонов (экземпляров: {{count}})",
+    "City": "Город",
+    "Select city": "Выберите город",
+    "District": "Округ",
+    "Select district": "Выберите район",
+    "ErrorLoadWasteCalendar_Title": "Не удалось загрузить календарь отходов.",
+    "ErrorLoadWasteCalendar_Description": "При загрузке календаря отходов произошла ошибка. Некоторые компании по обращению с отходами, к сожалению, не реализовали полную функциональность."
 }

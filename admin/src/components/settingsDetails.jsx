@@ -156,10 +156,18 @@ export default function SettingsDetails(props) {
 					value={phoneNumbersUsed}
 					onChange={handleChangeWhatsappPhoneNumbers}
 					input={<OutlinedInput label={i18n.t('Use phone number')} />}
-					renderValue={(selected) => selectedToString(selected)}
+					renderValue={(selected) => {
+						if (selected.length === 0) {
+						  return <em>{i18n.t('selectPhoneNumber',{ count: props.native.whatsapp.instances.length })}</em>;
+						}
+						return selectedToString(selected);
+					  }}
 					MenuProps={MenuProps}
-					style={{ width: '100%'}}
+					style={{ minWidth: 300}}
 				>
+				<MenuItem disabled value="">
+					<em>{i18n.t('Select phone number')}</em>
+				</MenuItem>
 					{props.native.whatsapp.instances.map((item, index) => (
 						<MenuItem
 							key={index.toString()}

@@ -29,7 +29,13 @@
         "eslint-plugin-react-hooks": "^4.6.0",
         "sass": "^1.58.3"
     },
-    "devDependencies": {},
+    "devDependencies": {
+        "iobroker.vis": "1.4.16",
+        "iobroker.vis-2-beta": "latest",
+        "iobroker.vis-inventwo": "3.3.3",
+        "iobroker.web": "5.5.3",
+        "iobroker.whatsapp-cmb": "0.2.3"
+    },
     "scripts": {
         "gulp": "gulp",
         "start": "set PORT=4173 && craco start",

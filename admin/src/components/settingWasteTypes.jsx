@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ErrorDialog from '@iobroker/adapter-react-v5/Dialogs/Error';
 import { styled } from '@mui/material/styles';
 import withStyles from '@mui/styles/withStyles';
 import Box from '@mui/material/Box';
@@ -33,15 +34,8 @@ function SettingsWasteTypes(props) {
 	const {
 		i18n,
 		native,
-		setShowWasteTypes,
-		showWasteTypes,
 		updateNativeValue,
-		showWasteCalendar,
-		setShowWasteCalendar,
-		showCalendarLoader,
-		setShowCalendarLoader,
 		showWasteTypesLoader,
-		setShowWasteTypesLoader,
 		state,
 		sendMessage,
 	} = props;
@@ -49,9 +43,11 @@ function SettingsWasteTypes(props) {
 	const apiRef = useGridApiRef();
 	const [openColumnDialog, setOpenColumnDialog] = useState(false);
 	const [rowid, setRowId] = useState();
+	const [errorDialogWasteCalendar, setErrorDialogWasteCalendar] = useState(false);
 	const [fieldname, setFieldName] = useState();
 	const [fieldtext, setFieldText] = useState();
 	const [initializing, setInitializing] = useState(true);
+	const [showCalendarLoader, setShowCalendarLoader] = useState(false);
 
 	useEffect(() => {
  		init();
@@ -61,8 +57,6 @@ function SettingsWasteTypes(props) {
 		if (native.wasteCalendar.length > 0) {
 			await createWasteCalendar();
 		}else{
-			setShowWasteCalendar(false);
-			setShowCalendarLoader(true);
 			await getWasteCalendarFromApi();
 		}
 		setInitializing(false);
@@ -72,52 +66,41 @@ function SettingsWasteTypes(props) {
 		// might be, that React strict mode is on - 
 		// then rendering is done twice in DEV (not in production)
 		if (state.changed === true && initializing === false) {
-			changeNativeWasteCalendar();
+			getWasteCalendarFromApi()
 		}
 	}, [native.wasteTypes]);
 
-	const changeNativeWasteCalendar = async (update) => {
-		setShowWasteTypesLoader(false);
-		setShowCalendarLoader(true);
-		setShowWasteCalendar(false);
-		if (typeof native.wasteTypes !== 'undefined') {
-			if (native.wasteTypes.length > 0) {
-				getWasteCalendarFromApi();
-			} else {
-				if (native.wasteCalendar.length > 0) {
-					updateNativeValue('wasteCalendar:', []);
-				}
-			}
-		}
-	};
-
-	useEffect(() => {
-		setShowCalendarLoader(false);
-		setShowWasteCalendar(localWasteCalendar.length > 0);
-	}, [localWasteCalendar]);
-
 	const getWasteCalendarFromApi = async () => {
-		if (native.street === '') { 
-			setShowWasteCalendar(false);
-		    return; 
-		}
-		if (native.wasteTypes.filter((element) => element.used == true).length > 0) {
+		let ret=true;
+		if (native.wasteTypes.filter((element) => element.used === true).length > 0) {
+			setShowCalendarLoader(true);
 			await sendMessage('getWasteCalendar', {
 				key: native.key,
+				city: native.city,
+				district: native.district,
 				street: native.street,
 				houseNumber: native.houseNumber,
 				wasteTypes: native.wasteTypes,
 			}).then((newWasteCalendar) => {
-				updateNativeValue('wasteCalendar', newWasteCalendar);
+				setShowCalendarLoader(false);
+				if (newWasteCalendar.error === ''){
+					updateNativeValue('wasteCalendar', newWasteCalendar.wasteCalendar);
+				}else{
+					// error during load of waste calendar occured
+					const copyWasteTypes = native.wasteTypes;
+					copyWasteTypes.filter(element => element.used === true).map(wasteType =>{
+						wasteType.used = false;
+					})
+					updateNativeValue('wasteTypes',copyWasteTypes);
+					setErrorDialogWasteCalendar(true);
+				}
 			});
 		} else {
 			if (native.wasteCalendar.length > 0) {
 				updateNativeValue('wasteCalendar', []);
-			} else {
-				createWasteCalendar();
 			}
 		}
-		setShowWasteTypes(native.wasteTypes.length > 0);
+		return ret;
 	};
 
 	useEffect(() => {
@@ -127,8 +110,6 @@ function SettingsWasteTypes(props) {
 	}, [native.wasteCalendar]);
 
 	const createWasteCalendar = async () => {
-		setShowWasteCalendar(false);
-		setShowCalendarLoader(true);
 		let monatsName = '';
 		let tag = '';
 		const calendar = [];
@@ -470,15 +451,24 @@ function SettingsWasteTypes(props) {
 		</Box>
 	);
 
+	const ErrorDialogWasteCalendar = () => (
+		<ErrorDialog
+			title={i18n.t('ErrorLoadWasteCalendar_Title')}
+			text={i18n.t('ErrorLoadWasteCalendar_Description')}
+			onClose={() => setErrorDialogWasteCalendar(false)}
+		/>
+	);
+
 	return (
 		<>
+			{errorDialogWasteCalendar === true && <ErrorDialogWasteCalendar/>}
 			<Grid item xs={12} md={5}>
 				{showWasteTypesLoader === true && <CircularProgress color="success" style={{ display: 'block', margin: 'auto' }} />}
-				{showWasteTypesLoader === false && showWasteTypes === true && native.wasteTypes.length > 0 && <RenderTableWasteTypes />}
+				{showWasteTypesLoader === false && native.wasteTypes.length > 0 && <RenderTableWasteTypes />}
 			</Grid>
 			<Grid item xs={12} md={6}>
 				{showCalendarLoader === true && <CircularProgress color="success" style={{ display: 'block', margin: 'auto' }} />}
-				{showWasteTypes === true && showCalendarLoader === false && showWasteCalendar === true && native.wasteCalendar.length>0 && <RenderWasteCalendar />}
+				{showCalendarLoader === false && native.wasteTypes.filter(element => element.used === true).length > 0 && localWasteCalendar.length>0 && <RenderWasteCalendar />}
 			</Grid>
 			<Grid item xs={12} md={1}>
 				{openColumnDialog && (

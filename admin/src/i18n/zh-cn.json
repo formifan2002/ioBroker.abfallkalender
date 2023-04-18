@@ -40,5 +40,14 @@
     "Change": "改变",
     "deactivated": "停用",
     "pressButtons_zero": "按增加/减少按钮或 +/-",
-    "pressButtons_one": "按增加按钮或+"
+    "pressButtons_one": "按增加按钮或+",
+    "selectPhoneNumber_zero": "选择电话号码",
+    "selectPhoneNumber_one": "选择电话号码",
+    "selectPhoneNumber_other": "选择电话号码（{{count}} 次）",
+    "City": "城市",
+    "Select city": "选择城市",
+    "District": "区",
+    "Select district": "选择地区",
+    "ErrorLoadWasteCalendar_Title": "加载垃圾日历时出错",
+    "ErrorLoadWasteCalendar_Description": "加载废日历时出错。不幸的是，一些废物管理公司没有实现完整的功能。"
 }

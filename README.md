@@ -10,7 +10,7 @@
 
 ## Abfallkalender für den ioBroker
 
-Der Adapter liest die Müllabfuhrtermine des Anbieters abfall.io aus, den verschiedene Städte nutzen. Die einzelnen Müllarten der Stadt können ausgewählt und z.B. in einem Kalender dargestellt werden. 
+Der Adapter liest die Müllabfuhrtermine des Anbieters abfall.io aus, den verschiedene Städte oder Landkreise nutzen (z.B. [Hagen](https://www.heb-hagen.de/rund-um-den-muell/muellabfuhr-termine-abholservice/abfuhrkalender.html), [Ludwigshafen](https://www.ludwigshafen.de/wirtschaftsstark/wirtschaftsbetrieb-ludwigshafen-wbl/abfall-und-wertstoffe/abfall-und-wertstoffkalender-online) oder [Landkreis Tuttlingen](https://www.abfall-tuttlingen.de/Abfalltermine-APP/)). Die einzelnen Müllarten der Stadt können ausgewählt und z.B. in einem Kalender dargestellt werden. 
 
 Wenn der [Whatsapp Adapter]( https://github.com/ioBroker/ioBroker.whatsapp-cmb) im ioBroker installiert ist, wird das automatische Versenden von Nachrichten vor der Abholung pro Abfallart unterstützt. Die Anzahl der Tage zum Versand der Nachricht vor der Abholung, kann  individuell für jede Abfallart eingestellt werden.
 
@@ -39,6 +39,22 @@ Der Adapter beinhaltet zwei Widgets für die [VIS 2 (!)](https://www.npmjs.com/p
 
 - *Icon (Blatt)*
 ![Beispiel_Widget_Blatt](./docs/AbfallKalenderWidgetTrash3.jpg)
+
++ *VIS inventwo Widget (JSON Tabelle)*
+>- *Datenpunkt mit Code für VIS inventwo Widget (JSON Tabelle)*
+![Datenpunkt_Vis_Widget_Code](./docs/DatenpunktVisWidgetCode.jpg)
+>- *VIS inventwo Widget (JSON Tabelle mit Daten aus dem Abfallkalender)*
+![AbfallKalender_Widget_Json_Table.jpg](./docs/AbfallKalenderWidgetJsonTable.jpg)
+
+**_Ist meine Stadt/mein Landkreis für den Adapter geeignet?:_**
+
+Städte/Landkreise, die mit ioabfall.de zusammenarbeiten, bieten auf ihren Internetseiten ähnliche Kalender an, wie du sie z.B. auf der Seite der [HEB Hagen](https://www.heb-hagen.de/rund-um-den-muell/) sehen kannst. Wenn die URL von deinem Entsorgungsunternehmen nicht vom Adapter akzeptiert wird, kannst du ggf. auf der Entsorgerseite mit dem Developertool deines Browsers prüfen, ob beim Auswählen der Stadt, Straße eine URL von abfall.io aufgerufen wird. Hier ein Beispiel aus dem Chrome-Developertool (aufrufbar über die Funktionstaste F12 - dort dann Netzwerk auswählen und die Seite neu laden).
+
+![AbfallKalender_Widget_Json_Table.jpg](./docs/ChromeDeveloperTool.jpg)
+
+**_Sonstiges:_**
+
+Der Adapter wird jede Nacht um 0:05 Uhr neu gestartet, liest die Daten aus der API von abfall.io und aktualisiert die entsprechenden Datenpunkte im Objektverzeichnis der Adapterinstanz. Das sich ein Abfuhrkalendar in der Regel nicht häufig ändert, sollte dieses Intervall vollkommen ausreichen. Du kannst die Einstellung aber auch jederzeit in der Instanzeinstellung vom Abfallkalender in ioBroker ändern.
 
 ## Changelog
 

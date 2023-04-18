@@ -40,5 +40,14 @@
     "Change": "Wijziging",
     "deactivated": "gedeactiveerd",
     "pressButtons_zero": "Druk op de toetsen verhogen/verlagen of +/-",
-    "pressButtons_one": "Druk op de toenametoets of +"
+    "pressButtons_one": "Druk op de toenametoets of +",
+    "selectPhoneNumber_zero": "Selecteer telefoonnummer",
+    "selectPhoneNumber_one": "Selecteer telefoonnummer",
+    "selectPhoneNumber_other": "Selecteer telefoonnummers ({{count}} instanties)",
+    "City": "Stad",
+    "Select city": "Selecteer stad",
+    "District": "Wijk",
+    "Select district": "Selecteer wijk",
+    "ErrorLoadWasteCalendar_Title": "Fout bij het laden van de afvalkalender",
+    "ErrorLoadWasteCalendar_Description": "Er is een fout opgetreden bij het laden van de afvalkalender. Sommige afvalverwerkingsbedrijven hebben helaas niet de volledige functionaliteit geïmplementeerd."
 }

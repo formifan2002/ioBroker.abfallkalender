@@ -40,5 +40,14 @@
     "Change": "Modifica",
     "deactivated": "disattivato",
     "pressButtons_zero": "Premere i pulsanti di aumento/diminuzione o +/-",
-    "pressButtons_one": "Premere il pulsante di aumento o +"
+    "pressButtons_one": "Premere il pulsante di aumento o +",
+    "selectPhoneNumber_zero": "Seleziona il numero di telefono",
+    "selectPhoneNumber_one": "Seleziona il numero di telefono",
+    "selectPhoneNumber_other": "Seleziona i numeri di telefono ({{count}} istanze)",
+    "City": "Città",
+    "Select city": "Seleziona città",
+    "District": "Quartiere",
+    "Select district": "Seleziona distretto",
+    "ErrorLoadWasteCalendar_Title": "Errore durante il caricamento del calendario dei rifiuti",
+    "ErrorLoadWasteCalendar_Description": "Si è verificato un errore durante il caricamento del calendario dei rifiuti. Alcune società di gestione dei rifiuti purtroppo non hanno implementato la funzionalità completa."
 }

@@ -40,5 +40,14 @@
     "Change": "Changement",
     "deactivated": "désactivé",
     "pressButtons_zero": "Appuyez sur les boutons d'augmentation/diminution ou +/-",
-    "pressButtons_one": "Appuyez sur le bouton d'augmentation ou +"
+    "pressButtons_one": "Appuyez sur le bouton d'augmentation ou +",
+    "selectPhoneNumber_zero": "Sélectionnez le numéro de téléphone",
+    "selectPhoneNumber_one": "Sélectionnez le numéro de téléphone",
+    "selectPhoneNumber_other": "Sélectionnez les numéros de téléphone ({{count}} instances)",
+    "City": "Ville",
+    "Select city": "Sélectionnez une ville",
+    "District": "District",
+    "Select district": "Sélectionnez le quartier",
+    "ErrorLoadWasteCalendar_Title": "Erreur lors du chargement du calendrier des déchets",
+    "ErrorLoadWasteCalendar_Description": "Une erreur s'est produite lors du chargement du calendrier des déchets. Certaines entreprises de gestion des déchets n'ont malheureusement pas implémenté la fonctionnalité complète."
 }
