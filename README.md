@@ -8,58 +8,60 @@
 
 [![NPM](https://nodei.co/npm/iobroker.abfallkalender.png?downloads=true)](https://nodei.co/npm/iobroker.abfallkalender/)
 
-## Abfallkalender für den ioBroker
+## Waste calendar for ioBroker
 
-Der Adapter liest die Müllabfuhrtermine des Anbieters abfall.io aus, den verschiedene Städte oder Landkreise nutzen (z.B. [Hagen](https://www.heb-hagen.de/rund-um-den-muell/muellabfuhr-termine-abholservice/abfuhrkalender.html), [Ludwigshafen](https://www.ludwigshafen.de/wirtschaftsstark/wirtschaftsbetrieb-ludwigshafen-wbl/abfall-und-wertstoffe/abfall-und-wertstoffkalender-online) oder [Landkreis Tuttlingen](https://www.abfall-tuttlingen.de/Abfalltermine-APP/)). Die einzelnen Müllarten der Stadt können ausgewählt und z.B. in einem Kalender dargestellt werden. 
+[German version](./docs/de/README.md)
 
-Wenn der [Whatsapp Adapter]( https://github.com/ioBroker/ioBroker.whatsapp-cmb) im ioBroker installiert ist, wird das automatische Versenden von Nachrichten vor der Abholung pro Abfallart unterstützt. Die Anzahl der Tage zum Versand der Nachricht vor der Abholung, kann  individuell für jede Abfallart eingestellt werden.
+The adapter reads the garbage collection dates of the provider abfall.io, which various cities or counties use (e.g. [Hagen](https://www.heb-hagen.de/rund-um-den-muell/muellabfuhr-termine-abholservice/abfuhrkalender.html), [Ludwigshafen](https://www.ludwigshafen.de/wirtschaftsstark/wirtschaftsbetrieb-ludwigshafen-wbl/abfall-und-wertstoffe/abfall-und-wertstoffkalender-online) or [Landkreis Tuttlingen](https://www.abfall-tuttlingen.de/Abfalltermine-APP/)). The individual types of waste in the city can be selected and displayed in a calendar, for example. 
 
-Der Adapter beinhaltet zwei Widgets für die [VIS 2 (!)](https://www.npmjs.com/package/iobroker.vis-2-beta?activeTab=readme). Es kann ein Kalender mit den konfigurierten Müllarten oder ein Icon mit verschiedenen Konfigurationsmöglichkeiten dargestellt werden. Das Icon kann x Tage vor der Abholung anfangen zu blinken, wenn das in den Adaptereinstellungen zur Abfallart konfiguriert ist 
+If the [Whatsapp Adapter]( https://github.com/ioBroker/ioBroker.whatsapp-cmb) is installed in ioBroker, automatic sending of messages before collection is supported per waste type. The number of days to send the message before collection can be set individually for each waste type.
 
- Sind [VIS](https://github.com/ioBroker/ioBroker.vis) oder [VIS 2 (!)](https://www.npmjs.com/package/iobroker.vis-2-beta?activeTab=readme) UND das Widget-Set [inventwo](https://github.com/inventwo/ioBroker.vis-inventwo) installiert, wird ein Datenpunkt erzeugt, der den Widget-Code für eine JSON-Tabelle beinhaltet.
+The adapter contains two widgets for the [VIS 2 (!)](https://www.npmjs.com/package/iobroker.vis-2-beta?activeTab=readme). A calendar with the configured waste types or an icon with different configuration options can be displayed. The icon can start flashing x days before collection if that is configured in the adapter settings for the waste type
 
-**_Allgemeine Adaptereinstellungen:_**
+If [VIS](https://github.com/ioBroker/ioBroker.vis) or [VIS 2 (!)](https://www.npmjs.com/package/iobroker.vis-2-beta?activeTab=readme) AND the [inventwo](https://github.com/inventwo/ioBroker.vis-inventwo) widget set are installed, a datapoint containing the widget code for a JSON table is created.If [VIS](https://github.com/ioBroker/ioBroker.vis) or [VIS 2 (!)](https://www.npmjs.com/package/iobroker.vis-2-beta?activeTab=readme) AND the [inventwo](https://github.com/inventwo/ioBroker.vis-inventwo) widget set are installed, a datapoint containing the widget code for a JSON table is created.
 
-![Allgemeine_Einstellungen](./docs/AbfallKalenderConfig1.jpg)
+**_General adapter settings:_**
 
-**_Detaileinstellungen:_**
+![Allgemeine_Einstellungen](./docs/AbfallKalenderConfig1_en.jpg)
 
-![Detail_Einstellungen](./docs/AbfallKalenderConfig2.jpg)
+**_Detailed settings:_**
 
-**_Beispiele Widgets:_** 
+![Detail_Einstellungen](./docs/AbfallKalenderConfig2_en.jpg)
 
-- *Kalender*
-![Beispiel_Widget_Kalender](./docs/AbfallKalenderWidgetCalendar.jpg)
+**_Examples widgets:_** 
 
-- *Icon (Mülltonne)*
-![Beispiel_Widget_Muelleimer](./docs/AbfallKalenderWidgetTrash1.jpg)
+- *Calendar*
+![Beispiel_Widget_Kalender](./docs/AbfallKalenderWidgetCalendar_en.jpg)
 
-- *Icon (Gelber Sack)*
-![Beispiel_Widget_Gelber_Sack](./docs/AbfallKalenderWidgetTrash2.jpg)
+- *Icon (garbage can)*
+![Beispiel_Widget_Muelleimer](./docs/AbfallKalenderWidgetTrash1_en.jpg)
 
-- *Icon (Blatt)*
-![Beispiel_Widget_Blatt](./docs/AbfallKalenderWidgetTrash3.jpg)
+- *Icon (yellow bag)*
+![Beispiel_Widget_Gelber_Sack](./docs/AbfallKalenderWidgetTrash2_en.jpg)
 
-+ *VIS inventwo Widget (JSON Tabelle)*
->- *Datenpunkt mit Code für VIS inventwo Widget (JSON Tabelle)*
+- *Icon (leaf)*
+![Beispiel_Widget_Blatt](./docs/AbfallKalenderWidgetTrash3_en.jpg)
+
++ *VIS inventwo widget (JSON table)*
+>- *Data point with code for VIS inventwo widget (JSON table)*
 ![Datenpunkt_Vis_Widget_Code](./docs/DatenpunktVisWidgetCode.jpg)
 
->- *VIS inventwo Widget (JSON Tabelle mit Daten aus dem Abfallkalender)*
+>- *VIS inventwo widget (JSON table with data from the waste calendar)*
 ![AbfallKalender_Widget_Json_Table.jpg](./docs/AbfallKalenderWidgetJsonTable.jpg)
 
-**_Ist meine Stadt/mein Landkreis für den Adapter geeignet?:_**
+**_Does my city/county qualify for the adapter?:_**
 
-Städte/Landkreise, die mit abfall.io. zusammenarbeiten, bieten auf ihren Internetseiten ähnliche Kalender an, wie du sie z.B. auf der Seite der [HEB Hagen](https://www.heb-hagen.de/rund-um-den-muell/) sehen kannst. Wenn die URL von deinem Entsorgungsunternehmen nicht vom Adapter akzeptiert wird, kannst du ggf. auf der Entsorgerseite mit dem Developertool deines Browsers prüfen, ob beim Auswählen der Stadt, Straße eine URL mit api.abfall.io (nicht apiv2.abfall.io !) aufgerufen wird. Hier ein Beispiel aus dem Chrome-Developertool (aufrufbar über die Funktionstaste F12 - dort dann Netzwerk auswählen und die Seite neu laden).
+Cities/counties that cooperate with abfall.io. offer similar calendars on their websites, as you can see e.g. on the page of [HEB Hagen](https://www.heb-hagen.de/rund-um-den-muell/). If the URL of your waste management company is not accepted by the adapter, you can check on the waste management company page with the developer tool of your browser, if a URL with api.abfall.io (not apiv2.abfall.io !) is called when selecting the city, street. Here is an example from the Chrome developer tool (callable via function key F12 - then select network there and reload the page).
 
 ![AbfallKalender_Widget_Json_Table.jpg](./docs/ChromeDeveloperTool.jpg)
 
-**_Sonstiges:_**
+**_Other:_**
 
-+  Der Adapter wird jede Nacht um 0:05 Uhr neu gestartet, liest die Daten aus der API von abfall.io und aktualisiert die entsprechenden Datenpunkte im Objektverzeichnis der Adapterinstanz. Da sich ein Abfuhrkalendar in der Regel nicht häufig ändert, sollte dieses Intervall vollkommen ausreichen. Du kannst die Einstellung aber auch jederzeit in der Instanzeinstellung vom Abfallkalender in ioBroker ändern.
++  The adapter is restarted every night at 0:05, reads the data from the API of abfall.io and updates the corresponding data points in the object dictionary of the adapter instance. Since a waste calendar usually does not change frequently, this interval should be perfectly sufficient. However, you can change the setting at any time in the instance settings of the waste calendar in ioBroker.
 
-+ Bei Bedarf können mehrere Instanzen (für verschiedene Städte) installiert werden.
++ Multiple instances (for different cities) can be installed if needed.
 
-**_Liste einiger bekannter Städte / Landkreise:_**
+**_List of some cities / counties using abfall.io:_**
 
 + [Breisgau-Hochschwarzwald Landkreis](https://www.breisgau-hochschwarzwald.de/pb/Breisgau-Hochschwarzwald/Start/Service+_+Verwaltung/Entsorgung+und+Recycling.html)
 + [Hagen (Stadt NRW)](https://www.heb-hagen.de/rund-um-den-muell/muellabfuhr-termine-abholservice/abfuhrkalender.html)
