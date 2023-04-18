@@ -30,19 +30,20 @@ Der Adapter beinhaltet zwei Widgets für die [VIS 2 (!)](https://www.npmjs.com/p
 
 - *Kalender*
 ![Beispiel_Widget_Kalender](./docs/AbfallKalenderWidgetCalendar.jpg)
-<br/>
+
 - *Icon (Mülltonne)*
 ![Beispiel_Widget_Muelleimer](./docs/AbfallKalenderWidgetTrash1.jpg)
-<br/>
+
 - *Icon (Gelber Sack)*
 ![Beispiel_Widget_Gelber_Sack](./docs/AbfallKalenderWidgetTrash2.jpg)
-<br/>
+
 - *Icon (Blatt)*
 ![Beispiel_Widget_Blatt](./docs/AbfallKalenderWidgetTrash3.jpg)
-<br/>
+
 + *VIS inventwo Widget (JSON Tabelle)*
 >- *Datenpunkt mit Code für VIS inventwo Widget (JSON Tabelle)*
 ![Datenpunkt_Vis_Widget_Code](./docs/DatenpunktVisWidgetCode.jpg)
+
 >- *VIS inventwo Widget (JSON Tabelle mit Daten aus dem Abfallkalender)*
 ![AbfallKalender_Widget_Json_Table.jpg](./docs/AbfallKalenderWidgetJsonTable.jpg)
 
@@ -55,7 +56,7 @@ Städte/Landkreise, die mit abfall.io. zusammenarbeiten, bieten auf ihren Intern
 **_Sonstiges:_**
 
 +  Der Adapter wird jede Nacht um 0:05 Uhr neu gestartet, liest die Daten aus der API von abfall.io und aktualisiert die entsprechenden Datenpunkte im Objektverzeichnis der Adapterinstanz. Da sich ein Abfuhrkalendar in der Regel nicht häufig ändert, sollte dieses Intervall vollkommen ausreichen. Du kannst die Einstellung aber auch jederzeit in der Instanzeinstellung vom Abfallkalender in ioBroker ändern.
-<br/>
+
 + Bei Bedarf können mehrere Instanzen (für verschiedene Städte) installiert werden.
 
 **_Liste einiger bekannter Städte / Landkreise:_**
