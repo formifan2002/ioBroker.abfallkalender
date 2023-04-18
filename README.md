@@ -79,9 +79,14 @@ Städte/Landkreise, die mit abfall.io. zusammenarbeiten, bieten auf ihren Intern
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### 1.0.0-alpha.1 (2023-04-18)
+
+-   Added possibility to use sites with selection of citiy and district selection
+- bug fixes
+
 ### 1.0.0-alpha.0 (2023-03-20)
 
--   (Formifan2002) initial release
+-   initial release
 
 ### Sentry
 This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers. For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry). Sentry reporting is used starting with js-controller 3.0.
