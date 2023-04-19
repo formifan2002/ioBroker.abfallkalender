@@ -18,7 +18,7 @@ Der Adapter beinhaltet zwei Widgets für die [VIS 2 (!)](https://www.npmjs.com/p
 
 **_Detaileinstellungen:_**
 
-![Detail_Einstellungen](../AbfallKalenderConfig2.jpg)
+![Detail_Einstellungen](./AbfallKalenderConfig2.jpg)
 
 **_Beispiele Widgets:_** 
 
