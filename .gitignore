@@ -12,6 +12,14 @@ src-widgets/build
 src-widgets/node_modules
 
 yarn.error
+.yarn/*
+!.yarn/cache
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
 .prettierr.js
 .prettierrignore
 toBeDeleted.create-adapter.json
