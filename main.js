@@ -570,6 +570,7 @@ class Abfallkalender extends utils.Adapter {
 		if (typeof systemLanguage === 'undefined' || systemLanguage === ''){
 			systemLanguage = await this.getSystemLanguage();
 		}
+		console.log(`getTranslatedWeekdays with language ${systemLanguage}`)
 		return [
 			i18n[systemLanguage]["Sunday"],
 			i18n[systemLanguage]["Monday"],

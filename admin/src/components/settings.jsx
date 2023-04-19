@@ -45,21 +45,28 @@ function Settings(props) {
 
 	const startSettings = async () => {
 		if (validKey) {
+			let responseCities={type: ''};
 			if (native.city !== '' && allCities.length === 0) {
-					const response=  await getSelects(native.key);
-					allCities = response.selects;
+					responseCities=  await getSelects(native.key);
+					if (responseCities.type !== 'streets'){
+						allCities = responseCities.selects;
+					}
 			}
-			if (native.district !== '' && allDistricts.length === 0) {
-					const response = await getSelects(native.key, native.city);
-					allDistricts = response.selects;
+			if (responseCities.type !== 'streets' && native.district !== '' && allDistricts.length === 0) {
+					const responseDistricts = await getSelects(native.key, native.city);
+					allDistricts = responseDistricts.selects;
 			}
 			if (native.street !== '' && allStreets.length === 0) {
-					const response = await getSelects(native.key, native.city,native.district);
-					allStreets = response.selects;
+					if (responseCities.type !== 'streets' === false){
+						const response = await getSelects(native.key, native.city,native.district);
+						allStreets = response.selects;
+					}else{
+						allStreets = responseCities;
+					}
 			}
 			if (native.houseNumber !== '' && allHouseNumbers.length === 0) {
-				const response = await getSelects(native.key, native.city,native.district,native.street);
-				allHouseNumbers = response.selects;
+				const responseHouseNumbers = await getSelects(native.key, native.city,native.district,native.street);
+				allHouseNumbers = responseHouseNumbers.selects;
 			}
 		}
 		setInitializing(false);
@@ -274,7 +281,7 @@ function Settings(props) {
 				input={<Input name="city" id="city-id" />}
 				label={i18n.t('City')}
 				renderValue={(selected) => {
-					if (selected === '' || native.city === '') {
+					if (selected === '' || native.city === '' || allCities.filter(element => element.value === selected).length === 0) {
 					  return <em>{i18n.t('Select city')}</em>;
 					}
 					return allCities.filter(element => element.value === selected)[0].title;
@@ -307,7 +314,7 @@ function Settings(props) {
 				input={<Input name="district" id="district-id" />}
 				label={i18n.t('District')}
 				renderValue={(selected) => {
-					if (selected === '' || native.district === '') {
+					if (selected === '' || native.district === '' || allDistricts.filter(element => element.value === selected).length === 0) {
 					  return <em>{i18n.t('Select district')}</em>;
 					}
 					return allDistricts.filter(element => element.value === selected)[0].title;
@@ -340,7 +347,7 @@ function Settings(props) {
 				input={<Input name="street" id="street-id" />}
 				label={i18n.t('Street')}
 				renderValue={(selected) => {
-					if (selected === '' || native.street === '') {
+					if (selected === '' || native.street === '' || allStreets.filter(element => element.value === selected).length === 0) {
 					  return <em>{i18n.t('Select street')}</em>;
 					}
 					return allStreets.filter(element => element.value === selected)[0].title;
@@ -374,7 +381,7 @@ function Settings(props) {
 				label={i18n.t('HouseNumber')}
 				id="housenumber-select"
 				renderValue={(selected) => {
-					if (selected === '' || native.houseNumber === '') {
+					if (selected === '' || native.houseNumber === '' || allHouseNumbers.filter(element => element.value === selected).length === 0) {
 					  return <em>{i18n.t('Select house number')}</em>;
 					}
 					return allHouseNumbers.filter(element => element.value === selected)[0].title;
