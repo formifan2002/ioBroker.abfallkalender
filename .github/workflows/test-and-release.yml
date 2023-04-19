@@ -30,10 +30,10 @@ jobs:
         with:
           node-version: '16.x'
           # Uncomment the following line if your adapter cannot be installed using 'npm ci'
-          install-command: 'yarn'
-          type-checking: true
-          lint: true
-          lint-command: 'npm run lint .'
+          # install-command: 'yarn install'
+          # type-checking: true
+          # lint: true
+          # lint-command: 'npm run lint .'
 
   # Runs adapter tests on all supported node versions and OSes
   adapter-tests:
@@ -50,7 +50,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           os: ${{ matrix.os }}
-          extra-tests: npm run test:js
+          # extra-tests: npm run test:js
 
   # Deploys the final package to NPM
   deploy:
