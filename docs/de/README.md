@@ -49,7 +49,7 @@ Städte/Landkreise, die mit abfall.io. zusammenarbeiten, bieten auf ihren Intern
 
 **_Sonstiges:_**
 
-+  Der Adapter wird jede Nacht um 0:05 Uhr neu gestartet, liest die Daten aus der API von abfall.io und aktualisiert die entsprechenden Datenpunkte im Objektverzeichnis der Adapterinstanz. Da sich ein Abfuhrkalendar in der Regel nicht häufig ändert, sollte dieses Intervall vollkommen ausreichen. Du kannst die Einstellung aber auch jederzeit in der Instanzeinstellung vom Abfallkalender in ioBroker ändern.
++  Der Adapter wird jede Nacht um 0:05 Uhr (+ eine Zufallsverzögerung, damit die API nicht parallel von zu vielen Anfragen gestört wird) neu gestartet, liest die Daten aus der API von abfall.io und aktualisiert die entsprechenden Datenpunkte im Objektverzeichnis der Adapterinstanz. Da sich ein Abfuhrkalendar in der Regel nicht häufig ändert, sollte dieses Intervall vollkommen ausreichen. Du kannst die Einstellung aber auch jederzeit in der Instanzeinstellung vom Abfallkalender in ioBroker ändern.
 
 + Bei Bedarf können mehrere Instanzen (für verschiedene Städte) installiert werden.
 

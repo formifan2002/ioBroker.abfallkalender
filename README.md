@@ -57,7 +57,7 @@ Cities/counties that cooperate with abfall.io. offer similar calendars on their 
 
 **_Other:_**
 
-+  The adapter is restarted every night at 0:05, reads the data from the API of abfall.io and updates the corresponding data points in the object dictionary of the adapter instance. Since a waste calendar usually does not change frequently, this interval should be perfectly sufficient. However, you can change the setting at any time in the instance settings of the waste calendar in ioBroker.
++  The adapter is restarted every night around 0:05 (+ some random delay in order not to stress the API by too many parallel calls), reads the data from the API of abfall.io and updates the corresponding data points in the object dictionary of the adapter instance. Since a waste calendar usually does not change frequently, this interval should be perfectly sufficient. However, you can change the setting at any time in the instance settings of the waste calendar in ioBroker.
 
 + Multiple instances (for different cities) can be installed if needed.
 

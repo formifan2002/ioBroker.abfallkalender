@@ -23,6 +23,11 @@ class Abfallkalender extends utils.Adapter {
 	}
 
 	async onReady() {
+
+		const delay = Math.floor(Math.random() * 30000);
+        this.log.debug(`Delay execution by ${delay}ms to better spread API calls`);
+        await this.sleep(delay);
+
 		systemLanguage = await this.getSystemLanguage();
 		await this.initWhatsapp();
 		if (this.config.key === '' || this.config.wasteTypes.filter((element) => element.used).length == 0) {
@@ -33,6 +38,10 @@ class Abfallkalender extends utils.Adapter {
 		return;
 	}
 
+	sleep(ms) {
+        return new Promise(resolve => setTimeout(() => !this.unloaded && resolve(), ms));
+    }
+	
 	onUnload(callback) {
 		try {
 			callback();
