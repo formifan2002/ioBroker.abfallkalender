@@ -136,8 +136,10 @@ class Abfallkalender extends utils.Adapter {
 			return await this.getForeignObjectAsync('system.config').then((result) => {
 				let language = result.common.language;
 				if (languages.findIndex((element) => element == systemLanguage) == -1) {
+					console.log('did not find language !!!!')
 					language = 'de';
 				}
+				console.log(`getSystemlanguage: ${language}`)
 				return language;
 			});
 		} catch {
@@ -146,6 +148,7 @@ class Abfallkalender extends utils.Adapter {
 
 	}
 	async initWasteTypes(message) {
+		const language = await this.getSystemLanguage();
 		return await getApiData
 			.getWasteCalendar(
 				{key: typeof message === 'undefined' ? this.config.key : message.key,
@@ -155,9 +158,9 @@ class Abfallkalender extends utils.Adapter {
 				houseNumber: typeof message === 'undefined' ? this.config.houseNumber : message.houseNumber,
 				wasteTypes: typeof message === 'undefined' ? this.config.wasteTypes : message.wasteTypes
 				},
-				await this.getTranslatedWeekdays(),
-				await this.getTranslatedMonths(),
-				systemLanguage,
+				await this.getTranslatedWeekdays(language),
+				await this.getTranslatedMonths(language),
+				language,
 			)
 			.then(async (response) => {
 				await this.createWasteTypesDataPoints(response);
@@ -563,22 +566,19 @@ class Abfallkalender extends utils.Adapter {
 		return obj;
 	}
 
-	async getTranslatedWeekdays() {
+	async getTranslatedWeekdays(language) {
 		/* tranforms all language entries for this datapoint name into one object
 			translation file "i18n.json" is saved in directory \lib
 		*/
-		if (typeof systemLanguage === 'undefined' || systemLanguage === ''){
-			systemLanguage = await this.getSystemLanguage();
-		}
-		console.log(`getTranslatedWeekdays with language ${systemLanguage}`)
+		console.log(`getTranslatedWeekdays with language ${language}`)
 		return [
-			i18n[systemLanguage]["Sunday"],
-			i18n[systemLanguage]["Monday"],
-			i18n[systemLanguage]["Tuesday"],
-			i18n[systemLanguage]["Wednesday"],
-			i18n[systemLanguage]["Thursday"],
-			i18n[systemLanguage]["Friday"],
-			i18n[systemLanguage]["Saturday"]
+			i18n[language]["Sunday"],
+			i18n[language]["Monday"],
+			i18n[language]["Tuesday"],
+			i18n[language]["Wednesday"],
+			i18n[language]["Thursday"],
+			i18n[language]["Friday"],
+			i18n[language]["Saturday"]
 		]
 	}
 
@@ -587,26 +587,24 @@ class Abfallkalender extends utils.Adapter {
 		return language;
 	}
 
-	async getTranslatedMonths() {
+	async getTranslatedMonths(language) {
 		/* tranforms all language entries for this datapoint name into one object
 			translation file "i18n.json" is saved in directory \lib
 		*/
-		if (typeof systemLanguage === 'undefined' || systemLanguage === ''){
-			systemLanguage = await this.getSystemLanguage();
-		}
+		console.log(`getTranslatedMonths with language ${language}`)
 		return [
-			i18n[systemLanguage]["January"],
-			i18n[systemLanguage]["February"],
-			i18n[systemLanguage]["March"],
-			i18n[systemLanguage]["April"],
-			i18n[systemLanguage]["May"],
-			i18n[systemLanguage]["June"],
-			i18n[systemLanguage]["July"],
-			i18n[systemLanguage]["August"],
-			i18n[systemLanguage]["September"],
-			i18n[systemLanguage]["October"],
-			i18n[systemLanguage]["November"],
-			i18n[systemLanguage]["December"]
+			i18n[language]["January"],
+			i18n[language]["February"],
+			i18n[language]["March"],
+			i18n[language]["April"],
+			i18n[language]["May"],
+			i18n[language]["June"],
+			i18n[language]["July"],
+			i18n[language]["August"],
+			i18n[language]["September"],
+			i18n[language]["October"],
+			i18n[language]["November"],
+			i18n[language]["December"]
 		]
 	}
 }
