@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "abfallkalender",
-        "version": "1.0.0-alpha.1",
+        "version": "1.0.0-alpha.2",
         "news": {
+            "1.0.0-alpha.2": {
+                "en": "Bug corrections done",
+                "de": "Fehlerkorrekturen durchgeführt",
+                "ru": "Исправлены ошибки",
+                "pt": "Correções de bugs feitas",
+                "nl": "Bugcorrecties gedaan",
+                "fr": "Corrections de bugs effectuées",
+                "it": "Correzioni bug effettuate",
+                "es": "Correcciones de errores hechas",
+                "pl": "Poprawki błędów wykonane",
+                "uk": "Виправлено помилки",
+                "zh-cn": "错误修正完成"
+            },
             "1.0.0-alpha.1": {
                 "en": "Support for waste companies/counties having city or discrict selection",
                 "de": "Unterstützung für Abfallunternehmen/Landkreise mit Stadt- oder Bezirksauswahl",
