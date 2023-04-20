@@ -112,6 +112,11 @@
             "vis",
             "vis-2-beta"
         ],
+        "plugins": {
+            "sentry": {
+                "dsn": "https://21d5a1cac2f740708b0652b8098946ad@o4505046522724352.ingest.sentry.io/4505046548283392"
+            }
+        },
         "eraseOnUpload": true,
         "dependencies": [
             {

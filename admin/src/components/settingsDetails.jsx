@@ -14,9 +14,10 @@ export async function initWhatsapp(props) {
 	// update the configuration of the whatsapp instances, because they might have changed
 	// since the settings dialog was opened the last time
 	const response = await props.sendMessage('initWhatsapp', { notneeded: 'notneeded' });
-	if (response != 'OK') {
+	if (response.status != 'OK' && props.native.whatsapp.used !== false) {
 		props.updateNativeValue(`whatsapp.used`, false);
 	}
+	return response;
 }
 
 export default function SettingsDetails(props) {
@@ -49,13 +50,14 @@ export default function SettingsDetails(props) {
 
 	async function init(props) {
 		await i18n.changeLanguage(props.this._systemConfig.language);
-		await initWhatsapp(props);
-		initWhatsappPhoneNumbers();
+		const response = await initWhatsapp(props);
+		initWhatsappPhoneNumbers(response.instances);
 	}
-	async function initWhatsappPhoneNumbers() {
+	async function initWhatsappPhoneNumbers(instances) {
+		const {whatsapp} = props.native;
 		const selectedNumbers = [];
-		for (let i = 0; i < props.native.whatsapp.instances.length; i++) {
-			if (props.native.whatsapp.instances[i].use) {
+		for (let i = 0; i < instances.length; i++) {
+			if (instances[i].use) {
 				selectedNumbers.push(i.toString());
 			}
 		}
@@ -64,15 +66,16 @@ export default function SettingsDetails(props) {
 	}
 
 	const handleChangeWhatsapp = async () => {
-		if (!props.native.whatsapp.used) {
-			for (let i = 0; i < props.native.whatsapp.instances.length; i++) {
-				if (props.native.whatsapp.instances[i].use) {
+		const {whatsapp} = props.native;
+		if (whatsapp.used === false) {
+			for (let i = 0; i < whatsapp.instances.length; i++) {
+				if (whatsapp.instances[i].use === true) {
 					updateWhatsappInstances(i, 'use', false);
 				}
 			}
 			setPhoneNumbersUsed([]);
 		} else {
-			if (props.native.whatsapp.instances.length == 1) {
+			if (whatsapp.instances.length == 1) {
 				updateWhatsappInstances(0, 'use', true);
 				setPhoneNumbersUsed(['0']);
 			}
@@ -80,11 +83,12 @@ export default function SettingsDetails(props) {
 	};
 
 	const handleChangeWhatsappPhoneNumbers = (event) => {
+		const {whatsapp} = props.native;
 		const newValue = event.target.value;
 		setPhoneNumbersUsed(newValue);
-		for (let i = 0; i < props.native.whatsapp.instances.length; i++) {
+		for (let i = 0; i < whatsapp.instances.length; i++) {
 			const isSelected = newValue.indexOf(i.toString()) > -1;
-			if (isSelected != props.native.whatsapp.instances[i].use) {
+			if (isSelected !== whatsapp.instances[i].use) {
 				updateWhatsappInstances(i, 'use', isSelected);
 			}
 		}
@@ -191,7 +195,7 @@ export default function SettingsDetails(props) {
 		let label = '';
 		for (let i = 0; i < props.native.whatsapp.instances.length; i++) {
 			const isSelected = selected.indexOf(i.toString()) > -1;
-			if (isSelected) label = label + (label != '' ? ', ' : '') + props.native.whatsapp.instances[i].phoneNumber;
+			if (isSelected) label = label + (label !== '' ? ', ' : '') + props.native.whatsapp.instances[i].phoneNumber;
 		}
 		return label;
 	}
@@ -210,7 +214,7 @@ export default function SettingsDetails(props) {
 					<Grid item xs={12} md={3}>
 						<RenderWhatsappUsed />
 					</Grid>
-					{props.native.whatsapp.used && props.native.whatsapp.instances.length > 1 && (
+					{props.native.whatsapp.used === true && props.native.whatsapp.instances.length > 1 && (
 						<RenderWhatsappPhoneNumbers />
 					)}
 				</Grid>

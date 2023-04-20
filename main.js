@@ -17,7 +17,7 @@ class Abfallkalender extends utils.Adapter {
 		});
 		this.on('ready', this.onReady.bind(this));
 		this.on('stateChange', this.onStateChange.bind(this));
-		// this.on('objectChange', this.onObjectChange.bind(this));
+		this.on('objectChange', this.onObjectChange.bind(this));
 		this.on('message', this.onMessage.bind(this));
 		this.on('unload', this.onUnload.bind(this));
 	}
@@ -67,6 +67,26 @@ class Abfallkalender extends utils.Adapter {
 		}
 	}
 
+	onObjectChange(id, obj) {
+		if (obj) {
+	 		// The object was changed
+			this.getPhoneField(obj.native).then(phoneField => {
+				if (phoneField !== ''){
+					const phoneNumber = obj.native[phoneField];
+					const instance = parseInt(id.replace('system.adapter.whatsapp-cmb.',''));
+					if (typeof this.config.whatsapp.instances[instance] !== 'undefined' && this.config.whatsapp.instances[instance].phoneNumber !== phoneNumber){
+						// the phone number of this instance has been changed
+						this.config.whatsapp.instances[instance].phoneNumber = phoneNumber;
+					}
+				}
+			})
+	 		// console.log(`object ${id} changed to: ${JSON.stringify(obj.native)}`);
+	 	} else {
+	 		// The object was deleted
+			this.unsubscribeForeignObjectsAsync(id);
+	 	}
+	}
+
 	async onMessage(obj) {
 		if (typeof obj === 'object') {
 			switch (obj.command) {
@@ -96,7 +116,10 @@ class Abfallkalender extends utils.Adapter {
 					// used for initialization / update of Whatsapp configuration before opening
 					// the settings dialog
 					if (obj.callback) {
-						this.initWhatsapp(obj.from, obj.command, obj.callback);
+						await this.initWhatsapp()
+							.then( result => {
+								this.sendTo(obj.from, obj.command, result, obj.callback);
+							});
 					}
 					break;
 				}
@@ -136,10 +159,8 @@ class Abfallkalender extends utils.Adapter {
 			return await this.getForeignObjectAsync('system.config').then((result) => {
 				let language = result.common.language;
 				if (languages.findIndex((element) => element == systemLanguage) == -1) {
-					console.log('did not find language !!!!')
 					language = 'de';
 				}
-				console.log(`getSystemlanguage: ${language}`)
 				return language;
 			});
 		} catch {
@@ -168,30 +189,29 @@ class Abfallkalender extends utils.Adapter {
 			});
 	}
 
-	async initWhatsapp(from, command, callback) {
-		return await this.getWhatsappInstances().then(async (result) => {
-			if (result.length === 0) {
-				if (typeof from != 'undefined') {
-					this.sendTo(from, command, 'NOINSTANCES', callback);
+	async initWhatsapp() {
+		let ret = {status: 'OK', instances: []};
+		return await this.getWhatsappInstances()
+			.then(async (result) => {
+				if (result.length === 0) {
+					ret.status='NOINSTANCES';
+					ret.instances = []; // no adapter installations of whatsapp-cmb found
+					return;
+				}else{
+					ret.instances = result;
+					await this.updateWhatsappStatus(ret.instances)
 				}
-				return this.config.whatsapp; // no adapter installations of whatsapp-cmb found
-			}
-			await this.updateWhatsappStatus(result).then((result) => {
-				if (typeof from !== 'undefined') {
-					this.sendTo(from, command, 'OK', callback);
-				}
-				return result;
-			});
-		});
+				return ret;
+			})
 	}
 
-	async updateWhatsappStatus(result) {
+	async updateWhatsappStatus(instances) {
 		const config = this.config;
 		const myThis = this;
 
 		return new Promise(async function (resolve) {
 			const used = config.whatsapp.used; // get value, if the whatsapp function is used in the current instance
-			const whatsapp = { alive: false, used: used, instances: result };
+			const whatsapp = { alive: false, used: used, instances: instances };
 			for (let i = 0; i < whatsapp.instances.length; i++) {
 				const aliveObj = whatsapp.instances[i].id + '.alive';
 				await myThis.subscribeForeignStatesAsync(aliveObj); // subsribe to state change of this instance in order to be informed, when a the instance is deleted or the live status changed
@@ -239,6 +259,17 @@ class Abfallkalender extends utils.Adapter {
 		await this.createDataPointAsync('', '', widgetCode, '', 'VisWidgetCode', true, false);
 	}
 
+	async getPhoneField(nativeValues){
+		let phoneField = '';
+		const fields = Object.keys(nativeValues).filter(
+			(el) => el.toUpperCase().indexOf('PHONE') != -1,
+		);
+		fields.forEach(function (fieldName) {
+			phoneField = fieldName;
+		});
+		return phoneField;
+	}
+
 	async getWhatsappInstances() {
 		const myThis = this;
 		return new Promise(function (resolve) {
@@ -252,14 +283,12 @@ class Abfallkalender extends utils.Adapter {
 					if (typeof instances.rows == 'object') {
 						for (let i = 0; i < instances.rows.length; i++) {
 							const row = instances.rows[i];
-							let phoneField = '';
-							const fields = Object.keys(row.value.native).filter(
-								(el) => el.toUpperCase().indexOf('PHONE') != -1,
-							);
-							fields.forEach(function (fieldName) {
-								phoneField = fieldName;
-							});
+							const phoneField = await myThis.getPhoneField(row.value.native);
 							const idSplit = row.id.split('.');
+							if (phoneField !==''){
+								// subscribe to object changes of the phone number for this instance
+								await myThis.subscribeForeignObjectsAsync(`${row.id}`);
+							}
 							await myThis.getForeignObjectAsync(row.id).then(async (object) => {
 								// get the default phone number for this instance..
 								const alreadyUsed = await myThis.checkUsed(row.id, myThis.config.whatsapp.instances);
@@ -570,7 +599,6 @@ class Abfallkalender extends utils.Adapter {
 		/* tranforms all language entries for this datapoint name into one object
 			translation file "i18n.json" is saved in directory \lib
 		*/
-		console.log(`getTranslatedWeekdays with language ${language}`)
 		return [
 			i18n[language]["Sunday"],
 			i18n[language]["Monday"],
@@ -591,7 +619,6 @@ class Abfallkalender extends utils.Adapter {
 		/* tranforms all language entries for this datapoint name into one object
 			translation file "i18n.json" is saved in directory \lib
 		*/
-		console.log(`getTranslatedMonths with language ${language}`)
 		return [
 			i18n[language]["January"],
 			i18n[language]["February"],
