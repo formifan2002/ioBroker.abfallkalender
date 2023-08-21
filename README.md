@@ -8,6 +8,9 @@
 
 [![NPM](https://nodei.co/npm/iobroker.abfallkalender.png?downloads=true)](https://nodei.co/npm/iobroker.abfallkalender/)
 
+
+##  THIS ADAPTER  HAS BEEN DEPRECEATED - PLEASE USE [ioBroker.trashmaster](https://github.com/formifan2002/ioBroker.trashmaster) INSTEAD !!!
+
 ## Waste calendar for ioBroker
 
 [German version](./docs/de/README.md)

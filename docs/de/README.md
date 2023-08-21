@@ -2,6 +2,8 @@
 
 # ioBroker.abfallkalender
 
+##  DIESER ADAPTER WIRD NICHT MEHR WEITERENTWICKELT - BITTE BENUTZE STATTDESSEN [ioBroker.trashmaster](https://github.com/formifan2002/ioBroker.trashmaster) !!!
+
 ## Abfallkalender für den ioBroker
 
 Der Adapter liest die Müllabfuhrtermine des Anbieters abfall.io aus, den verschiedene Städte oder Landkreise nutzen (z.B. [Hagen](https://www.heb-hagen.de/rund-um-den-muell/muellabfuhr-termine-abholservice/abfuhrkalender.html), [Ludwigshafen](https://www.ludwigshafen.de/wirtschaftsstark/wirtschaftsbetrieb-ludwigshafen-wbl/abfall-und-wertstoffe/abfall-und-wertstoffkalender-online) oder [Landkreis Tuttlingen](https://www.abfall-tuttlingen.de/Abfalltermine-APP/)). Die einzelnen Müllarten der Stadt können ausgewählt und z.B. in einem Kalender dargestellt werden. 
